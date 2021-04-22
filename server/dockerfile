@@ -1,0 +1,8 @@
+FROM node:10-alpine
+EXPOSE 3000
+WORKDIR /usr/src/app/server
+COPY . /usr/src/app/server
+RUN cd /usr/src/app/server
+RUN npm install -g nodemon
+RUN npm install
+ENTRYPOINT ["nodemon", "/usr/src/app/server/index.js"]
