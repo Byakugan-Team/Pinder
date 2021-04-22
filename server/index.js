@@ -12,6 +12,8 @@ app.use(CookieParser())
 
 app.use('/users',Routers.userRouter)
 
+app.use('/verifSms', Routers.verificationSms)
+
 
 app.listen(3000, '0.0.0.0',()=>{
     console.log('started on 3000')
