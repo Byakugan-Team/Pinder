@@ -1,9 +1,8 @@
-
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-
 import Globalmenu from './components/Globalmenu'
-import LoginScreen from './components/LoginScreen'
+import PhoneNumber from './components/GetPhoneNumber'
+
 
 
 export default function App() {
