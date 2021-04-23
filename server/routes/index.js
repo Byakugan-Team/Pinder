@@ -1,3 +1,4 @@
 module.exports = {
-    userRouter : require('./UserRouter')
-} 
+    userRouter : require('./UserRouter'),
+    verificationSms : require('./VerificationSms'),
+};
