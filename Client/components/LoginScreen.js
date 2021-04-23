@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, Button, Image, TouchableHighlight, TouchableOpa
 import * as Facebook from 'expo-facebook';
 import * as Google from 'expo-google-app-auth';
 import { FontAwesome5 } from '@expo/vector-icons';
+import { color } from 'react-native-reanimated';
 
 export default function LoginScreen({ navigation }) {
 	// log in with google api :
@@ -54,7 +55,6 @@ export default function LoginScreen({ navigation }) {
 					})
 					.catch((e) => console.log(e));
 			} else {
-				// type === 'cancel'
 			}
 		} catch ({ message }) {
 			alert(`Facebook Login Error: ${message}`);
@@ -69,33 +69,44 @@ export default function LoginScreen({ navigation }) {
 
 	return (
 		<View>
-      
+			<Image style={styles.logoForm} source={{ uri: 'https://i.ibb.co/Ttb6xwD/output-onlinepngtools-1.png' }} />
 			<View style={styles.text}>
-				<Text>
+				<Text style={styles.body}>
 					by clicking log In, you agree with our terms. learn how we process your data in our privacy policy
 					and Cookies Policy
 				</Text>
 			</View>
 			<View style={styles.Buttons}>
-				{/* <TouchableHighlight style={styles.loginBtn} onPress={signInAsync}>
-					<Text>Login with Google</Text>
-				</TouchableHighlight> */}
-        <FontAwesome5.Button style={styles.googleButton} name="google" onPress={signInAsync}
-        //any other customization you want, like borderRadius, color, or size
->
-  <Text style={styles.googleText}>Log In With Google</Text>
-</FontAwesome5.Button>
-
-
+				<TouchableHighlight style={styles.loginBtn} onPress={signInAsync}>
+					<View style={styles.cont}>
+						<Image style={styles.img} source={{ uri: 'https://img-authors.flaticon.com/google.jpg  ' }} />
+						<Text> Login with Google</Text>
+					</View>
+				</TouchableHighlight>
 				<TouchableOpacity style={styles.loginBtn} onPress={() => facebookLogIn()}>
-					<Text>Login with facebook</Text>
+					<View>
+						<Image
+							style={styles.img}
+							source={{
+								uri:
+									'https://thumbs.dreamstime.com/b/vinnytsia-ukraine-january-facebook-vector-flat-icon-letter-f-image-209179420.jpg '
+							}}
+						/>
+						<Text>Login with facebook</Text>
+					</View>
 				</TouchableOpacity>
 				<TouchableOpacity style={styles.loginBtn}>
-					<Text>Login With Phone Number</Text>
+					<View>
+						<Image
+							style={styles.imge}
+							source={{
+								uri:
+									'https://thumbs.dreamstime.com/b/phone-icon-silhouette-telephone-symbol-vector-illustration-isolated-white-background-156327796.jpg'
+							}}
+						/>
+						<Text>Login With Phone Number</Text>
+					</View>
 				</TouchableOpacity>
-			</View>
-			<View>
-				<Image style={styles.logoForm} source={require('../assets/output-onlinepngtools (1).png')} />
 			</View>
 		</View>
 	);
@@ -103,43 +114,55 @@ export default function LoginScreen({ navigation }) {
 
 const styles = StyleSheet.create({
 	// css Text :
-	Buttons: {},
-	text: {
-		width: 355,
-		top: 100,
+	body: {
+		color: 'white',
+		justifyContent: 'center',
 		fontFamily: 'Cochin',
 		fontStyle: 'normal',
-		fontWeight: 'bold',
-		textAlign: 'center',
-		fontWeight: 'bold',
+		textAlign: 'center'
+	},
+	//css of the text :
+	text: {
+		color: 'white',
+		width: 355,
+		top: 120,
 		right: -20,
 		marginBottom: 100
 	},
-	//css logo form :
+	//css of facebook and email img :
+	img: {
+		position: 'absolute',
+		width: 30,
+		height: 30,
+		left: -100,
+		top: -5
+	},
+	//css of phone number img :
+	imge: {
+		position: 'absolute',
+		width: 30,
+		height: 30,
+		left: -75,
+		top: -5
+	},
+	//css logo form pinder:
 	logoForm: {
 		position: 'relative',
 		width: 188,
 		height: 160,
-		left: 90,
-		top: 50
+		left: 90
 
 		//css login with facebook button:
 	},
 	loginBtn: {
 		paddingVertical: 10,
-		paddingHorizontal: 20,
+		paddingHorizontal: 50,
 		borderRadius: 20,
 		alignItems: 'center',
-		backgroundColor: '#DDDDDD',
-		padding: 10,
+		backgroundColor: 'white',
+		padding: 100,
 		position: 'relative',
-		marginTop: 15
-	},
-	linearGradient: {
-		alignItems: 'center',
-		justifyContent: 'center',
-		borderRadius: 5,
-		height: 200,
-		width: 350
+		marginTop: 15,
+		top: 30
 	}
 });
