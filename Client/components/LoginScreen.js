@@ -119,7 +119,8 @@ const styles = StyleSheet.create({
 		justifyContent: 'center',
 		fontFamily: 'Cochin',
 		fontStyle: 'normal',
-		textAlign: 'center'
+		textAlign: 'center',
+		marginRight: 50
 	},
 	//css of the text :
 	text: {
@@ -148,9 +149,9 @@ const styles = StyleSheet.create({
 	//css logo form pinder:
 	logoForm: {
 		position: 'relative',
-		width: 188,
-		height: 160,
-		left: 90
+		width: 125,
+		height: 110,
+		left: 120
 
 		//css login with facebook button:
 	},
@@ -163,6 +164,6 @@ const styles = StyleSheet.create({
 		padding: 100,
 		position: 'relative',
 		marginTop: 15,
-		top: 30
+		top: 30,
 	}
 });

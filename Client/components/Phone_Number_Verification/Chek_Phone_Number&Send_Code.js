@@ -17,12 +17,12 @@ export default class PhoneNumber extends Component {
 
   sendSms() {
     const number = this.state.defaultCode+this.state.phone_number;
-    console.log(number)
     axios.post("http://localhost:3000/verifSms/send", {number})
     .then(result =>{
-        console.log(result);
+      console.log(result);
     }).catch(err =>{console.log(err)})
-}
+    console.log(number)
+  }
 
   render() {
     console.log(this.state);
