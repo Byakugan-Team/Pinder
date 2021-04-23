@@ -1,10 +1,12 @@
 const express = require("express")
 const BodyParser = require('body-parser')
 const CookieParser = require('cookie-parser')
+const cors = require('cors')
 
 const Routers = require('./routes/index')
 const app = express()
 
+app.use(cors())
 app.use(BodyParser.urlencoded({ extended: true }))
 app.use(BodyParser.json())
 
