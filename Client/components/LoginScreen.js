@@ -126,7 +126,7 @@ const styles = StyleSheet.create({
 		color: 'white',
 		width: 355,
 		top: 120,
-		right: -20,
+		right: 0,
 		marginBottom: 100
 	},
 	//css of facebook and email img :
@@ -135,7 +135,7 @@ const styles = StyleSheet.create({
 		width: 30,
 		height: 30,
 		left: -100,
-		top: -5
+		top: -5,
 	},
 	//css of phone number img :
 	imge: {
@@ -147,10 +147,11 @@ const styles = StyleSheet.create({
 	},
 	//css logo form pinder:
 	logoForm: {
+		textAlign:'center',
 		position: 'relative',
-		width: 188,
-		height: 160,
-		left: 90
+		width: 170,
+		height: 150,
+		 left: 90
 
 		//css login with facebook button:
 	},
