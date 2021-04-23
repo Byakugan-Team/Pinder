@@ -17,13 +17,21 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "example.expo.googlesignin",
+      "googleSignIn": {
+        "reservedClientId": "739502698795-quod31v0svm9pb9r096qm051hehv6o9r.apps.googleusercontent.com"
+      }
     },
+
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#FFFFFF"
+        "backgroundColor": "#FFFFFF",
+      "package": "example.expo.googlesignin",
+      "googleServicesFile": "./google-services.json"
       }
+    
     },
     "web": {
       "favicon": "./assets/favicon.png"
