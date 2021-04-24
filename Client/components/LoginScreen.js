@@ -5,8 +5,9 @@ import * as Google from 'expo-google-app-auth';
 import { FontAwesome5 } from '@expo/vector-icons';
 import { color } from 'react-native-reanimated';
 import { MyText } from './Tag_Modules/MyText'
+import PhoneNumber from './Phone_Number_Verification/Chek_Phone_Number&Send_Code'
 
-export default function LoginScreen({ navigation }) {
+export default function LoginScreen({navigation}) {
 	// log in with google api :
 	const signInAsync = async () => {
 		console.log('LoginScreen.js 6 | loggin in');
@@ -69,7 +70,7 @@ export default function LoginScreen({ navigation }) {
 	};
 
 	return (
-		<View>
+		<View >
 			<Image style={styles.logoForm} source={{ uri: 'https://i.ibb.co/Ttb6xwD/output-onlinepngtools-1.png' }} />
 			<View style={styles.text}>
 				<Text style={styles.body}>
@@ -96,7 +97,7 @@ export default function LoginScreen({ navigation }) {
 						<Text>Login with facebook</Text>
 					</View>
 				</TouchableOpacity>
-				<TouchableOpacity style={styles.loginBtn}>
+				<TouchableOpacity style={styles.loginBtn} onPress={()=> navigation.navigate('PhoneNumber')} >
 					<View>
 						<Image
 							style={styles.imge}

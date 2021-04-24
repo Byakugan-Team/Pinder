@@ -41,12 +41,14 @@ export default class CheckVerification extends Component {
           </View>
         </View>
         <KeycodeInput
+          length={6}
+          numeric={true}
           value={this.state.code}
           onChange={(code) => {
             this.setState({ code: code });
           }}
           onComplete={(value) => {
-            alert(value);
+            this.props.navigation.navigate('UselessTextInput')
           }}
         />
       </View>
