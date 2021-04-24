@@ -71,7 +71,10 @@ export default function LoginScreen  ()  {
 	};
  
 		return (  
-			<View>
+			<View style={styles.container}>
+				<View>
+					<Image  style={styles.logoForm} source={'https://i.ibb.co/Ttb6xwD/output-onlinepngtools-1.png'} />
+				</View>
 				<View style={styles.text}>
 					<Text>
 						by clicking log In, you agree with our terms. learn how we process your data in our privacy
@@ -101,6 +104,9 @@ export default function LoginScreen  ()  {
 
 const styles = StyleSheet.create({
 // css Text :
+container:{
+	backgroundColor:'red', 
+},	
 Buttons:{
 
 },
