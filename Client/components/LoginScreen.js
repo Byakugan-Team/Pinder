@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { StyleSheet, Text, View, Button, Image, TouchableHighlight, TouchableOpacity } from 'react-native';
 import * as Facebook from 'expo-facebook';
 import * as Google from 'expo-google-app-auth';
-import { FontAwesome5 } from '@expo/vector-icons';
 import { color } from 'react-native-reanimated';
 
 export default function LoginScreen({ navigation }) {
