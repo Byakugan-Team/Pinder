@@ -1,6 +1,6 @@
 
 import React,{Component} from 'react';
-import { View,ScrollView,Text,StyleSheet,Image } from 'react-native';
+import { View,ScrollView,Text,StyleSheet,Image,Button } from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import { StatusBar } from 'expo-status-bar';
 
@@ -33,55 +33,20 @@ export default class PetsDashboard extends Component   {
                 </View>
                 </View>
                 <View>
-                    <View style={styles.CardsRow}>
-                        <View style={styles.card}>
-                        <Image style={styles.photoCard} source={{ uri: 'https://i.ibb.co/drQ4yRW/dog.jpg' }} />
-                            <View style={styles.rowInfoCar}>
-                                <Text style={styles.infocard}>Name : </Text>
-                                <Text style={styles.titleCard}> Jack</Text>
-                            </View>
-                            <View style={styles.rowInfoCar}>
-                                <Text style={styles.infocard}>Age : </Text>
-                                <Text style={styles.titleCard}> 5 months</Text>
-                            </View>
-                            <View style={styles.rowInfoCar}>
-                                <Text style={styles.infocard}>Gender : </Text>
-                                <Text style={styles.titleCard}> Male</Text>
-                            </View>
+                    <View style={{height:1000,textAlign:'center',alignItems:'center'}}>
+                    <Image style={{height:200,width:200,marginTop:50}} source={{ uri: 'https://i.ibb.co/jygxTds/output-onlinepngtools-2.png' }} />
+                        <Text style={styles.emptytop}>
+                            Pets Dashboard Empty
+                        </Text>
+                        <Text style={styles.emptydown}>
+                            Looks Like you Haven't Added 
+                        </Text>
+                        <Text style={styles.emptydown}>
+                            Any pet yet
+                        </Text>
+                        <View style={styles.butt}>
+                            <Button title="Add My pet" />
                         </View>
-                        <View style={styles.card}>
-                        <Image style={styles.photoCard} source={{ uri: 'https://lafeber.com/pet-birds/wp-content/uploads/2020/04/gamaliel-troubleson-u9PsLITXMCQ-unsplash-e1587001975887-300x271.jpg' }} />
-                            <View style={styles.rowInfoCar}>
-                                <Text style={styles.infocard}>Name : </Text>
-                                <Text style={styles.titleCard}> Tweety</Text>
-                            </View>
-                            <View style={styles.rowInfoCar}>
-                                <Text style={styles.infocard}>Age : </Text>
-                                <Text style={styles.titleCard}> 8 months</Text>
-                            </View>
-                            <View style={styles.rowInfoCar}>
-                                <Text style={styles.infocard}>Gender : </Text>
-                                <Text style={styles.titleCard}> Female</Text>
-                            </View>
-                        </View>
-                    </View>
-                    <View style={styles.CardsRow}>
-                        <View style={styles.card}>
-                        <Image style={styles.photoCard} source={{ uri: 'https://www.humanesociety.org/sites/default/files/styles/1240x698/public/2020-07/kitten-510651.jpg?h=f54c7448&itok=ZhplzyJ9' }} />
-                            <View style={styles.rowInfoCar}>
-                                <Text style={styles.infocard}>Name : </Text>
-                                <Text style={styles.titleCard}> Kitty</Text>
-                            </View>
-                            <View style={styles.rowInfoCar}>
-                                <Text style={styles.infocard}>Age : </Text>
-                                <Text style={styles.titleCard}> 2 months</Text>
-                            </View>
-                            <View style={styles.rowInfoCar}>
-                                <Text style={styles.infocard}>Gender : </Text>
-                                <Text style={styles.titleCard}> Female</Text>
-                            </View>
-                        </View>
-                        
                     </View>
                     
                 </View>
@@ -92,6 +57,24 @@ export default class PetsDashboard extends Component   {
     
 }
 var styles = StyleSheet.create({
+    emptytop:{
+        marginTop:20,
+        fontSize:22,
+        fontWeight:400,
+        marginBottom:25,
+    },
+    emptydown:{
+        
+        fontSize:12,
+        color:'#95a5a6'
+    },
+    butt: {
+		marginTop:40,
+		height: 60,
+		borderRadius: 20,
+		borderWidth: 1,
+		borderColor: 'white'
+	},
     CardsRow:{
         paddingTop:30,
         paddingBottom:10,

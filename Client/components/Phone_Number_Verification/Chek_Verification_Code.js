@@ -45,7 +45,7 @@ export default class CheckVerification extends Component {
             this.setState({ code: code });
           }}
           onComplete={(value) => {
-            alert(value);
+            this.props.navigation.navigate('UselessTextInput')
           }}
         />
       </View>
