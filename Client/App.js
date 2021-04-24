@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import Globalmenu from './components/Globalmenu'
-import PhoneNumber from './components/GetPhoneNumber'
+import Globalmenu from './components/Globalmenu';
+import PhoneNumber from './components/Phone_Number_Verification/Chek_Phone_Number&Send_Code'
 import LoginScreen from './components/LoginScreen'
 import UserImage from './components/userInformations/UserImage'
 import UserFullname from './components/userInformations/UserFullname'
@@ -24,6 +24,10 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
+    // flex: 1,
+    // backgroundColor: '#fff',
+    // alignItems: 'center',
+    // justifyContent: 'center',
     // backgroundColor: '#22afc3'
   },
 });
