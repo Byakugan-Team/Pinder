@@ -119,7 +119,8 @@ const styles = StyleSheet.create({
 		justifyContent: 'center',
 		fontFamily: 'Cochin',
 		fontStyle: 'normal',
-		textAlign: 'center'
+		textAlign: 'center',
+		marginRight: 50
 	},
 	//css of the text :
 	text: {
@@ -164,6 +165,6 @@ const styles = StyleSheet.create({
 		padding: 100,
 		position: 'relative',
 		marginTop: 15,
-		top: 30
+		top: 30,
 	}
 });
