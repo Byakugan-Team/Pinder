@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { View, Text, StyleSheet } from 'react-native'
 import { KeycodeInput } from 'react-native-keycode'
+import {MyText} from '../Tag_Modules/MyText'
 
 
 export default class CheckVerification extends Component {
@@ -23,20 +24,20 @@ export default class CheckVerification extends Component {
     return (
       <View style={styles.container}>
         <View style={{ marginLeft: -20, marginBottom: 20 }}>
-          <Text style={{ color: "#505050", fontSize: 35, marginBottom: 10 }}>
+          <MyText style={{ color: "#505050", fontSize: 35, marginBottom: 10}}>
             Enter Your Code
-          </Text>
+          </MyText>
           <View>
-            <Text style={styles.textNum}> 
+            <MyText style={styles.textNum}> 
               +21699391220 
-              <Text
+              <MyText
                 style={styles.textResend}
                 onPress={() => console.log("RESEND")} //=> ResendSms()
               >
                 {"   "}
                 RESEND
-              </Text>
-            </Text>
+              </MyText>
+            </MyText>
           </View>
         </View>
         <KeycodeInput
@@ -60,9 +61,9 @@ const styles = StyleSheet.create({
     },
     textNum: {
       color: "#909090",
-      fontSize: 18
+      fontSize: 18, 
     },
     textResend: {
-      color: "#BBBBBB",
+      color: "#CCCCCC",
     },
 });
