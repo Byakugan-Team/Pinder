@@ -44,7 +44,10 @@ export default class PhoneNumber extends Component {
         {this.state.inputLength == 8 ? (  
             <TouchableHighlight
               style={styles.buttonClick}
-              onPress={() => this.sendSms()}
+              onPress={() => {
+                this.sendSms();
+                this.props.navigation.navigate('CheckVerification')
+              }}
             >
               <Text style={styles.textButton}>Continue</Text>
             </TouchableHighlight>        
