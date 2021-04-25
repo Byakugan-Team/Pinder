@@ -1,11 +1,6 @@
 FROM mariadb:10.4.11
 
-ADD ./sql /docker-entrypoint-initdb.d
-
-ENV MYSQL_ROOT_PASSWORD test
-ENV MYSQL_DATABASE Pinder
-ENV MYSQL_USER user
-ENV MYSQL_PASSWORD test
+ADD ./sql/ /docker-entrypoint-initdb.d
 
 RUN apt-get update && apt-get -y install vim
 
