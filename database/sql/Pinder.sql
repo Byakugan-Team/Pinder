@@ -15,3 +15,33 @@ CREATE DATABASE IF NOT EXISTS `Pinder` DEFAULT CHARACTER SET latin1 COLLATE lati
 USE `Pinder`;
 
 -- --------------------------------------------------------
+
+CREATE TABLE IF NOT EXISTS users (
+    id int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    phone_num int NOT NULL,
+    e_mail varchar(50),
+    first varchar(50) NOT NULL,
+    last varchar(50),
+    biography text,
+    creatAt DATETIME  DEFAULT  CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS pets (
+    id int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    user_id int,
+    nickname varchar(50) NOT NULL,
+    gendre varchar(50) NOT NUll,
+    birth DATE,
+    FOREIGN KEY (user_id) REFERENCES users(id)
+);
+
+CREATE TABLE IF NOT EXISTS pets_pictures (
+    id int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    pet_id int,
+    picture_name varchar(255), 
+    FOREIGN KEY (pet_id) REFERENCES pets(id)
+);
+
+CREATE TABLE IF NOT EXISTS verification_phone(
+
+);
