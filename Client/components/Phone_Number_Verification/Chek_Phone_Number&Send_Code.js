@@ -23,7 +23,9 @@ export default class PhoneNumber extends Component {
     }).catch(err =>{console.log(err)})
     console.log(number)
   }
-
+handleClick(){
+  
+}
   render() {
     console.log(this.state);
 
