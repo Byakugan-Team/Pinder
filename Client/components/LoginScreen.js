@@ -70,6 +70,7 @@ export default function LoginScreen({navigation}) {
 
 	return (
 		<View >
+			<Image style={styles.Catpeek} source={{ uri: 'https://i.ibb.co/Hx2QBLc/output-onlinepngtools-2.png' }} />
 			<Image style={styles.logoForm} source={{ uri: 'https://i.ibb.co/Ttb6xwD/output-onlinepngtools-1.png' }} />
 			<View style={styles.text}>
 				<Text style={styles.body}>
@@ -114,6 +115,15 @@ export default function LoginScreen({navigation}) {
 }
 
 const styles = StyleSheet.create({
+	Catpeek: {
+		position: 'absolute',
+		left:-73,
+		top:5,
+		width: 125,
+		height: 110,
+
+		//css login with facebook button:
+	},
 	// css Text :
 	body: {
 		color: 'white',
