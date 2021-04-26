@@ -14,41 +14,63 @@ import UserImage from './components/userInformations/UserImage'
 const Stack = createStackNavigator();
 
 export default function App() {
+
   return (
-    <UserImage />
 
 
-  //     <NavigationContainer  >
-  //       <Stack.Navigator headerMode='none' >
-          
-  //       <Stack.Screen 
-  //           name="HomeScreen"
-  //           component={HomeScreen}
-  //         >
-  //           </Stack.Screen>
-  //       <Stack.Screen
-  //           name="PhoneNumber"
-  //           component={PhoneNumber}
-  //         />
-  //         <Stack.Screen
-  //           name="CheckVerification"
-  //           component={CheckVerification}
-  //         />
-  //         <Stack.Screen
-  //           name="UselessTextInput"
-  //           component={UselessTextInput}
-  //         />
-  // <Stack.Screen
-  //           name="openImagePickerAsync"
-  //           component={openImagePickerAsync}
-  //         />
-  //         <Stack.Screen
-  //           name="PetsDashboard"
-  //           component={PetsDashboard}
-  //         />
-  //       </Stack.Navigator>
-  //     </NavigationContainer>
+      <NavigationContainer   styles={{backgroundColor:'white'}} >
+        <Stack.Navigator headerMode='none' >
 
+        <Stack.Screen
+            name="PetsImage"
+            component={UserImage}
+          />
+        
+        <Stack.Screen
+            name="PetsDashboard"
+            component={PetsDashboard}
+          />
+        <Stack.Screen 
+            name="HomeScreen"
+            component={HomeScreen}
+            
+          >
+            </Stack.Screen>
+       
+          <Stack.Screen
+            name="CheckVerification"
+            component={CheckVerification}
+            options={{
+              cardStyle: {
+                backgroundColor: 'white',
+              }}
+            }
+          />
+          <Stack.Screen
+            name="UselessTextInput"
+            component={UselessTextInput}
+            options={{
+              cardStyle: {
+                backgroundColor: 'white',
+              }}
+            }
+          />
+          <Stack.Screen
+            name="PhoneNumber"
+            component={PhoneNumber}
+            options={{
+              cardStyle: {
+                backgroundColor: 'white',
+              }}
+            }
+          />
+  <Stack.Screen
+            name="openImagePickerAsync"
+            component={openImagePickerAsync}
+          />
+         
+        </Stack.Navigator>
+      </NavigationContainer>
 
   );
 }

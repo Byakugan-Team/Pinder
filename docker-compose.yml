@@ -1,34 +1,35 @@
 version: '2'
 services:
+    db:
+        build: ./database
+        restart: always
+        ports: 
+            - "${MYSQL_PORT}:3306"
+        networks:
+            - default
+        env_file:
+            - .env
     pinder_server:
         build:
             context: ./server
             dockerfile: Dockerfile
         volumes:
             - ./server:/usr/src/app/server
+            - /usr/src/app/server/node_modules
         ports:
-        - "3000:3000"
+            - "3000:3000"
         links:
-            - db
+            - db:db
         env_file: 
             - .env
-    db:
-        build: ./database
-        restart: always
-        ports: 
-            - "3306:3306"
-        networks:
-            - default
     phpmyadmin:
         image: phpmyadmin/phpmyadmin
         links: 
             - db:db
         ports:
             - 8081:80
-        environment:
-            MYSQL_USER: user
-            MYSQL_PASSWORD: test
-            MYSQL_ROOT_PASSWORD: test
+        env_file:
+            - .env
         depends_on:
             - db
     

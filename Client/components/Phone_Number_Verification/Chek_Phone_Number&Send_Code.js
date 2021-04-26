@@ -47,8 +47,10 @@ handleClick(){
             <TouchableHighlight
               style={styles.buttonClick}
               onPress={() => {
-                this.sendSms()
-                this.props.navigation.navigate('CheckVerification')
+                this.sendSms();
+                this.props.navigation.navigate('CheckVerification',{
+                  number:this.state.phone_number
+                })
               }}
             >
               <Text style={styles.textButton}>Continue</Text>

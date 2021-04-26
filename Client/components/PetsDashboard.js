@@ -1,39 +1,16 @@
 
 import React,{Component} from 'react';
-import { View,ScrollView,Text,StyleSheet,Image,Button } from 'react-native';
+import { View,ScrollView,Text,StyleSheet,Image,Button,TouchableOpacity,TouchableHighlight } from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import { StatusBar } from 'expo-status-bar';
 
 export default class PetsDashboard extends Component   {
-    
-    render() {
-        return (
-          <View>
-                <View style={styles.MenuTop}>
-                    <Text style={styles.Elementop}>Dashboard</Text>
-                    <Text style={styles.Elementoptitle}></Text>
-                    <Text style={styles.ElementopSearch}>
- 
-                        <MaterialCommunityIcons name="magnify" color={'#576574'} size={'50'} />
-                    </Text>
-                    
-                </View>
-                <View style={styles.Menu}>
-                <View style={styles.ElemenBottomactive}>
-                <Image style={styles.logomenu} source={{ uri: 'https://i.ibb.co/drQ4yRW/dog.jpg' }} />
-                    <Text style={styles.ElemenBottomText}>Pets</Text>
-                </View>
-                <View style={styles.ElemenBottom}>
-                <Image style={styles.logomenubutton} source={{ uri: 'https://www.pngfind.com/pngs/m/261-2613166_plus-icon-linkedin-logo-hd-png-download.png' }} />
-                    <Text style={styles.ElemenBottomText}>Add</Text>
-                </View>
-                <View style={styles.ElemenBottom}>
-                <Image style={styles.logomenubutton} source={{ uri: 'https://i.ibb.co/vQT2Vgr/output-onlinepngtools-1.png' }} />
-                    <Text style={styles.ElemenBottomText}>Remove</Text>
-                </View>
-                </View>
-                <View>
-                    <View style={{height:1000,textAlign:'center',alignItems:'center'}}>
+    state={
+        view:'pets'
+    }
+      PetsDashboardEmpty () {
+       return(
+        <View style={{height:1000,textAlign:'center',alignItems:'center'}}>
                     <Image style={{height:200,width:200,marginTop:50}} source={{ uri: 'https://i.ibb.co/jygxTds/output-onlinepngtools-2.png' }} />
                         <Text style={styles.emptytop}>
                             Pets Dashboard Empty
@@ -47,7 +24,43 @@ export default class PetsDashboard extends Component   {
                         <View style={styles.butt}>
                             <Button title="Add My pet" />
                         </View>
-                    </View>
+        </View>
+       ) 
+    }
+
+    changeView(){
+        if(this.state.view == 'pets'){
+            return this.PetsDashboardEmpty()
+        }
+    }
+    render() {
+        return (
+          <View>
+                <View style={styles.MenuTop}>
+                    <Text style={styles.Elementop}>Dashboard</Text>
+                    <Text style={styles.Elementoptitle}></Text>
+                    <Text style={styles.ElementopSearch}>
+ 
+                        <MaterialCommunityIcons name="magnify" color={'#576574'} size={50} />
+                    </Text>
+                    
+                </View>
+                <View style={styles.Menu}>
+                <TouchableOpacity style={(this.state.view == 'pets') ? styles.ElemenBottomactive : styles.ElemenBottom} onPress={()=> this.setState({view:'pets'})}>
+                <Image style={styles.logomenu} source={{ uri: 'https://i.ibb.co/drQ4yRW/dog.jpg' }} />
+                    <Text style={styles.ElemenBottomText}>Pets</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={(this.state.view == 'add') ? styles.ElemenBottomactive : styles.ElemenBottom} onPress={()=> this.setState({view:'add'})}>
+                <Image style={styles.logomenubutton} source={{ uri: 'https://www.pngfind.com/pngs/m/261-2613166_plus-icon-linkedin-logo-hd-png-download.png' }} />
+                    <Text style={styles.ElemenBottomText} >Add</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={(this.state.view == 'remove') ? styles.ElemenBottomactive : styles.ElemenBottom} onPress={()=> this.setState({view:'remove'})}>
+                <Image style={styles.logomenubutton} source={{ uri: 'https://i.ibb.co/vQT2Vgr/output-onlinepngtools-1.png' }} />
+                    <Text style={styles.ElemenBottomText} >Remove</Text>
+                </TouchableOpacity>
+                </View>
+                <View>
+                    {this.changeView()}
                     
                 </View>
                 <StatusBar style="auto" />
@@ -60,7 +73,7 @@ var styles = StyleSheet.create({
     emptytop:{
         marginTop:20,
         fontSize:22,
-        // fontWeight:400,
+        fontWeight:'400',
         marginBottom:25,
     },
     emptydown:{
@@ -70,7 +83,6 @@ var styles = StyleSheet.create({
     },
     butt: {
 		marginTop:40,
-		height: 60,
 		borderRadius: 20,
 		borderWidth: 1,
 		borderColor: 'white'
@@ -96,7 +108,7 @@ var styles = StyleSheet.create({
     },
     infocard:{
         fontSize:16,
-        // fontWeight:200,
+        fontWeight:"200",
         flex:1
     },
     titleCard:{
@@ -128,7 +140,7 @@ var styles = StyleSheet.create({
         color:'black',
         textAlign:'center',
         fontSize:25,
-        // fontWeight:400,
+        fontWeight:"400",
         marginLeft:30,
         marginTop:4
         
@@ -165,8 +177,8 @@ var styles = StyleSheet.create({
         borderBottomWidth: 1
     },
     ElemenBottomText:{
-        fontSize:23,
-        // fontWeight:100,
+        fontSize:18,
+        fontWeight:"100",
         marginBottom:10
     },
     logomenu:{
@@ -185,3 +197,57 @@ var styles = StyleSheet.create({
         marginBottom:7
     }
 });
+
+
+// <View style={styles.CardsRow}>
+//                         <View style={styles.card}>
+//                         <Image style={styles.photoCard} source={{ uri: 'https://i.ibb.co/drQ4yRW/dog.jpg' }} />
+//                             <View style={styles.rowInfoCar}>
+//                                 <Text style={styles.infocard}>Name : </Text>
+//                                 <Text style={styles.titleCard}> Jack</Text>
+//                             </View>
+//                             <View style={styles.rowInfoCar}>
+//                                 <Text style={styles.infocard}>Age : </Text>
+//                                 <Text style={styles.titleCard}> 5 months</Text>
+//                             </View>
+//                             <View style={styles.rowInfoCar}>
+//                                 <Text style={styles.infocard}>Gender : </Text>
+//                                 <Text style={styles.titleCard}> Male</Text>
+//                             </View>
+//                         </View>
+//                         <View style={styles.card}>
+//                         <Image style={styles.photoCard} source={{ uri: 'https://lafeber.com/pet-birds/wp-content/uploads/2020/04/gamaliel-troubleson-u9PsLITXMCQ-unsplash-e1587001975887-300x271.jpg' }} />
+//                             <View style={styles.rowInfoCar}>
+//                                 <Text style={styles.infocard}>Name : </Text>
+//                                 <Text style={styles.titleCard}> Tweety</Text>
+//                             </View>
+//                             <View style={styles.rowInfoCar}>
+//                                 <Text style={styles.infocard}>Age : </Text>
+//                                 <Text style={styles.titleCard}> 8 months</Text>
+//                             </View>
+//                             <View style={styles.rowInfoCar}>
+//                                 <Text style={styles.infocard}>Gender : </Text>
+//                                 <Text style={styles.titleCard}> Female</Text>
+//                             </View>
+//                         </View>
+//                     </View>
+//                     <View style={styles.CardsRow}>
+//                         <View style={styles.card}>
+//                         <Image style={styles.photoCard} source={{ uri: 'https://www.humanesociety.org/sites/default/files/styles/1240x698/public/2020-07/kitten-510651.jpg?h=f54c7448&itok=ZhplzyJ9' }} />
+//                             <View style={styles.rowInfoCar}>
+//                                 <Text style={styles.infocard}>Name : </Text>
+//                                 <Text style={styles.titleCard}> Kitty</Text>
+//                             </View>
+//                             <View style={styles.rowInfoCar}>
+//                                 <Text style={styles.infocard}>Age : </Text>
+//                                 <Text style={styles.titleCard}> 2 months</Text>
+//                             </View>
+//                             <View style={styles.rowInfoCar}>
+//                                 <Text style={styles.infocard}>Gender : </Text>
+//                                 <Text style={styles.titleCard}> Female</Text>
+//                             </View>
+//                         </View>
+                        
+//                     </View>
+
+
