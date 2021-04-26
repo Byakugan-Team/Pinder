@@ -128,7 +128,7 @@ const styles = StyleSheet.create({
 	body: {
 		color: 'white',
 		justifyContent: 'center',
-		fontFamily: 'Cochin',
+		// fontFamily: 'Cochin',
 		fontStyle: 'normal',
 		textAlign: 'center',
 		marginRight: 50
