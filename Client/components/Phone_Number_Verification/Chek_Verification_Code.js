@@ -29,7 +29,7 @@ export default class CheckVerification extends Component {
           </MyText>
           <View>
             <MyText style={styles.textNum}> 
-              +21699391220 
+              +216{this.props.route.params.number}
               <MyText
                 style={styles.textResend}
                 onPress={() => console.log("RESEND")} //=> ResendSms()
@@ -48,7 +48,8 @@ export default class CheckVerification extends Component {
             this.setState({ code: code });
           }}
           onComplete={(value) => {
-            this.props.navigation.navigate('UselessTextInput')
+            setTimeout(()=>{ this.props.navigation.navigate('UselessTextInput'); }, 1500);
+            
           }}
         />
       </View>

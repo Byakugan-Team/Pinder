@@ -13,21 +13,21 @@ import { createStackNavigator } from '@react-navigation/stack';
 const Stack = createStackNavigator();
 
 export default function App() {
+
   return (
 
 
-      <NavigationContainer  >
+      <NavigationContainer   styles={{backgroundColor:'white'}} >
         <Stack.Navigator headerMode='none' >
-          
+        
+        
         <Stack.Screen 
             name="HomeScreen"
             component={HomeScreen}
+            
           >
             </Stack.Screen>
-        <Stack.Screen
-            name="PhoneNumber"
-            component={PhoneNumber}
-          />
+       
           <Stack.Screen
             name="CheckVerification"
             component={CheckVerification}
@@ -35,6 +35,20 @@ export default function App() {
           <Stack.Screen
             name="UselessTextInput"
             component={UselessTextInput}
+            options={{
+              cardStyle: {
+                backgroundColor: 'transparent',
+              }}
+            }
+          />
+          <Stack.Screen
+            name="PhoneNumber"
+            component={PhoneNumber}
+            options={{
+              cardStyle: {
+                backgroundColor: 'white',
+              }}
+            }
           />
   <Stack.Screen
             name="openImagePickerAsync"
