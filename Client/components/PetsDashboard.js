@@ -60,7 +60,7 @@ var styles = StyleSheet.create({
     emptytop:{
         marginTop:20,
         fontSize:22,
-        fontWeight:400,
+        // fontWeight:400,
         marginBottom:25,
     },
     emptydown:{
@@ -96,7 +96,7 @@ var styles = StyleSheet.create({
     },
     infocard:{
         fontSize:16,
-        fontWeight:200,
+        // fontWeight:200,
         flex:1
     },
     titleCard:{
@@ -128,7 +128,7 @@ var styles = StyleSheet.create({
         color:'black',
         textAlign:'center',
         fontSize:25,
-        fontWeight:400,
+        // fontWeight:400,
         marginLeft:30,
         marginTop:4
         
@@ -166,7 +166,7 @@ var styles = StyleSheet.create({
     },
     ElemenBottomText:{
         fontSize:23,
-        fontWeight:100,
+        // fontWeight:100,
         marginBottom:10
     },
     logomenu:{

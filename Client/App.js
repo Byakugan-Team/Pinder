@@ -9,43 +9,45 @@ import openImagePickerAsync from './components/userInformations/UserImage'
 import PetsDashboard from './components/PetsDashboard'
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+import UserImage from './components/userInformations/UserImage'
 
 const Stack = createStackNavigator();
 
 export default function App() {
   return (
+    <UserImage />
 
 
-      <NavigationContainer  >
-        <Stack.Navigator headerMode='none' >
+  //     <NavigationContainer  >
+  //       <Stack.Navigator headerMode='none' >
           
-        <Stack.Screen 
-            name="HomeScreen"
-            component={HomeScreen}
-          >
-            </Stack.Screen>
-        <Stack.Screen
-            name="PhoneNumber"
-            component={PhoneNumber}
-          />
-          <Stack.Screen
-            name="CheckVerification"
-            component={CheckVerification}
-          />
-          <Stack.Screen
-            name="UselessTextInput"
-            component={UselessTextInput}
-          />
-  <Stack.Screen
-            name="openImagePickerAsync"
-            component={openImagePickerAsync}
-          />
-          <Stack.Screen
-            name="PetsDashboard"
-            component={PetsDashboard}
-          />
-        </Stack.Navigator>
-      </NavigationContainer>
+  //       <Stack.Screen 
+  //           name="HomeScreen"
+  //           component={HomeScreen}
+  //         >
+  //           </Stack.Screen>
+  //       <Stack.Screen
+  //           name="PhoneNumber"
+  //           component={PhoneNumber}
+  //         />
+  //         <Stack.Screen
+  //           name="CheckVerification"
+  //           component={CheckVerification}
+  //         />
+  //         <Stack.Screen
+  //           name="UselessTextInput"
+  //           component={UselessTextInput}
+  //         />
+  // <Stack.Screen
+  //           name="openImagePickerAsync"
+  //           component={openImagePickerAsync}
+  //         />
+  //         <Stack.Screen
+  //           name="PetsDashboard"
+  //           component={PetsDashboard}
+  //         />
+  //       </Stack.Navigator>
+  //     </NavigationContainer>
 
 
   );
