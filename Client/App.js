@@ -20,7 +20,10 @@ export default function App() {
       <NavigationContainer   styles={{backgroundColor:'white'}} >
         <Stack.Navigator headerMode='none' >
         
-        
+        <Stack.Screen
+            name="PetsDashboard"
+            component={PetsDashboard}
+          />
         <Stack.Screen 
             name="HomeScreen"
             component={HomeScreen}
@@ -31,13 +34,18 @@ export default function App() {
           <Stack.Screen
             name="CheckVerification"
             component={CheckVerification}
+            options={{
+              cardStyle: {
+                backgroundColor: 'white',
+              }}
+            }
           />
           <Stack.Screen
             name="UselessTextInput"
             component={UselessTextInput}
             options={{
               cardStyle: {
-                backgroundColor: 'transparent',
+                backgroundColor: 'white',
               }}
             }
           />
@@ -54,13 +62,9 @@ export default function App() {
             name="openImagePickerAsync"
             component={openImagePickerAsync}
           />
-          <Stack.Screen
-            name="PetsDashboard"
-            component={PetsDashboard}
-          />
+         
         </Stack.Navigator>
       </NavigationContainer>
-
 
   );
 }
