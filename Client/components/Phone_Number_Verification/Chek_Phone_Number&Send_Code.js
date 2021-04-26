@@ -23,7 +23,9 @@ export default class PhoneNumber extends Component {
     }).catch(err =>{console.log(err)})
     console.log(number)
   }
-
+handleClick(){
+  
+}
   render() {
     console.log(this.state);
 
@@ -44,7 +46,12 @@ export default class PhoneNumber extends Component {
         {this.state.inputLength == 8 ? (  
             <TouchableHighlight
               style={styles.buttonClick}
-              onPress={() => this.sendSms()}
+              onPress={() => {
+                this.sendSms();
+                this.props.navigation.navigate('CheckVerification',{
+                  number:this.state.phone_number
+                })
+              }}
             >
               <Text style={styles.textButton}>Continue</Text>
             </TouchableHighlight>        

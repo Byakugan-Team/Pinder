@@ -1,8 +1,7 @@
 const client = require('twilio')(
-    'AC9596a43f62f74f39b3528854942d3b85',
-    '7894400437b2cf01af40c003b6493228'
+    process.env.twilio_sid,
+    process.env.twilio_Token
   );
-
 module.exports = {
 
     SendSms: (req, res)=> {

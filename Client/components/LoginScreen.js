@@ -4,8 +4,9 @@ import * as Facebook from 'expo-facebook';
 import * as Google from 'expo-google-app-auth';
 import { FontAwesome5 } from '@expo/vector-icons';
 import { color } from 'react-native-reanimated';
+import PhoneNumber from './Phone_Number_Verification/Chek_Phone_Number&Send_Code'
 
-export default function LoginScreen({ navigation }) {
+export default function LoginScreen({navigation}) {
 	// log in with google api :
 	const signInAsync = async () => {
 		console.log('LoginScreen.js 6 | loggin in');
@@ -68,7 +69,7 @@ export default function LoginScreen({ navigation }) {
 	};
 
 	return (
-		<View>
+		<View >
 			<Image style={styles.logoForm} source={{ uri: 'https://i.ibb.co/Ttb6xwD/output-onlinepngtools-1.png' }} />
 			<View style={styles.text}>
 				<Text style={styles.body}>
@@ -95,7 +96,7 @@ export default function LoginScreen({ navigation }) {
 						<Text>Login with facebook</Text>
 					</View>
 				</TouchableOpacity>
-				<TouchableOpacity style={styles.loginBtn}>
+				<TouchableOpacity style={styles.loginBtn} onPress={()=> navigation.navigate('PhoneNumber')} >
 					<View>
 						<Image
 							style={styles.imge}
@@ -117,7 +118,7 @@ const styles = StyleSheet.create({
 	body: {
 		color: 'white',
 		justifyContent: 'center',
-		fontFamily: 'Cochin',
+		// fontFamily: 'Cochin',
 		fontStyle: 'normal',
 		textAlign: 'center',
 		marginRight: 50
@@ -127,7 +128,7 @@ const styles = StyleSheet.create({
 		color: 'white',
 		width: 355,
 		top: 120,
-		right: 0,
+		right: -20,
 		marginBottom: 100
 	},
 	//css of facebook and email img :
@@ -136,7 +137,7 @@ const styles = StyleSheet.create({
 		width: 30,
 		height: 30,
 		left: -100,
-		top: -5,
+		top: -5
 	},
 	//css of phone number img :
 	imge: {
@@ -148,11 +149,10 @@ const styles = StyleSheet.create({
 	},
 	//css logo form pinder:
 	logoForm: {
-		textAlign:'center',
 		position: 'relative',
-		width: 170,
-		height: 150,
-		 left: 90
+		width: 125,
+		height: 110,
+		left: 120
 
 		//css login with facebook button:
 	},
