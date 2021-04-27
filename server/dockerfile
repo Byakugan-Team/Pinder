@@ -5,4 +5,4 @@ WORKDIR /usr/src/app/server
 COPY . /usr/src/app/server
 RUN npm install -g nodemon
 RUN npm install
-ENTRYPOINT ["nodemon", "/usr/src/app/server/index.js"]
+ENTRYPOINT ["nodemon","--legacy-watch", "/usr/src/app/server/index.js"]

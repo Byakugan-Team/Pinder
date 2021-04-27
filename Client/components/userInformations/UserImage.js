@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react';
 import * as ImagePicker from 'expo-image-picker';
-import { StyleSheet, Text, View, Image, Button } from 'react-native';
+import { StyleSheet, Text, View, Image, Button, Platform } from 'react-native';
 
 export default function Photo(props) {
 	const [ localUri, setSelectedImage ] = useState('');
@@ -25,10 +25,17 @@ export default function Photo(props) {
 
 		setSelectedImage({ localUri: pickerResult.uri });
 
-		let data = {
-			file: pickerResult.uri,
-			upload_preset: 'kgiezron'
-		};
+		if(Platform.OS== 'android'){
+			var data = {
+				file: 'data:image/jpeg;base64,' + pickerResult.base64,
+				upload_preset: 'kgiezron'
+			};
+		}else{
+			var data = {
+				file: pickerResult.uri,
+				upload_preset: 'kgiezron'
+			};
+		}
 
 		fetch('https://api.cloudinary.com/v1_1/dm1xlu8ce/image/upload', {
 			body: JSON.stringify(data),

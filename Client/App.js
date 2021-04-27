@@ -9,7 +9,8 @@ import openImagePickerAsync from './components/userInformations/UserImage'
 import PetsDashboard from './components/PetsDashboard'
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import UserImage from './components/userInformations/UserImage'
+import UserImage from './components/userInformations/UserImage';
+import UserUpdateInfo from './components/userInformations/UserUpdateInfo';
 
 const Stack = createStackNavigator();
 
@@ -22,7 +23,7 @@ export default function App() {
         <Stack.Navigator headerMode='none' >
 
         <Stack.Screen
-            name="PetsImage"
+            name="userUpdate"
             component={UserImage}
           />
         
