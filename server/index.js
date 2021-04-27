@@ -17,10 +17,15 @@ app.use('/',Routers.userRouter)
 
 app.use('/verifSms', Routers.verificationSms)
 app.use('/', (req, res) => {
-    res.send('hello')
+    res.send('helli')
 })
 
-
+process.on('uncaughtException', (err) =>console.log('hey',err)
+)
+app.on('error',(err)=>{
+    console.log(err)
+})
 app.listen(3000, '0.0.0.0',()=>{
     console.log('started on 3000')
 })
+

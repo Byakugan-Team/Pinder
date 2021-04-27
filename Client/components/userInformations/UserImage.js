@@ -57,6 +57,8 @@ export default function Photo({navigation,route}) {
 			number:route.params.number,
 			photo:data
 		}
+
+		
 	}
 	
 	return (

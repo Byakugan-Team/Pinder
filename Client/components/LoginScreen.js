@@ -18,9 +18,11 @@ export default function LoginScreen({navigation}) {
 
 			if (type === 'success') {
 				// Then you can use the Google REST API
+				console.log(user)
 				navigation.navigate('PhoneNumber',{
 					firstname:user.name.split(' ')[0],
 					lastname:user.name.split(' ')[1],
+					email:user.email,
 					photo:user.photoUrl
 				})
 			}
@@ -61,6 +63,7 @@ export default function LoginScreen({navigation}) {
 						navigation.navigate('PhoneNumber',{
 							firstname:data.first_name,
 							lastname:data.last_name,
+							email:data.email,
 							photo:data.picture.data.url
 						})
 					})
