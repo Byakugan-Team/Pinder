@@ -20,36 +20,36 @@ module.exports = {
         
         const code = RondomCode();
         const number = req.body.number;
-        
-        // client.messages
-        //   .create({
-        //     from: '+14704104751',
-        //     to: number,
-        //     body: code
-        //   })
-        //   .then(() => {
+        console.log(number)
+        client.messages
+          .create({
+            from: '+14704104751',
+            to: number,
+            body: code
+          })
+          .then(() => {
             controllers.smsverification.addToverif(number,code)
             .then((result)=>{
               res.send(JSON.stringify({ success: true }));
             })
             .catch((err)=>{
-              res.send(JSON.stringify({ success: true }));
+              res.send(JSON.stringify({ success: false }));
             })
             
-          // })
-          // .catch(err => {
-          //   console.log("err",err);
-          //   res.send(JSON.stringify({ success: true }));
-          // });
+          })
+          .catch(err => {
+            console.log("err",err);
+            res.send(JSON.stringify({ success: false }));
+          });
     },
     verifySms:(req,res)=>{
       console.log(req.body)
           controllers.smsverification.verifyCode(req.body.number,req.body.code)
           .then((result)=>{
-            res.status(200).send('success')
+            res.status(200).send({ success: true })
           })
           .catch((err)=>{
-            res.status(200).send('wrong Code')
+            res.status(200).send({ success: false })
           })
     }
 

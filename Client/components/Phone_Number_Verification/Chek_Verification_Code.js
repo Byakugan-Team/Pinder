@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { View, Text, StyleSheet } from 'react-native'
 import { KeycodeInput } from 'react-native-keycode'
+import server_IP from '../../config/Server_IP'
 import axios from 'axios'
 
 export default class CheckVerification extends Component {
@@ -12,18 +13,33 @@ export default class CheckVerification extends Component {
 
   ResendSms() {
   const number = "+216"+this.props.route.params.number //==> props.phone_number ==> props from component Chek_Phone_Number&Send_Code 
-    axios.post("http://localhost:3000/verifSms/send", {number})
+  fetch("http://"+server_IP+":3000/verifSms/send",{
+    body: JSON.stringify({number}),
+    headers: {
+      'content-type': 'application/json'
+    },
+    method: 'POST'
+  })
     .then(result =>{
       console.log(result);
     }).catch(err =>{console.log(err)})
   }
   verifycode(value){
     const number = "+216"+this.props.route.params.number //==> props.phone_number ==> props from component Chek_Phone_Number&Send_Code 
-    axios.post("http://localhost:3000/verifSms/verifyCode", {number,code:value})
-    .then(result =>{
-      console.log(result)
-      if(result.data == 'success'){
+    fetch("http://"+server_IP+":3000/verifSms/verifyCode",{
+      body: JSON.stringify({number,code:value}),
+			headers: {
+				'content-type': 'application/json'
+			},
+			method: 'POST'
+		})
+    .then( async result =>{
+      var result = await result.json()
+      if(result.success == true){
         this.props.navigation.navigate('UselessTextInput',{
+          firstname:this.props.route.params.firstname,
+          lastname:this.props.route.params.lastname,
+          photo:this.props.route.params.photo,
           number:number
         });
       }else{
@@ -38,7 +54,6 @@ export default class CheckVerification extends Component {
   }
 
   render() {
-    console.log(this.state);
     return (
       <View style={styles.container}>
         <View style={{ marginLeft: -20, marginBottom: 20 }}>
@@ -61,6 +76,7 @@ export default class CheckVerification extends Component {
         <KeycodeInput
           value={this.state.code}
           length={6}
+          numeric
           onChange={(code) => {
             this.setState({ code: code });
           }}

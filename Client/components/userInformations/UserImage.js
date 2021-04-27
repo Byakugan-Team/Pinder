@@ -4,7 +4,7 @@ import { StyleSheet, Text, View, Image, Button, Platform } from 'react-native';
 
 export default function Photo({navigation,route}) {
 	const [ localUri, setSelectedImage ] = useState('');
-	const [ data, setPhoto ] = useState('');
+	const [ data, setPhoto ] = useState((route.params.photo) ? route.params.photo : '');
 
 	const openImagePickerAsync = async () => {
 		let permissionResult = await ImagePicker.requestCameraRollPermissionsAsync();

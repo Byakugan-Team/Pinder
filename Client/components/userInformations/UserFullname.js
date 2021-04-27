@@ -3,7 +3,7 @@ import { View, StyleSheet, TextInput, Text, Button } from 'react-native';
 
 const UselessTextInput = ({navigation,route}) => {
 	const [ firstname, onChangefirstname ] = React.useState((route.params.firstname)?route.params.firstname :'');
-	const [ lastnmae, onChangelastname ] = React.useState((route.params.lastnmae)?route.params.lastnmae :'');
+	const [ lastnmae, onChangelastname ] = React.useState((route.params.lastname)?route.params.lastname :'');
 
 	
 	return (
@@ -21,6 +21,7 @@ const UselessTextInput = ({navigation,route}) => {
 				<Button title="Continue" onPress={()=> navigation.navigate('PetsImage',{
 					firstname,
 					lastnmae,
+					photo:route.params.photo,
 					number:route.params.number 
 				})}/>
 			</View>
