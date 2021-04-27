@@ -24,7 +24,7 @@ export default function App() {
 
         <Stack.Screen
             name="userUpdate"
-            component={UserImage}
+            component={UserUpdateInfo}
           />
         
         <Stack.Screen
