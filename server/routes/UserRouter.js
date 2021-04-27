@@ -4,8 +4,8 @@ const UserHandlers = require('../Handlers/UserController')
 
 
 
-router.get('/api/user',UserHandlers.GetallUsere)
-router.patch('/api/user/:id', UserHandlers.updateUser)
+router.get('/getall',UserHandlers.GetallUsere)
+router.patch('/:id', UserHandlers.updateUser)
 
 
 module.exports = router;

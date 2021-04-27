@@ -9,13 +9,13 @@ module.exports = {
 
     },
     updateUser:(req,res) => {
-        controller.updateUser(req.body, req.params.id)
+        controller.users.updateUser(req.body, req.params.id)
         .then((result)=> {
-            // res.status(201).send('updated')
-            console.log(result)
+            res.status(201).send('updated')
+            // console.log(result)
         })
         .catch((err)=> {
-            console.log(err)
+            res.status(500).send(err)
         })
     }
 }

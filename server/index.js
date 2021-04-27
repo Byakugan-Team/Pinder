@@ -13,12 +13,10 @@ app.use(BodyParser.json())
 
 app.use(CookieParser())
 
-app.use('/',Routers.userRouter)
+app.use('/users',Routers.userRouter)
 
 app.use('/verifSms', Routers.verificationSms)
-app.use('/', (req, res) => {
-    res.send('hello')
-})
+
 
 
 app.listen(3000, '0.0.0.0',()=>{
