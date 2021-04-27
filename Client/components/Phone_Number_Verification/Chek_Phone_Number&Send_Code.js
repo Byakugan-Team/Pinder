@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { StatusBar } from 'expo-status-bar';
 import { ScrollView, Text, TouchableHighlight, StyleSheet } from 'react-native'
 import TextField from 'react-native-md-textinput';
+import server_IP from '../../config/Server_IP'
 import * as axios from 'axios';
 
 export default class PhoneNumber extends Component {
@@ -10,23 +11,27 @@ export default class PhoneNumber extends Component {
     phone_number: "",
     inputLength: 0,
   };
-
+  
   handlePhoneNum = (text) => {
     this.setState({ phone_number: text, inputLength: text.length });
   };
 
   sendSms() {
     const number = this.state.defaultCode+this.state.phone_number;
-    axios.post("http://localhost:3000/verifSms/send", {number})
+    fetch("http://"+server_IP+":3000/verifSms/send",{
+      body: JSON.stringify({number}),
+			headers: {
+				'content-type': 'application/json'
+			},
+			method: 'POST'
+		})
     .then(result =>{
-      console.log(result);
+      console.log('res',result);
     }).catch(err =>{console.log(err)})
-    console.log(number)
+    console.log('err',number)
   }
-
+          
   render() {
-    console.log(this.state);
-
     return (
       <ScrollView style={styles.container}>
         <TextField
@@ -44,7 +49,15 @@ export default class PhoneNumber extends Component {
         {this.state.inputLength == 8 ? (  
             <TouchableHighlight
               style={styles.buttonClick}
-              onPress={() => this.sendSms()}
+              onPress={() => {
+                this.sendSms();
+                this.props.navigation.navigate('CheckVerification',{
+                  firstname:( this.props.route.params && this.props.route.params.firstname) ? this.props.route.params.firstname :'',
+                  lastname:( this.props.route.params && this.props.route.params.lastname) ? this.props.route.params.lastname :'',
+                  photo:( this.props.route.params && this.props.route.params.photo) ? this.props.route.params.photo :'',
+                  number:this.state.phone_number
+                })
+              }}
             >
               <Text style={styles.textButton}>Continue</Text>
             </TouchableHighlight>        

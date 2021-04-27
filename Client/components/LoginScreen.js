@@ -4,8 +4,10 @@ import * as Facebook from 'expo-facebook';
 import * as Google from 'expo-google-app-auth';
 import { FontAwesome5 } from '@expo/vector-icons';
 import { color } from 'react-native-reanimated';
+import { MyText } from './Tag_Modules/MyText'
+import PhoneNumber from './Phone_Number_Verification/Chek_Phone_Number&Send_Code'
 
-export default function LoginScreen({ navigation }) {
+export default function LoginScreen({navigation}) {
 	// log in with google api :
 	const signInAsync = async () => {
 		console.log('LoginScreen.js 6 | loggin in');
@@ -17,8 +19,11 @@ export default function LoginScreen({ navigation }) {
 
 			if (type === 'success') {
 				// Then you can use the Google REST API
-				console.log('LoginScreen.js 17 | success, navigating to profile');
-				navigation.navigate('Profile', { user });
+				navigation.navigate('PhoneNumber',{
+					firstname:user.name.split(' ')[0],
+					lastname:user.name.split(' ')[1],
+					photo:user.photoUrl
+				})
 			}
 		} catch (error) {
 			console.log('LoginScreen.js 19 | error with login', error);
@@ -46,18 +51,25 @@ export default function LoginScreen({ navigation }) {
 			});
 			if (type === 'success') {
 				// Get the user's name using Facebook's Graph API
-				fetch(`https://graph.facebook.com/me?access_token=${token}&fields=id,name,email,picture.height(500)`)
+				console.log(token)
+				fetch(`https://graph.facebook.com/me?access_token=${token}&fields=id,first_name,last_name,email,picture.height(500)`)
 					.then((response) => response.json())
 					.then((data) => {
-						console.log(data);
+
 						setLoggedinStatus(true);
 						setUserData(data);
+						
+						navigation.navigate('PhoneNumber',{
+							firstname:data.first_name,
+							lastname:data.last_name,
+							photo:data.picture.data.url
+						})
 					})
 					.catch((e) => console.log(e));
 			} else {
 			}
 		} catch ({ message }) {
-			alert(`Facebook Login Error: ${message}`);
+			console.log(`Facebook Login Error: ${message}`);
 		}
 	};
 
@@ -68,11 +80,12 @@ export default function LoginScreen({ navigation }) {
 	};
 
 	return (
-		<View>
+		<View >
+			<Image style={styles.Catpeek} source={{ uri: 'https://i.ibb.co/Hx2QBLc/output-onlinepngtools-2.png' }} />
 			<Image style={styles.logoForm} source={{ uri: 'https://i.ibb.co/Ttb6xwD/output-onlinepngtools-1.png' }} />
 			<View style={styles.text}>
 				<Text style={styles.body}>
-					by clicking log In, you agree with our terms. learn how we process your data in our privacy policy
+					By clicking log In, you agree with our terms. learn how we process your data in our privacy policy
 					and Cookies Policy
 				</Text>
 			</View>
@@ -80,7 +93,7 @@ export default function LoginScreen({ navigation }) {
 				<TouchableHighlight style={styles.loginBtn} onPress={signInAsync}>
 					<View style={styles.cont}>
 						<Image style={styles.img} source={{ uri: 'https://img-authors.flaticon.com/google.jpg  ' }} />
-						<Text> Login with Google</Text>
+						<MyText> Login with Google</MyText>
 					</View>
 				</TouchableHighlight>
 				<TouchableOpacity style={styles.loginBtn} onPress={() => facebookLogIn()}>
@@ -95,7 +108,7 @@ export default function LoginScreen({ navigation }) {
 						<Text>Login with facebook</Text>
 					</View>
 				</TouchableOpacity>
-				<TouchableOpacity style={styles.loginBtn}>
+				<TouchableOpacity style={styles.loginBtn} onPress={()=> navigation.navigate('PhoneNumber')} >
 					<View>
 						<Image
 							style={styles.imge}
@@ -113,11 +126,20 @@ export default function LoginScreen({ navigation }) {
 }
 
 const styles = StyleSheet.create({
+	Catpeek: {
+		position: 'absolute',
+		left:-73,
+		top:5,
+		width: 125,
+		height: 110,
+
+		//css login with facebook button:
+	},
 	// css Text :
 	body: {
 		color: 'white',
 		justifyContent: 'center',
-		fontFamily: 'Cochin',
+		// fontFamily: 'Cochin',
 		fontStyle: 'normal',
 		textAlign: 'center',
 		marginRight: 50
