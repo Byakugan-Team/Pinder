@@ -5,7 +5,7 @@ const UserHandlers = require('../Handlers/UserController')
 
 
 router.get('/getall',UserHandlers.GetallUsere)
-router.patch('/:id', UserHandlers.updateUser)
+router.put('/:id', UserHandlers.updateUser)
 
 
 module.exports = router;

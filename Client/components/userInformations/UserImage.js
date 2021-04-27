@@ -54,7 +54,7 @@ export default function Photo(props) {
 
 	return (
 		<View>
-			
+			{console.log(data, 'rrrrrr')}
 			<Text style={styles.addImg}>Add Photo </Text>
 			<Image style={styles.img} source={{ uri: data }} />
 			<View style={styles.btnImg}>
