@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: db
--- Generation Time: Apr 26, 2021 at 08:57 PM
+-- Generation Time: Apr 27, 2021 at 02:23 PM
 -- Server version: 10.4.11-MariaDB-1:10.4.11+maria~bionic
 -- PHP Version: 7.4.16
 
@@ -32,7 +32,8 @@ CREATE TABLE `pets` (
   `user_id` int(11) DEFAULT NULL,
   `nickname` varchar(50) NOT NULL,
   `gendre` varchar(50) NOT NULL,
-  `birth` date DEFAULT NULL
+  `birth` date DEFAULT NULL,
+  `category` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -63,6 +64,13 @@ CREATE TABLE `users` (
   `creatAt` datetime DEFAULT current_timestamp(),
   `photo` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`id`, `phone_num`, `e_mail`, `first`, `last`, `biography`, `creatAt`, `photo`) VALUES
+(1, 22700641, 'fffff@gmail.com', 'ddddddddddddddd', 'guelmami', 'im a footballer', '0000-00-00 00:00:00', 'https://images.unsplash.com/photo-1554080353-a576cf803bda?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8cGhvdG98ZW58MHx8MHx8&ixlib=rb-1.2.1&w=1000&q=80');
 
 --
 -- Indexes for dumped tables
@@ -108,7 +116,7 @@ ALTER TABLE `pets_pictures`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- Constraints for dumped tables

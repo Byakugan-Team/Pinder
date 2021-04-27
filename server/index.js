@@ -13,7 +13,7 @@ app.use(BodyParser.json())
 
 app.use(CookieParser())
 
-app.use('/users',Routers.userRouter)
+app.use('/users/:id',Routers.userRouter)
 
 app.use('/verifSms', Routers.verificationSms)
 

@@ -64,15 +64,15 @@ const UserUpdateInfo = ({ navigation }) => {
 			setImage( data.url);
 		});
 	};
-	var updateUser = async(id) => {
+	const updateUser = (id) => {
 		console.log(userDetails, 'hello')
 		// id =1
-		await axios.put('http://localhost:3000/users/' + id, 	{
-			"e_mail":"fffff@gmail.com",
-			"first":"ddddddddddddddd",
-			"last":"guelmami",
-			"biography":"im a footballer",
-			"photo": "https://images.unsplash.com/photo-1554080353-a576cf803bda?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8cGhvdG98ZW58MHx8MHx8&ixlib=rb-1.2.1&w=1000&q=80"
+		 axios.patch('http://localhost:3000/users/' + id, 	{
+			e_mail:e_mail,
+			first:first,
+			last:last,
+			biography:biography,
+			photo: image
 		},
 		{headers:{
 			'Content-Type' : 'application/json',
