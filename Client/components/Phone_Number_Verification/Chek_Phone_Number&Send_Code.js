@@ -30,6 +30,7 @@ export default class PhoneNumber extends Component {
     }).catch(err =>{console.log(err)})
     console.log('err',number)
   }
+          
   render() {
     return (
       <ScrollView style={styles.container}>

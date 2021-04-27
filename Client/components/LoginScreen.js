@@ -4,6 +4,7 @@ import * as Facebook from 'expo-facebook';
 import * as Google from 'expo-google-app-auth';
 import { FontAwesome5 } from '@expo/vector-icons';
 import { color } from 'react-native-reanimated';
+import { MyText } from './Tag_Modules/MyText'
 import PhoneNumber from './Phone_Number_Verification/Chek_Phone_Number&Send_Code'
 
 export default function LoginScreen({navigation}) {
@@ -84,7 +85,7 @@ export default function LoginScreen({navigation}) {
 			<Image style={styles.logoForm} source={{ uri: 'https://i.ibb.co/Ttb6xwD/output-onlinepngtools-1.png' }} />
 			<View style={styles.text}>
 				<Text style={styles.body}>
-					by clicking log In, you agree with our terms. learn how we process your data in our privacy policy
+					By clicking log In, you agree with our terms. learn how we process your data in our privacy policy
 					and Cookies Policy
 				</Text>
 			</View>
@@ -92,7 +93,7 @@ export default function LoginScreen({navigation}) {
 				<TouchableHighlight style={styles.loginBtn} onPress={signInAsync}>
 					<View style={styles.cont}>
 						<Image style={styles.img} source={{ uri: 'https://img-authors.flaticon.com/google.jpg  ' }} />
-						<Text> Login with Google</Text>
+						<MyText> Login with Google</MyText>
 					</View>
 				</TouchableHighlight>
 				<TouchableOpacity style={styles.loginBtn} onPress={() => facebookLogIn()}>
