@@ -2,9 +2,9 @@ import React, { useState, useContext } from 'react';
 import * as ImagePicker from 'expo-image-picker';
 import { StyleSheet, Text, View, Image, Button, Platform } from 'react-native';
 
-export default function Photo(props) {
+export default function Photo({navigation,route}) {
 	const [ localUri, setSelectedImage ] = useState('');
-	const [ data, setPhoto ] = useState('');
+	const [ data, setPhoto ] = useState((route.params.photo) ? route.params.photo : '');
 
 	const openImagePickerAsync = async () => {
 		let permissionResult = await ImagePicker.requestCameraRollPermissionsAsync();
@@ -46,22 +46,28 @@ export default function Photo(props) {
 		})
 			.then(async (r) => {
 				let data = await r.json();
-				console.log(data, 'hhhhhhhhh');
 				setPhoto(data.url);
 			})
 			.catch((err) => console.log(err));
 	};
-
+	const CreateUser = ()=>{
+		var UserData = {
+			firstname:route.params.firstname,
+			lastname:route.params.lastnmae,
+			number:route.params.number,
+			photo:data
+		}
+	}
+	
 	return (
 		<View>
-			{console.log(data, 'rrrrrr')}
 			<Text style={styles.addImg}>Add Photo </Text>
 			<Image style={styles.img} source={{ uri: data }} />
 			<View style={styles.btnImg}>
 				<Button theme={theme} title="file" mode="contained" onPress={() => openImagePickerAsync()} />
 			</View>
 			<View style={styles.btn}>
-				<Button title="Continue" />
+				<Button title="Continue" onPress={()=>CreateUser()}/>
 			</View>
 		</View>
 	);

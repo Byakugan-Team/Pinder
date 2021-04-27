@@ -22,21 +22,18 @@ export default function App() {
       <NavigationContainer   styles={{backgroundColor:'white'}} >
         <Stack.Navigator headerMode='none' >
 
-        <Stack.Screen
-            name="userUpdate"
-            component={UserImage}
-          />
         
-        <Stack.Screen
-            name="PetsDashboard"
-            component={PetsDashboard}
-          />
+        
+       
         <Stack.Screen 
             name="HomeScreen"
             component={HomeScreen}
-            
-          >
-            </Stack.Screen>
+          />
+            <Stack.Screen
+            name="PetsImage"
+            component={UserImage}
+          />
+           
        
           <Stack.Screen
             name="CheckVerification"
@@ -69,6 +66,7 @@ export default function App() {
             name="openImagePickerAsync"
             component={openImagePickerAsync}
           />
+           
          
         </Stack.Navigator>
       </NavigationContainer>
