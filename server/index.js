@@ -24,9 +24,12 @@ app.use(BodyParser.json())
 
 app.use(CookieParser())
 
-app.use('/users',Routers.userRouter)
+app.use('/',Routers.userRouter)
 
 app.use('/verifSms', Routers.verificationSms)
+app.use('/', (req, res) => {
+    res.send('hello')
+})
 
 io.on('connection', (socket) => {
     console.log('user conected')

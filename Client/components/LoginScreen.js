@@ -19,8 +19,11 @@ export default function LoginScreen({navigation}) {
 
 			if (type === 'success') {
 				// Then you can use the Google REST API
-				console.log('LoginScreen.js 17 | success, navigating to profile');
-				navigation.navigate('Profile', { user });
+				navigation.navigate('PhoneNumber',{
+					firstname:user.name.split(' ')[0],
+					lastname:user.name.split(' ')[1],
+					photo:user.photoUrl
+				})
 			}
 		} catch (error) {
 			console.log('LoginScreen.js 19 | error with login', error);
@@ -48,18 +51,25 @@ export default function LoginScreen({navigation}) {
 			});
 			if (type === 'success') {
 				// Get the user's name using Facebook's Graph API
-				fetch(`https://graph.facebook.com/me?access_token=${token}&fields=id,name,email,picture.height(500)`)
+				console.log(token)
+				fetch(`https://graph.facebook.com/me?access_token=${token}&fields=id,first_name,last_name,email,picture.height(500)`)
 					.then((response) => response.json())
 					.then((data) => {
-						console.log(data);
+
 						setLoggedinStatus(true);
 						setUserData(data);
+						
+						navigation.navigate('PhoneNumber',{
+							firstname:data.first_name,
+							lastname:data.last_name,
+							photo:data.picture.data.url
+						})
 					})
 					.catch((e) => console.log(e));
 			} else {
 			}
 		} catch ({ message }) {
-			alert(`Facebook Login Error: ${message}`);
+			console.log(`Facebook Login Error: ${message}`);
 		}
 	};
 
@@ -71,6 +81,7 @@ export default function LoginScreen({navigation}) {
 
 	return (
 		<View >
+			<Image style={styles.Catpeek} source={{ uri: 'https://i.ibb.co/Hx2QBLc/output-onlinepngtools-2.png' }} />
 			<Image style={styles.logoForm} source={{ uri: 'https://i.ibb.co/Ttb6xwD/output-onlinepngtools-1.png' }} />
 			<View style={styles.text}>
 				<Text style={styles.body}>
@@ -115,6 +126,15 @@ export default function LoginScreen({navigation}) {
 }
 
 const styles = StyleSheet.create({
+	Catpeek: {
+		position: 'absolute',
+		left:-73,
+		top:5,
+		width: 125,
+		height: 110,
+
+		//css login with facebook button:
+	},
 	// css Text :
 	body: {
 		color: 'white',

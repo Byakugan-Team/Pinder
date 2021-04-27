@@ -1,6 +1,6 @@
 
 import React,{Component} from 'react';
-import { View,ScrollView,Text,StyleSheet,Image,Button,TouchableOpacity,TouchableHighlight } from 'react-native';
+import { View,ScrollView,Text,StyleSheet,Image,Button,TouchableOpacity,TextInput } from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import { StatusBar } from 'expo-status-bar';
 
@@ -27,10 +27,12 @@ export default class PetsDashboard extends Component   {
         </View>
        ) 
     }
-
+    
     changeView(){
         if(this.state.view == 'pets'){
             return this.PetsDashboardEmpty()
+        }else if(this.state.view == 'add'){
+            return this.AddPetScreen()
         }
     }
     render() {
@@ -41,7 +43,7 @@ export default class PetsDashboard extends Component   {
                     <Text style={styles.Elementoptitle}></Text>
                     <Text style={styles.ElementopSearch}>
  
-                        <MaterialCommunityIcons name="magnify" color={'#576574'} size={50} />
+                        <MaterialCommunityIcons name="magnify" color={'#576574'} size={40} />
                     </Text>
                     
                 </View>
@@ -59,7 +61,7 @@ export default class PetsDashboard extends Component   {
                     <Text style={styles.ElemenBottomText} >Remove</Text>
                 </TouchableOpacity>
                 </View>
-                <View>
+                <View >
                     {this.changeView()}
                     
                 </View>
@@ -67,9 +69,32 @@ export default class PetsDashboard extends Component   {
             </View>
         );
     }
-    
+    AddPetScreen(){
+        return(
+            <View >
+                 <Image style={styles.addPeetHeadImage} source={{ uri: 'https://sendeyo.com/up/d/b201d4eedc' }} />
+
+            </View>
+        )
+    }
 }
+
 var styles = StyleSheet.create({
+    addPeetHeadImage:{
+        height:200
+    },
+    AddPetinput: {
+        height: 30,
+        margin: 12,
+        borderWidth: 1,
+        backgroundColor:'white'
+      },
+    IputsRow:{
+        paddingBottom:10,
+        flexDirection:'row',
+        paddingLeft:-20,
+        paddingRight:20,
+    },
     emptytop:{
         marginTop:20,
         fontSize:22,
@@ -199,54 +224,54 @@ var styles = StyleSheet.create({
 });
 
 
-// <View style={styles.CardsRow}>
-//                         <View style={styles.card}>
-//                         <Image style={styles.photoCard} source={{ uri: 'https://i.ibb.co/drQ4yRW/dog.jpg' }} />
-//                             <View style={styles.rowInfoCar}>
-//                                 <Text style={styles.infocard}>Name : </Text>
-//                                 <Text style={styles.titleCard}> Jack</Text>
-//                             </View>
-//                             <View style={styles.rowInfoCar}>
-//                                 <Text style={styles.infocard}>Age : </Text>
-//                                 <Text style={styles.titleCard}> 5 months</Text>
-//                             </View>
-//                             <View style={styles.rowInfoCar}>
-//                                 <Text style={styles.infocard}>Gender : </Text>
-//                                 <Text style={styles.titleCard}> Male</Text>
-//                             </View>
-//                         </View>
-//                         <View style={styles.card}>
-//                         <Image style={styles.photoCard} source={{ uri: 'https://lafeber.com/pet-birds/wp-content/uploads/2020/04/gamaliel-troubleson-u9PsLITXMCQ-unsplash-e1587001975887-300x271.jpg' }} />
-//                             <View style={styles.rowInfoCar}>
-//                                 <Text style={styles.infocard}>Name : </Text>
-//                                 <Text style={styles.titleCard}> Tweety</Text>
-//                             </View>
-//                             <View style={styles.rowInfoCar}>
-//                                 <Text style={styles.infocard}>Age : </Text>
-//                                 <Text style={styles.titleCard}> 8 months</Text>
-//                             </View>
-//                             <View style={styles.rowInfoCar}>
-//                                 <Text style={styles.infocard}>Gender : </Text>
-//                                 <Text style={styles.titleCard}> Female</Text>
-//                             </View>
-//                         </View>
-//                     </View>
-//                     <View style={styles.CardsRow}>
-//                         <View style={styles.card}>
-//                         <Image style={styles.photoCard} source={{ uri: 'https://www.humanesociety.org/sites/default/files/styles/1240x698/public/2020-07/kitten-510651.jpg?h=f54c7448&itok=ZhplzyJ9' }} />
-//                             <View style={styles.rowInfoCar}>
-//                                 <Text style={styles.infocard}>Name : </Text>
-//                                 <Text style={styles.titleCard}> Kitty</Text>
-//                             </View>
-//                             <View style={styles.rowInfoCar}>
-//                                 <Text style={styles.infocard}>Age : </Text>
-//                                 <Text style={styles.titleCard}> 2 months</Text>
-//                             </View>
-//                             <View style={styles.rowInfoCar}>
-//                                 <Text style={styles.infocard}>Gender : </Text>
-//                                 <Text style={styles.titleCard}> Female</Text>
-//                             </View>
-//                         </View>
-                        
-//                     </View>
 
+{/* <View style={styles.CardsRow}>
+                        <View style={styles.card}>
+                        <Image style={styles.photoCard} source={{ uri: 'https://i.ibb.co/drQ4yRW/dog.jpg' }} />
+                            <View style={styles.rowInfoCar}>
+                                <Text style={styles.infocard}>Name : </Text>
+                                <Text style={styles.titleCard}> Jack</Text>
+                            </View>
+                            <View style={styles.rowInfoCar}>
+                                <Text style={styles.infocard}>Age : </Text>
+                                <Text style={styles.titleCard}> 5 months</Text>
+                            </View>
+                            <View style={styles.rowInfoCar}>
+                                <Text style={styles.infocard}>Gender : </Text>
+                                <Text style={styles.titleCard}> Male</Text>
+                            </View>
+                        </View>
+                        <View style={styles.card}>
+                        <Image style={styles.photoCard} source={{ uri: 'https://lafeber.com/pet-birds/wp-content/uploads/2020/04/gamaliel-troubleson-u9PsLITXMCQ-unsplash-e1587001975887-300x271.jpg' }} />
+                            <View style={styles.rowInfoCar}>
+                                <Text style={styles.infocard}>Name : </Text>
+                                <Text style={styles.titleCard}> Tweety</Text>
+                            </View>
+                            <View style={styles.rowInfoCar}>
+                                <Text style={styles.infocard}>Age : </Text>
+                                <Text style={styles.titleCard}> 8 months</Text>
+                            </View>
+                            <View style={styles.rowInfoCar}>
+                                <Text style={styles.infocard}>Gender : </Text>
+                                <Text style={styles.titleCard}> Female</Text>
+                            </View>
+                        </View>
+                    </View>
+                    <View style={styles.CardsRow}>
+                        <View style={styles.card}>
+                        <Image style={styles.photoCard} source={{ uri: 'https://www.humanesociety.org/sites/default/files/styles/1240x698/public/2020-07/kitten-510651.jpg?h=f54c7448&itok=ZhplzyJ9' }} />
+                            <View style={styles.rowInfoCar}>
+                                <Text style={styles.infocard}>Name : </Text>
+                                <Text style={styles.titleCard}> Kitty</Text>
+                            </View>
+                            <View style={styles.rowInfoCar}>
+                                <Text style={styles.infocard}>Age : </Text>
+                                <Text style={styles.titleCard}> 2 months</Text>
+                            </View>
+                            <View style={styles.rowInfoCar}>
+                                <Text style={styles.infocard}>Gender : </Text>
+                                <Text style={styles.titleCard}> Female</Text>
+                            </View>
+                        </View>
+                        
+                    </View> */}
