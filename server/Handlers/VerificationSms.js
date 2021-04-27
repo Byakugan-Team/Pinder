@@ -2,6 +2,9 @@ const client = require('twilio')(
     process.env.twilio_sid,
     process.env.twilio_Token
   );
+const controllers = require('../controllers')
+
+
 module.exports = {
 
     SendSms: (req, res)=> {
@@ -14,10 +17,10 @@ module.exports = {
             } 
             return code    
         }
-        console.log("req.body", req.body)
+        
         const code = RondomCode();
         const number = req.body.number;
-        console.log("number",number)
+        console.log(number)
         client.messages
           .create({
             from: '+14704104751',
@@ -25,12 +28,29 @@ module.exports = {
             body: code
           })
           .then(() => {
-            res.send(JSON.stringify({ success: true }));
+            controllers.smsverification.addToverif(number,code)
+            .then((result)=>{
+              res.send(JSON.stringify({ success: true }));
+            })
+            .catch((err)=>{
+              res.send(JSON.stringify({ success: false }));
+            })
+            
           })
           .catch(err => {
             console.log("err",err);
             res.send(JSON.stringify({ success: false }));
           });
+    },
+    verifySms:(req,res)=>{
+      console.log(req.body)
+          controllers.smsverification.verifyCode(req.body.number,req.body.code)
+          .then((result)=>{
+            res.status(200).send({ success: true })
+          })
+          .catch((err)=>{
+            res.status(200).send({ success: false })
+          })
     }
 
 }
