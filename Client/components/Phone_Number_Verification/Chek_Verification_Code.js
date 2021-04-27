@@ -1,21 +1,40 @@
 import React, { Component } from 'react'
 import { View, Text, StyleSheet } from 'react-native'
 import { KeycodeInput } from 'react-native-keycode'
-
+import axios from 'axios'
 
 export default class CheckVerification extends Component {
 
   state = {
     code: "",
+    
   };
 
   ResendSms() {
-  const number = "" //==> props.phone_number ==> props from component Chek_Phone_Number&Send_Code 
+  const number = "+216"+this.props.route.params.number //==> props.phone_number ==> props from component Chek_Phone_Number&Send_Code 
     axios.post("http://localhost:3000/verifSms/send", {number})
     .then(result =>{
       console.log(result);
     }).catch(err =>{console.log(err)})
-    console.log(number)
+  }
+  verifycode(value){
+    const number = "+216"+this.props.route.params.number //==> props.phone_number ==> props from component Chek_Phone_Number&Send_Code 
+    axios.post("http://localhost:3000/verifSms/verifyCode", {number,code:value})
+    .then(result =>{
+      console.log(result)
+      if(result.data == 'success'){
+        this.props.navigation.navigate('UselessTextInput',{
+          number:number
+        });
+      }else{
+        console.log('wrong code')
+        this.setState({code:''})
+      }
+    })
+    .catch(err =>{
+      console.log(err)
+    })
+    
   }
 
   render() {
@@ -41,11 +60,12 @@ export default class CheckVerification extends Component {
         </View>
         <KeycodeInput
           value={this.state.code}
+          length={6}
           onChange={(code) => {
             this.setState({ code: code });
           }}
           onComplete={(value) => {
-            setTimeout(()=>{ this.props.navigation.navigate('UselessTextInput'); }, 1500);
+            this.verifycode(value)
             
           }}
         />

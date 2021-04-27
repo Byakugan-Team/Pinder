@@ -21,19 +21,18 @@ export default function App() {
       <NavigationContainer   styles={{backgroundColor:'white'}} >
         <Stack.Navigator headerMode='none' >
 
-        <Stack.Screen
-            name="PetsImage"
-            component={UserImage}
-          />
+        
         
        
         <Stack.Screen 
             name="HomeScreen"
             component={HomeScreen}
-            
-          >
-            
-            </Stack.Screen>
+          />
+            <Stack.Screen
+            name="PetsImage"
+            component={UserImage}
+          />
+           
        
           <Stack.Screen
             name="CheckVerification"

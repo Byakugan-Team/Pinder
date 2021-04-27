@@ -2,7 +2,7 @@ import React, { useState, useContext } from 'react';
 import * as ImagePicker from 'expo-image-picker';
 import { StyleSheet, Text, View, Image, Button } from 'react-native';
 
-export default function Photo(props) {
+export default function Photo({navigation,route}) {
 	const [ localUri, setSelectedImage ] = useState('');
 	const [ data, setPhoto ] = useState('');
 
@@ -44,7 +44,7 @@ export default function Photo(props) {
 			})
 			.catch((err) => console.log(err));
 	};
-
+	console.log('first',route.params.firstname,' last',route.params.number)
 	return (
 		<View>
 			{console.log(data, 'rrrrrr')}
