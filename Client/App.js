@@ -11,6 +11,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import UserImage from './components/userInformations/UserImage';
 import UserUpdateInfo from './components/userInformations/UserUpdateInfo';
+import UpdatePetInfo from './components/UpdatePetInfo';
 
 const Stack = createStackNavigator();
 
