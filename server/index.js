@@ -26,7 +26,7 @@ app.use(CookieParser())
 
 app.use('/users/:id',Routers.userRouter)
 
-app.use('/pets/:id' ,Routers.petRouter)
+app.use('/pets/' ,Routers.petRouter)
 
 app.use('/verifSms', Routers.verificationSms)
 
