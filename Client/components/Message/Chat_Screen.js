@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import {StyleSheet, Text, View, Image, TextInput, FlatList, Dimensions, KeyboardAvoidingView, TouchableOpacity} from 'react-native';
+import {AsyncStorage, ScrollView, StyleSheet, Text, View, Image, TextInput, FlatList, Dimensions, KeyboardAvoidingView, TouchableOpacity} from 'react-native';
 const { width, height } = Dimensions.get('window');
 import {io} from "socket.io-client"
-
+import server_IP from '../../config/Server_IP'
 
 export default class Chat extends Component {
 
@@ -12,39 +12,29 @@ export default class Chat extends Component {
 
     this.state = {
       msg: '',
-      messages: [{id:1, sent: true,  msg: 'Lorem ipsum dolor',   image:'https://randomuser.me/api/portraits/men/38.jpg'},
-      {id:2, sent: true,  msg: 'sit amet, consectetuer',   image:'https://randomuser.me/api/portraits/men/38.jpg'},
-      {id:3, sent: false, msg: 'adipiscing elit. Aenean ', image:'https://randomuser.me/api/portraits/women/92.jpg'},
-      {id:4, sent: true,  msg: 'commodo ligula eget dolor.',   image:'https://randomuser.me/api/portraits/men/38.jpg'},
-      {id:5, sent: false, msg: 'Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes', image:'https://randomuser.me/api/portraits/women/92.jpg'},
-      {id:6, sent: true,  msg: 'nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo',   image:'https://randomuser.me/api/portraits/men/38.jpg'},
-      {id:7, sent: false, msg: 'rhoncus ut, imperdiet', image:'https://randomuser.me/api/portraits/women/92.jpg'},
-      {id:8, sent: false, msg: 'a, venenatis vitae', image:'https://randomuser.me/api/portraits/women/92.jpg'},], //=> Fake Data
+      messages: [],
+      MyUser: {},
+      Myfriend: {},
+      scrollViewmessages:{}
     };
 
     this.send = this.send.bind(this);
-    this.reply = this.reply.bind(this);
     this.renderItem   = this._renderItem.bind(this);
 
-  }
+  };
 
-  reply() {
-    var messages = this.state.messages;
-    messages.push({
-      id:Math.floor((Math.random() * 100) + 1),
-      name:"Bent Sawaf",
-      sent: false,
-      msg: this.state.msg,
-      image:'https://randomuser.me/api/portraits/women/92.jpg'
-    });
-    this.setState({msg:'', messages:messages});
-  }
 
   send() {
     if (this.state.msg.length > 0) {
-      this.socket.emit('chat_message.send',{msg:this.state.msg,id:this.id})
+      this.socket.emit("chat_message.send", {
+        msg: this.state.msg,
+        senderid: this.state.MyUser.id,
+        receiverID: this.state.Myfriend.id,
+      });
+      this.setState({ msg: "" });
     }
-  }
+  };
+
 
   _renderItem = ({item}) => {
     if (item.sent === false) {
@@ -68,28 +58,115 @@ export default class Chat extends Component {
     }
   };
 
-  componentDidMount(){
-    this.id=Math.floor((Math.random() * 100) + 1)
-    this.socket = io("http://127.0.0.1:3000");
+
+  _logIn = async () => {
+    try {
+      const token = await AsyncStorage.getItem('Pinder_token');
+      if (token !== null) {
+        fetch(`http://${server_IP}:3000/users/logIn`,{
+        body: JSON.stringify({token}),
+        headers: {'content-type': 'application/json'},
+        method: 'POST',
+    }).then(async (result)=> {
+        result = await result.json();
+        if(result.success){
+            this.setState({MyUser: result.user});
+            this.Friend_Info()}
+    }).catch((err) => console.log('err',err));
+      }
+    } catch (error) { console.log(error) }
+  };
+
+
+  Friend_Info(){
+    if(this.state.MyUser.id == 5){
+      var id = 7
+    }else{
+      var id = 5 //=> The id is hardcoded to try the functionality, then it will be the props.id which will come through the Chat_List screen.
+    }
+    fetch(`http://${server_IP}:3000/users/${id}`,{
+      headers: { 'content-type': 'application/json' },
+      method: 'GET',
+  }).then(async (result)=>{
+      result = await result.json();
+      if(result.success){
+          this.setState({Myfriend: result.user})
+          this.GetMessages()};
+  }).catch((e) => console.log(e));
+  };
+
+
+  GetMessages(){
+    const userId = this.state.MyUser.id;
+    const friendId =this.state.Myfriend.id;
+    fetch(`http://${server_IP}:3000/messages/Getmesssage`,{
+      body:JSON.stringify({myid: userId, friendid: friendId}),
+      headers: { 'content-type': 'application/json' },
+      method: 'POST',
+  }).then(async (result)=>{
+    result = await result.json();
+    console.log(result)
+    var messagesAll = []
+    for(var i =0 ; i<result.length;i++){
+        var element = result[i]
+          if(element.sender_id == this.state.MyUser.id){
+        var message =   {
+              id:this.state.MyUser.id,
+              name:this.state.MyUser.first + ' ' + this.state.MyUser.last,
+              sent: true,
+              msg: element.message,
+              image:this.state.MyUser.photo
+            
+          }
+        }else{
+          var message =   {
+            id:this.state.Myfriend.id,
+            name:this.state.Myfriend.first + ' ' + this.state.Myfriend.last,
+            sent: false,
+            msg: element.message,
+            image:this.state.Myfriend.photo
+          
+        }
+        }
+        messagesAll.push(message)
+    };
+    
+    this.setState({messages:messagesAll})
+    this.socketioConnection()
+    this.state.scrollViewmessages.scrollToEnd({ animated: true }); 
+})
+.catch((e) => console.log(e));
+  }
+  socketioConnection(){
+    var roomId = Math.max(this.state.MyUser.id,this.state.Myfriend.id).toString() + Math.min(this.state.MyUser.id,this.state.Myfriend.id).toString()
+    this.socket = io("http://"+server_IP+":3000",{query: `roomId=${roomId}`});
+
     this.socket.on("chat_new_message", ({msg,id}) => {
-      if(id == this.id){
+      if(id == this.state.MyUser.id){
         var bool = true;
-        var name = "Bent Sawaf"
-        var img ='https://randomuser.me/api/portraits/women/92.jpg'
+        var name = this.state.MyUser.first + ' ' + this.state.MyUser.last
+        var img = this.state.MyUser.photo
       }else{
         var bool =false
-        var name = "el 3atif"
-        var img = 'https://randomuser.me/api/portraits/men/38.jpg'
+        var name = this.state.Myfriend.first + ' ' + this.state.Myfriend.last
+        var img = this.state.Myfriend.photo
       }
           this.setState({ messages: [...this.state.messages, {
-            id:this.id,
+            id:id,
             name:name,
             sent: bool,
             msg: msg,
             image:img
-          }]   
+          }]
+          
      });
+     this.state.scrollViewmessages.scrollToEnd({ animated: true }); 
   });
+  }
+  componentDidMount(){
+    this._logIn()
+    
+   
 
   }
 
@@ -103,28 +180,34 @@ export default class Chat extends Component {
             style={styles.backIcon}
           />
           <Image
-            source={{ uri: "https://randomuser.me/api/portraits/women/92.jpg" }}
+            source={{ uri: this.state.Myfriend.photo }}
             style={styles.headerPic}
           />
-          <Text style={styles.headerName}>Bent Sawaf</Text>
+          <Text style={styles.headerName}>{this.state.Myfriend.first + ' ' + this.state.Myfriend.last}</Text>
         </View>
-
         <KeyboardAvoidingView style={styles.keyboard}>
+        <ScrollView
+  ref={(view) => {
+    this.setState({scrollViewmessages:view})
+  }}
+>
           <FlatList
             style={styles.list}
             extraData={this.state}
             data={this.state.messages}
             keyExtractor={(item) => {
-              return item.id;
+              return Math.random().toString();
             }}
             renderItem={this.renderItem}
           />
+          </ScrollView>
           <View style={styles.footer}>
             <View style={styles.inputContainer}>
               <TextInput
                 style={styles.inputs}
                 placeholder="Write a message..."
                 underlineColorAndroid="transparent"
+                value={this.state.msg}
                 onChangeText={(msg) => this.setState({ msg })}
               />
             </View>
@@ -155,10 +238,10 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
   },
-  // image: {
-  //   width,
-  //   height,
-  // },
+  image: {
+    width,
+    height,
+  },
   header: {
     height: 65,
     flexDirection: 'row',

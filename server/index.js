@@ -3,14 +3,16 @@ const BodyParser = require('body-parser')
 const CookieParser = require('cookie-parser')
 const cors = require('cors')
 const app = express()
+const controllers = require('./controllers/index')
 
 const http = require('http');
 const server = http.createServer(app);
 const { Server } = require("socket.io")
 const io = new Server(server,{
     cors: {
-        origin: "http://localhost:3000",
-        methods: ["GET", "POST"]
+        origin: "*",
+        methods: ["GET", "POST"],
+        transport : ['websocket']
   }
 });
 
@@ -25,11 +27,8 @@ app.use(BodyParser.json())
 app.use(CookieParser())
 
 app.use('/',Routers.userRouter)
-
+app.use('/messages', Routers.chat_messages)
 app.use('/verifSms', Routers.verificationSms)
-app.use('/', (req, res) => {
-    res.send('helli')
-})
 
 process.on('uncaughtException', (err) =>console.log('hey',err)
 )
@@ -44,10 +43,15 @@ app.on('error',(err)=>{
 })
 
 io.on('connection', (socket) => {
-    console.log('user conected')
-    socket.on('chat_message.send', ({msg,id}) => {
+    console.log('user conected', socket.handshake.query.roomId)
+    socket.join(socket.handshake.query.roomId);
+    socket.on('chat_message.send', ({msg,senderid,receiverID}) => {
+        
+        
+        controllers.chat_messages.AddMessage(senderid,receiverID,msg)
         console.log('message: ' + msg);
-        io.emit('chat_new_message',{msg,id})
+        var id = senderid
+        io.to(socket.handshake.query.roomId).emit('chat_new_message',{msg,id})
       });
   });
 

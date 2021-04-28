@@ -6,7 +6,7 @@ const Authenication = require('../lib/authentication')
 router.post('/users',UserHandlers.CreateUser)
 router.post('/users/registred',Authenication.IsRegistred)
 router.post('/users/logIn',Authenication.LogIn)
-router.get('/api/user',UserHandlers.GetallUsere)
+router.get('/users/:id',UserHandlers.GetUser)
 router.patch('/api/user/:id', UserHandlers.updateUser)
 
 
