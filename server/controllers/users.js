@@ -9,6 +9,8 @@ module.exports={
                 })
         })
     },
+    
+    
     CreateUser : (user) => {
         return new Promise ((resolve,reject) => {
             connection.query(`INSERT INTO users (phone_num,e_mail,first,last,biography,photo) VALUES (?,?,?,?,?,?) `, 
