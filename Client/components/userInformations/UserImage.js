@@ -1,10 +1,22 @@
 import React, { useState, useContext } from 'react';
 import * as ImagePicker from 'expo-image-picker';
 import { StyleSheet, Text, View, Image, Button, Platform } from 'react-native';
+import server_IP from '../../config/Server_IP'
 
 export default function Photo({navigation,route}) {
 	const [ localUri, setSelectedImage ] = useState('');
 	const [ data, setPhoto ] = useState((route.params.photo) ? route.params.photo : '');
+
+	const _storeData = async (token) => {
+		try {
+		  await AsyncStorage.setItem(
+			'Pinder_token',
+			token
+		  );
+		} catch (error) {
+		  console.log(error)
+		}
+	  };
 
 	const openImagePickerAsync = async () => {
 		let permissionResult = await ImagePicker.requestCameraRollPermissionsAsync();
@@ -51,12 +63,30 @@ export default function Photo({navigation,route}) {
 			.catch((err) => console.log(err));
 	};
 	const CreateUser = ()=>{
-		var UserData = {
+		var user = {
 			firstname:route.params.firstname,
 			lastname:route.params.lastnmae,
 			number:route.params.number,
+			email:route.params.email,
 			photo:data
 		}
+		fetch('http://'+server_IP+':3000/users', {
+			body: JSON.stringify(user),
+			headers: {
+				'content-type': 'application/json'
+			},
+			method: 'POST'
+		})
+			.then(async (r) => {
+				let data = await r.json();
+				console.log(data)
+				if(data.registred){
+					_storeData(data.token)
+				navigation.navigate('PetsDashboard')
+				}
+			})
+			.catch((err) => console.log(err));
+		
 	}
 	
 	return (
