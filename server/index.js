@@ -37,6 +37,12 @@ app.on('error',(err)=>{
     console.log(err)
 })
 
+process.on('uncaughtException', (err) =>console.log('hey',err)
+)
+app.on('error',(err)=>{
+    console.log(err)
+})
+
 io.on('connection', (socket) => {
     console.log('user conected')
     socket.on('chat_message.send', ({msg,id}) => {
