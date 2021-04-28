@@ -2,6 +2,7 @@ import React, { useState, useContext } from 'react';
 import { View, StyleSheet, TextInput, Text, Button, Platform } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import axios from 'axios';
+import server_IP from '../../config/Server_IP'
 // import { updateUser } from '../../../server/controllers/users'
 
 const UserUpdateInfo = ({ navigation }) => {
@@ -67,7 +68,7 @@ const UserUpdateInfo = ({ navigation }) => {
 	const updateUser = (id) => {
 		console.log(userDetails, 'hello')
 		// id =1
-		 axios.patch('http://localhost:3000/users/' + id, 	{
+		 axios.patch(`http://${server_IP}:3000/users/`+ id, 	{
 			e_mail:e_mail,
 			first:first,
 			last:last,
