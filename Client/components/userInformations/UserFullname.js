@@ -1,23 +1,29 @@
 import React from 'react';
 import { View, StyleSheet, TextInput, Text, Button } from 'react-native';
 
-const UselessTextInput = ({navigation}) => {
-	const [ text, onChangeText ] = React.useState();
-	const [ number, onChangeNumber ] = React.useState();
-
+const UselessTextInput = ({navigation,route}) => {
+	const [ firstname, onChangefirstname ] = React.useState((route.params.firstname)?route.params.firstname :'');
+	const [ lastnmae, onChangelastname ] = React.useState((route.params.lastname)?route.params.lastname :'');
+	
 	return (
 		<View style={{textAlign:'center'}}>
 			<Text style={styles.fullName}>My FullName is </Text>
 			<View style={styles.container}>
-				<TextInput style={styles.input} onChangeText={onChangeText} value={text} placeholder="First Name" />
-				<TextInput style={styles.input} onChangeText={onChangeNumber} value={number} placeholder="Last Name" />
+				<TextInput style={styles.input} onChangeText={onChangefirstname} value={firstname} placeholder="First Name" />
+				<TextInput style={styles.input} onChangeText={onChangelastname} value={lastnmae} placeholder="Last Name" />
 				<View style={styles.texty}>
 					<Text>This is how you will appear in Pinder and you will </Text>
 					<Text>not be able to change it </Text>
 				</View>
 			</View>
 			<View style={styles.butt}>
-				<Button title="Continue" onPress={()=> navigation.navigate('PetsDashboard')}/>
+				<Button title="Continue" onPress={()=> navigation.navigate('UserImage',{
+					firstname,
+					lastnmae,
+					photo:route.params.photo,
+					email:route.params.email,
+					number:route.params.number 
+				})}/>
 			</View>
 		</View>
 	);

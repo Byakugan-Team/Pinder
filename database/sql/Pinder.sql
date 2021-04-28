@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: db
--- Generation Time: Apr 26, 2021 at 08:57 PM
+-- Generation Time: Apr 28, 2021 at 01:54 AM
 -- Server version: 10.4.11-MariaDB-1:10.4.11+maria~bionic
 -- PHP Version: 7.4.16
 
@@ -20,6 +20,8 @@ SET time_zone = "+00:00";
 --
 -- Database: `Pinder`
 --
+CREATE DATABASE IF NOT EXISTS `Pinder` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
+USE `Pinder`;
 
 -- --------------------------------------------------------
 
@@ -32,7 +34,8 @@ CREATE TABLE `pets` (
   `user_id` int(11) DEFAULT NULL,
   `nickname` varchar(50) NOT NULL,
   `gendre` varchar(50) NOT NULL,
-  `birth` date DEFAULT NULL
+  `birth` date DEFAULT NULL,
+  `category` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -50,12 +53,25 @@ CREATE TABLE `pets_pictures` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `sessions`
+--
+
+CREATE TABLE `sessions` (
+  `id` int(11) NOT NULL,
+  `id_user` int(11) NOT NULL,
+  `token` varchar(255) NOT NULL,
+  `create_At` datetime NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `users`
 --
 
 CREATE TABLE `users` (
   `id` int(11) NOT NULL,
-  `phone_num` int(11) NOT NULL,
+  `phone_num` varchar(20) NOT NULL,
   `e_mail` varchar(50) DEFAULT NULL,
   `first` varchar(50) NOT NULL,
   `last` varchar(50) DEFAULT NULL,
@@ -63,6 +79,25 @@ CREATE TABLE `users` (
   `creatAt` datetime DEFAULT current_timestamp(),
   `photo` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `verification_sms`
+--
+
+CREATE TABLE `verification_sms` (
+  `id` int(11) NOT NULL,
+  `number` varchar(14) NOT NULL,
+  `code` varchar(6) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`id`, `phone_num`, `e_mail`, `first`, `last`, `biography`, `creatAt`, `photo`) VALUES
+(1, 22700641, 'fffff@gmail.com', 'ddddddddddddddd', 'guelmami', 'im a footballer', '0000-00-00 00:00:00', 'https://images.unsplash.com/photo-1554080353-a576cf803bda?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8cGhvdG98ZW58MHx8MHx8&ixlib=rb-1.2.1&w=1000&q=80');
 
 --
 -- Indexes for dumped tables
@@ -83,9 +118,23 @@ ALTER TABLE `pets_pictures`
   ADD KEY `pet_id` (`pet_id`);
 
 --
+-- Indexes for table `sessions`
+--
+ALTER TABLE `sessions`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `phone_num` (`phone_num`),
+  ADD UNIQUE KEY `e_mail` (`e_mail`);
+
+--
+-- Indexes for table `verification_sms`
+--
+ALTER TABLE `verification_sms`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -105,10 +154,22 @@ ALTER TABLE `pets_pictures`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `sessions`
+--
+ALTER TABLE `sessions`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+
+--
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT for table `verification_sms`
+--
+ALTER TABLE `verification_sms`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
 -- Constraints for dumped tables
