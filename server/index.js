@@ -24,18 +24,16 @@ app.use(BodyParser.json())
 
 app.use(CookieParser())
 
-app.use('/',Routers.userRouter)
+app.use('/users/:id',Routers.userRouter)
+
+app.use('/pets/:id' ,Routers.petRouter)
 
 app.use('/verifSms', Routers.verificationSms)
+
 app.use('/', (req, res) => {
     res.send('helli')
 })
 
-process.on('uncaughtException', (err) =>console.log('hey',err)
-)
-app.on('error',(err)=>{
-    console.log(err)
-})
 
 process.on('uncaughtException', (err) =>console.log('hey',err)
 )
