@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, Text, StyleSheet } from 'react-native'
+import { View, Text, StyleSheet,AsyncStorage } from 'react-native'
 import { KeycodeInput } from 'react-native-keycode'
 import {MyText} from '../Tag_Modules/MyText'
 
@@ -12,7 +12,16 @@ export default class CheckVerification extends Component {
     code: "",
     
   };
-
+   _storeData = async (token) => {
+		try {
+		  await AsyncStorage.setItem(
+			'Pinder_token',
+			token
+		  );
+		} catch (error) {
+		  console.log(error)
+		}
+	  };
   ResendSms() {
   const number = "+216"+this.props.route.params.number //==> props.phone_number ==> props from component Chek_Phone_Number&Send_Code 
   fetch("http://"+server_IP+":3000/verifSms/send",{
@@ -40,12 +49,33 @@ export default class CheckVerification extends Component {
     .then( async result =>{
       var result = await result.json()
       if(result.success == true){
-        this.props.navigation.navigate('UselessTextInput',{
-          firstname:this.props.route.params.firstname,
-          lastname:this.props.route.params.lastname,
-          photo:this.props.route.params.photo,
-          number:number
-        });
+        fetch(`http://${server_IP}:3000/users/registred`,{
+							body: JSON.stringify({email:'',phone:number}),
+							headers: {
+								'content-type': 'application/json'
+							},
+							method: 'POST'
+						})
+						.then(async (result)=>{
+							result = await result.json();
+							console.log(result)
+							if(result.registred){
+                this._storeData(result.token)
+								console.log('loged in')
+                this.props.navigation.navigate('PetsDashboard')
+							}else{
+                this.props.navigation.navigate('UselessTextInput',{
+                  firstname:this.props.route.params.firstname,
+                  lastname:this.props.route.params.lastname,
+                  photo:this.props.route.params.photo,
+                  email:this.props.route.params.email,
+                  number:number
+                });
+							}
+							
+						})
+						.catch((e) => console.log(e));
+       
       }else{
         console.log('wrong code')
         this.setState({code:''})

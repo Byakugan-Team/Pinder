@@ -4,7 +4,6 @@ import { View, StyleSheet, TextInput, Text, Button } from 'react-native';
 const UselessTextInput = ({navigation,route}) => {
 	const [ firstname, onChangefirstname ] = React.useState((route.params.firstname)?route.params.firstname :'');
 	const [ lastnmae, onChangelastname ] = React.useState((route.params.lastname)?route.params.lastname :'');
-
 	
 	return (
 		<View style={{textAlign:'center'}}>
@@ -18,10 +17,11 @@ const UselessTextInput = ({navigation,route}) => {
 				</View>
 			</View>
 			<View style={styles.butt}>
-				<Button title="Continue" onPress={()=> navigation.navigate('PetsImage',{
+				<Button title="Continue" onPress={()=> navigation.navigate('UserImage',{
 					firstname,
 					lastnmae,
 					photo:route.params.photo,
+					email:route.params.email,
 					number:route.params.number 
 				})}/>
 			</View>
