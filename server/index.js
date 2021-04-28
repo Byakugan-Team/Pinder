@@ -28,15 +28,15 @@ app.use(CookieParser())
 
 app.use('/',Routers.userRouter)
 app.use('/messages', Routers.chat_messages)
+
+app.use('/users',Routers.userRouter)
+
+app.use('/pets' ,Routers.petRouter)
+
 app.use('/verifSms', Routers.verificationSms)
 
-process.on('uncaughtException', (err) =>console.log('hey',err)
-)
-app.on('error',(err)=>{
-    console.log(err)
-})
 
-process.on('uncaughtException', (err) =>console.log('hey',err)
+process.on('uncaughtException', (err) =>console.log('err',err)
 )
 app.on('error',(err)=>{
     console.log(err)
