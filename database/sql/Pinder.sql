@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: db
--- Generation Time: Apr 27, 2021 at 01:23 PM
+-- Generation Time: Apr 28, 2021 at 01:54 AM
 -- Server version: 10.4.11-MariaDB-1:10.4.11+maria~bionic
 -- PHP Version: 7.4.16
 
@@ -52,12 +52,25 @@ CREATE TABLE `pets_pictures` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `sessions`
+--
+
+CREATE TABLE `sessions` (
+  `id` int(11) NOT NULL,
+  `id_user` int(11) NOT NULL,
+  `token` varchar(255) NOT NULL,
+  `create_At` datetime NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `users`
 --
 
 CREATE TABLE `users` (
   `id` int(11) NOT NULL,
-  `phone_num` int(11) NOT NULL,
+  `phone_num` varchar(20) NOT NULL,
   `e_mail` varchar(50) DEFAULT NULL,
   `first` varchar(50) NOT NULL,
   `last` varchar(50) DEFAULT NULL,
@@ -79,12 +92,6 @@ CREATE TABLE `verification_sms` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `verification_sms`
---
-
-
-
---
 -- Indexes for dumped tables
 --
 
@@ -103,10 +110,18 @@ ALTER TABLE `pets_pictures`
   ADD KEY `pet_id` (`pet_id`);
 
 --
+-- Indexes for table `sessions`
+--
+ALTER TABLE `sessions`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `phone_num` (`phone_num`),
+  ADD UNIQUE KEY `e_mail` (`e_mail`);
 
 --
 -- Indexes for table `verification_sms`
@@ -131,16 +146,22 @@ ALTER TABLE `pets_pictures`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `sessions`
+--
+ALTER TABLE `sessions`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+
+--
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `verification_sms`
 --
 ALTER TABLE `verification_sms`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
 -- Constraints for dumped tables
