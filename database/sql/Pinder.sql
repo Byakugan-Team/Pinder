@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: db
--- Generation Time: Apr 26, 2021 at 08:57 PM
+-- Generation Time: Apr 27, 2021 at 01:23 PM
 -- Server version: 10.4.11-MariaDB-1:10.4.11+maria~bionic
 -- PHP Version: 7.4.16
 
@@ -20,6 +20,8 @@ SET time_zone = "+00:00";
 --
 -- Database: `Pinder`
 --
+CREATE DATABASE IF NOT EXISTS `Pinder` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
+USE `Pinder`;
 
 -- --------------------------------------------------------
 
@@ -64,6 +66,24 @@ CREATE TABLE `users` (
   `photo` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `verification_sms`
+--
+
+CREATE TABLE `verification_sms` (
+  `id` int(11) NOT NULL,
+  `number` varchar(14) NOT NULL,
+  `code` varchar(6) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `verification_sms`
+--
+
+
+
 --
 -- Indexes for dumped tables
 --
@@ -89,6 +109,12 @@ ALTER TABLE `users`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `verification_sms`
+--
+ALTER TABLE `verification_sms`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -109,6 +135,12 @@ ALTER TABLE `pets_pictures`
 --
 ALTER TABLE `users`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `verification_sms`
+--
+ALTER TABLE `verification_sms`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 
 --
 -- Constraints for dumped tables
