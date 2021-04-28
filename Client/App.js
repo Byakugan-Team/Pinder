@@ -23,21 +23,18 @@ export default function App() {
       <NavigationContainer   styles={{backgroundColor:'white'}} >
         <Stack.Navigator headerMode='none' >
 
-        <Stack.Screen
-            name="petUpdate"
-            component={UpdatePetInfo}
-          />
         
-        <Stack.Screen
-            name="PetsDashboard"
-            component={PetsDashboard}
-          />
+        
+       
         <Stack.Screen 
             name="HomeScreen"
             component={HomeScreen}
-            
-          >
-            </Stack.Screen>
+          />
+            <Stack.Screen
+            name="UserImage"
+            component={UserImage}
+          />
+           
        
           <Stack.Screen
             name="CheckVerification"
@@ -70,23 +67,26 @@ export default function App() {
             name="openImagePickerAsync"
             component={openImagePickerAsync}
           />
-         
+         <Stack.Screen
+            name="PetsDashboard"
+            component={PetsDashboard}
+          />
         </Stack.Navigator>
       </NavigationContainer>
 
   );
 }
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#22afc3'
-  },
+  // container: {
+  //   flex: 1,
+  //   backgroundColor: '#fff',
+  //   alignItems: 'center',
+  //   justifyContent: 'center',
+  //   flex: 1,
+  //   backgroundColor: '#fff',
+  //   alignItems: 'center',
+  //   justifyContent: 'center',
+    // backgroundColor: '#22afc3'
+  // },
 });
 
