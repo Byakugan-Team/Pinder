@@ -28,10 +28,10 @@ export default class PhoneNumber extends Component {
     .then(result =>{
       console.log('res',result);
     }).catch(err =>{console.log(err)})
-    console.log('err',number)
   }
           
   render() {
+    
     return (
       <ScrollView style={styles.container}>
         <TextField
@@ -55,6 +55,7 @@ export default class PhoneNumber extends Component {
                   firstname:( this.props.route.params && this.props.route.params.firstname) ? this.props.route.params.firstname :'',
                   lastname:( this.props.route.params && this.props.route.params.lastname) ? this.props.route.params.lastname :'',
                   photo:( this.props.route.params && this.props.route.params.photo) ? this.props.route.params.photo :'',
+                  email:( this.props.route.params && this.props.route.params.email) ? this.props.route.params.email :'',
                   number:this.state.phone_number
                 })
               }}

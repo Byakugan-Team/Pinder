@@ -30,7 +30,7 @@ export default function App() {
             component={HomeScreen}
           />
             <Stack.Screen
-            name="PetsImage"
+            name="UserImage"
             component={UserImage}
           />
            
