@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
-import { View, Text, StyleSheet } from 'react-native'
+import { View, Text, StyleSheet,AsyncStorage } from 'react-native'
 import { KeycodeInput } from 'react-native-keycode'
+import {MyText} from '../Tag_Modules/MyText'
+
 import server_IP from '../../config/Server_IP'
 import axios from 'axios'
 
@@ -10,7 +12,16 @@ export default class CheckVerification extends Component {
     code: "",
     
   };
-
+   _storeData = async (token) => {
+		try {
+		  await AsyncStorage.setItem(
+			'Pinder_token',
+			token
+		  );
+		} catch (error) {
+		  console.log(error)
+		}
+	  };
   ResendSms() {
   const number = "+216"+this.props.route.params.number //==> props.phone_number ==> props from component Chek_Phone_Number&Send_Code 
   fetch("http://"+server_IP+":3000/verifSms/send",{
@@ -24,6 +35,8 @@ export default class CheckVerification extends Component {
       console.log(result);
     }).catch(err =>{console.log(err)})
   }
+
+  
   verifycode(value){
     const number = "+216"+this.props.route.params.number //==> props.phone_number ==> props from component Chek_Phone_Number&Send_Code 
     fetch("http://"+server_IP+":3000/verifSms/verifyCode",{
@@ -36,12 +49,33 @@ export default class CheckVerification extends Component {
     .then( async result =>{
       var result = await result.json()
       if(result.success == true){
-        this.props.navigation.navigate('UselessTextInput',{
-          firstname:this.props.route.params.firstname,
-          lastname:this.props.route.params.lastname,
-          photo:this.props.route.params.photo,
-          number:number
-        });
+        fetch(`http://${server_IP}:3000/users/registred`,{
+							body: JSON.stringify({email:'',phone:number}),
+							headers: {
+								'content-type': 'application/json'
+							},
+							method: 'POST'
+						})
+						.then(async (result)=>{
+							result = await result.json();
+							console.log(result)
+							if(result.registred){
+                this._storeData(result.token)
+								console.log('loged in')
+                this.props.navigation.navigate('PetsDashboard')
+							}else{
+                this.props.navigation.navigate('UselessTextInput',{
+                  firstname:this.props.route.params.firstname,
+                  lastname:this.props.route.params.lastname,
+                  photo:this.props.route.params.photo,
+                  email:this.props.route.params.email,
+                  number:number
+                });
+							}
+							
+						})
+						.catch((e) => console.log(e));
+       
       }else{
         console.log('wrong code')
         this.setState({code:''})
@@ -57,23 +91,25 @@ export default class CheckVerification extends Component {
     return (
       <View style={styles.container}>
         <View style={{ marginLeft: -20, marginBottom: 20 }}>
-          <Text style={{ color: "#505050", fontSize: 35, marginBottom: 10 }}>
+          <MyText style={{ color: "#505050", fontSize: 35, marginBottom: 10}}>
             Enter Your Code
-          </Text>
+          </MyText>
           <View>
-            <Text style={styles.textNum}> 
+            <MyText style={styles.textNum}> 
               +216{this.props.route.params.number}
-              <Text
+              <MyText
                 style={styles.textResend}
                 onPress={() => console.log("RESEND")} //=> ResendSms()
               >
                 {"   "}
                 RESEND
-              </Text>
-            </Text>
+              </MyText>
+            </MyText>
           </View>
         </View>
         <KeycodeInput
+          length={6}
+          numeric={true}
           value={this.state.code}
           length={6}
           numeric
@@ -97,9 +133,9 @@ const styles = StyleSheet.create({
     },
     textNum: {
       color: "#909090",
-      fontSize: 18
+      fontSize: 18, 
     },
     textResend: {
-      color: "#BBBBBB",
+      color: "#CCCCCC",
     },
 });

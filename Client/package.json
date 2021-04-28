@@ -24,6 +24,7 @@
     "expo-image-picker": "~10.1.4",
     "expo-module-scripts": "^2.0.0",
     "expo-status-bar": "~1.0.4",
+    "express": "^4.17.1",
     "link": "^0.1.5",
     "react": "16.13.1",
     "react-dom": "16.13.1",
@@ -41,7 +42,9 @@
     "react-native-social-buttons": "^1.2.0",
     "react-native-svg": "12.1.0",
     "react-native-vector-icons": "^8.1.0",
-    "react-native-web": "~0.13.12"
+    "react-native-web": "~0.13.12",
+    "socket.io": "^4.0.1",
+    "socket.io-client": "^4.0.1"
   },
   "devDependencies": {
     "@babel/core": "~7.9.0"
