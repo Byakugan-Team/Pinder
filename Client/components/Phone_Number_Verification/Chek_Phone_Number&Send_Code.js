@@ -28,7 +28,6 @@ export default class PhoneNumber extends Component {
     .then(result =>{
       console.log('res',result);
     }).catch(err =>{console.log(err)})
-    console.log('err',number)
   }
           
   render() {
