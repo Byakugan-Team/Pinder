@@ -34,11 +34,6 @@ app.use('/', (req, res) => {
     res.send('helli')
 })
 
-process.on('uncaughtException', (err) =>console.log('hey',err)
-)
-app.on('error',(err)=>{
-    console.log(err)
-})
 
 process.on('uncaughtException', (err) =>console.log('hey',err)
 )
