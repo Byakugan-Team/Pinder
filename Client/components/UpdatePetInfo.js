@@ -2,6 +2,9 @@ import React, { useState, useContext } from 'react';
 import { View, StyleSheet, TextInput, Text, Button, Platform } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import axios from 'axios';
+import DatePicker from 'react-native-datepicker';
+import { RadioButton} from 'react-native-paper';
+
 // import { updateUser } from '../../../server/controllers/users'
 
 const UpdatePetInfo = ({ navigation }) => {
@@ -9,7 +12,9 @@ const UpdatePetInfo = ({ navigation }) => {
 	const [ gendre, setGendre ] = useState('');
 	const [ birth, setBirth ] = useState('');
 	const [ category, setCategory ] = useState('');
-	// const [ image, setImage ] = useState('');
+    const [male , setMale] = useState('');
+    // const [female, setFemale] = useState('')
+	
 
 	const petDetails = {
         nickname:  nickname,
@@ -51,12 +56,49 @@ const UpdatePetInfo = ({ navigation }) => {
 			<Text style={styles.fullName}>Update Pet profile </Text>
 			<View style={styles.container}>
 				<TextInput style={styles.input} onChangeText={setNickname} value={nickname} placeholder="nickname" />
-				<TextInput style={styles.input} onChangeText={setGendre} value={gendre} placeholder="gendre" />
-				<TextInput style={styles.input} onChangeText={setBirth} value={birth} placeholder="Last Name" />
+				{/* <TextInput style={styles.input} onChangeText={setGendre} value={gendre} placeholder="gendre" /> */}
+                <RadioButton.Group
+        //   onValueChange={value1 => this.setState({ value1  })}
+        //   value={this.state.value1}
+        >
+          <View>
+            <Text>Male</Text>
+            <RadioButton value="Male" />
+          </View>
+          <View>
+            <Text>Female</Text>
+            <RadioButton value="Female" />
+          </View>
+        </RadioButton.Group>
+               
+        <DatePicker
+          style={styles.datePickerStyle}
+          onDateChange={setBirth} value={birth}
+        //   date={date} //initial date from state
+          mode="date" //The enum of date, datetime and time
+          placeholder="28/04/2021"
+          format="DD-MM-YYYY"
+          minDate="01-01-2020"
+          maxDate="01-01-2080"
+          confirmBtnText="Confirm"
+          cancelBtnText="Cancel"
+          customStyles={{
+            dateIcon: {
+              //display: 'none',
+              position: 'absolute',
+              left: 0,
+              top: 4,
+              marginLeft: 0,
+            },
+            dateInput: {
+              marginLeft: 36,
+            },
+          }}
+          onDateChange={(date) => {
+            setDate(date);
+          }}
+        />
 				<TextInput style={styles.input} onChangeText={setCategory} value={category} placeholder="category" />
-				{/* <View style={styles.btnImg}>
-					<Button title="Change Image" mode="contained" onPress={() => openImagePickerAsync()} />
-				</View> */}
 				<View style={styles.texty}>
 					<Text>Here you can update your Pet profile</Text>
 					<Text>File the form </Text>
@@ -114,7 +156,17 @@ const styles = StyleSheet.create({
 		padding: 50,
 		bottom: -5,
 		textAlign: 'center'
-	}
+	},
+      title: {
+        textAlign: 'center',
+        fontSize: 20,
+        fontWeight: 'bold',
+        padding: 20,
+      },
+      datePickerStyle: {
+        width: 200,
+        marginTop: 20,
+      }
 });
 
 export default UpdatePetInfo;
