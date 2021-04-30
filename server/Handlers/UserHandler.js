@@ -4,8 +4,14 @@ const authenication = require('../lib/authentication')
 
 
 module.exports = {
-    GetallUsere : (req,res)=>{
-            res.status(200).send('hello ii')
+    GetUser : (req,res)=>{
+            controller.users.UserExist('','',req.params.id)
+            .then((result)=>{
+                res.status(200).send({success:true,user:result[0]})
+            })
+            .catch((result)=>{
+                res.status(200).send({success:false})
+            })
 
     },
     updateUser:(req,res) => {
