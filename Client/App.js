@@ -10,6 +10,7 @@ import PetsDashboard from './components/PetsDashboard'
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import UserImage from './components/userInformations/UserImage';
+import Chat from './components/Message/Chat_Screen'
 import UserUpdateInfo from './components/userInformations/UserUpdateInfo';
 import UpdatePetInfo from './components/UpdatePetInfo';
 
@@ -23,7 +24,12 @@ export default function App() {
       <NavigationContainer   styles={{backgroundColor:'white'}} >
         <Stack.Navigator headerMode='none' >
 
-        
+        <Stack.Screen 
+            name="petUpdate"
+            component={UpdatePetInfo}
+            name="chatScreen"
+            component={Chat}
+          />
         
        
         <Stack.Screen 

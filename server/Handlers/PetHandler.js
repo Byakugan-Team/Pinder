@@ -4,13 +4,9 @@ const controller = require('../controllers/index')
 
 
 module.exports = {
-    GetallPets : (req,res)=>{
-            res.status(200).send('lilaaaa')
-
-    },
     updatePet:(req,res) => {
         console.log(req.body, 'okiiii')
-        controller.users.updatePet(req.body, req.params.id)
+        controller.pets.updatePet(req.body, req.params.id)
         .then((result)=> {
             res.status(201).send('updated')
             console.log(req.body)

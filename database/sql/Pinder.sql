@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: db
--- Generation Time: Apr 28, 2021 at 01:54 AM
+-- Generation Time: Apr 28, 2021 at 11:16 PM
 -- Server version: 10.4.11-MariaDB-1:10.4.11+maria~bionic
 -- PHP Version: 7.4.16
 
@@ -91,13 +91,6 @@ CREATE TABLE `verification_sms` (
   `number` varchar(14) NOT NULL,
   `code` varchar(6) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `users`
---
-
-INSERT INTO `users` (`id`, `phone_num`, `e_mail`, `first`, `last`, `biography`, `creatAt`, `photo`) VALUES
-(1, 22700641, 'fffff@gmail.com', 'ddddddddddddddd', 'guelmami', 'im a footballer', '0000-00-00 00:00:00', 'https://images.unsplash.com/photo-1554080353-a576cf803bda?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8cGhvdG98ZW58MHx8MHx8&ixlib=rb-1.2.1&w=1000&q=80');
 
 --
 -- Indexes for dumped tables
