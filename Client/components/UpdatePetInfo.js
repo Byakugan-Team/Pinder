@@ -4,6 +4,7 @@ import * as ImagePicker from 'expo-image-picker';
 import axios from 'axios';
 import DatePicker from 'react-native-datepicker';
 import { RadioButton} from 'react-native-paper';
+import server_IP from '../config/Server_IP'
 
 // import { updateUser } from '../../../server/controllers/users'
 
@@ -13,8 +14,9 @@ const UpdatePetInfo = ({ navigation }) => {
 	const [ birth, setBirth ] = useState('');
 	const [ category, setCategory ] = useState('');
     const [male , setMale] = useState('');
+	const [date,setDate]=useState('')
     // const [female, setFemale] = useState('')
-	
+	const [checked, setChecked] = React.useState('first');
 
 	const petDetails = {
         nickname:  nickname,
@@ -28,7 +30,7 @@ const UpdatePetInfo = ({ navigation }) => {
 	const updatePet = (id) => {
 		console.log(petDetails, 'hello')
 		// id =1
-		 axios.patch('http://localhost:3000/users/' + id, 	{
+		 axios.patch(`http://${server_IP}:3000/pets/` + id, 	{
             nickname: nickname,
 			gendre:gendre,
 			birth:birth,
@@ -57,26 +59,25 @@ const UpdatePetInfo = ({ navigation }) => {
 			<View style={styles.container}>
 				<TextInput style={styles.input} onChangeText={setNickname} value={nickname} placeholder="nickname" />
 				{/* <TextInput style={styles.input} onChangeText={setGendre} value={gendre} placeholder="gendre" /> */}
-                <RadioButton.Group
-        //   onValueChange={value1 => this.setState({ value1  })}
-        //   value={this.state.value1}
-        >
-          <View>
-            <Text>Male</Text>
-            <RadioButton value="Male" />
-          </View>
-          <View>
-            <Text>Female</Text>
-            <RadioButton value="Female" />
-          </View>
-        </RadioButton.Group>
+   <View>
+      <RadioButton
+        value="Male"
+        status={ checked === 'first' ? 'checked' : 'unchecked' }
+        onPress={() => setChecked('first')}
+      />
+      <RadioButton
+        value="Female"
+        status={ checked === 'second' ? 'checked' : 'unchecked' }
+        onPress={() => setChecked('second')}
+      />
+    </View>
                
         <DatePicker
           style={styles.datePickerStyle}
           onDateChange={setBirth} value={birth}
-        //   date={date} //initial date from state
+        //date={date} //initial date from state
           mode="date" //The enum of date, datetime and time
-          placeholder="28/04/2021"
+          placeholder={date}
           format="DD-MM-YYYY"
           minDate="01-01-2020"
           maxDate="01-01-2080"

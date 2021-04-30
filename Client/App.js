@@ -23,7 +23,10 @@ export default function App() {
       <NavigationContainer   styles={{backgroundColor:'white'}} >
         <Stack.Navigator headerMode='none' >
 
-        
+        <Stack.Screen 
+            name="petUpdate"
+            component={UpdatePetInfo}
+          />
         
        
         <Stack.Screen 

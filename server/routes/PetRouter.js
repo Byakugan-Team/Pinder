@@ -1,10 +1,9 @@
 const express = require('express')
 const router = express.Router();
-const PetHandlers = require('../Handlers/PetController');
+const PetHandlers = require('../Handlers/PetHandler');
 
 
-router.get('/getall',UserHandlers.GetallPets)
-router.patch('/', PetHandlers.updatePet)
+router.patch('/pets/:id', PetHandlers.updatePet)
 
 
 module.exports = router;

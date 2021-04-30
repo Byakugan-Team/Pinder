@@ -4,7 +4,7 @@ const UserHandlers = require('../Handlers/UserHandler')
 const Authenication = require('../lib/authentication')
 
 router.get('/getall',UserHandlers.GetallUsere)
-router.patch('/', UserHandlers.updateUser)
+// router.patch('/', UserHandlers.updateUser)
 router.post('/users',UserHandlers.CreateUser)
 router.post('/users/registred',Authenication.IsRegistred)
 router.post('/users/logIn',Authenication.LogIn)
