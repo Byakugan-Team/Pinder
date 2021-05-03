@@ -20,14 +20,22 @@ module.exports={
                 })
         })
     },
-    UserExist:(email='',phone='',id='')=>{
+    UserExist:(email='', phone='', id='')=>{
         return new Promise((resolve,reject)=>{
+            if(email == "" && phone == ""){
+                connection.query('select * from users where id=?',
+                [id],
+                (err,result)=>{
+                    if(err || result.length == 0) return reject(err)
+                    return resolve(result)
+                })
+            } else {
             connection.query('select * from users where e_mail=? or phone_num=? or id=?',
-            [email,phone,id],
+            [email, phone, id],
             (err,result)=>{
                 if(err || result.length == 0) return reject(err)
                 return resolve(result)
-            })
+            })}
         })
     }
 }

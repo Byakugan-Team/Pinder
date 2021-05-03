@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: db
--- Generation Time: Apr 28, 2021 at 11:16 PM
+-- Generation Time: May 01, 2021 at 12:08 AM
 -- Server version: 10.4.11-MariaDB-1:10.4.11+maria~bionic
 -- PHP Version: 7.4.16
 
@@ -20,8 +20,21 @@ SET time_zone = "+00:00";
 --
 -- Database: `Pinder`
 --
-CREATE DATABASE IF NOT EXISTS `Pinder` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
-USE `Pinder`;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `chat_messages`
+--
+
+CREATE TABLE `chat_messages` (
+  `id` int(6) NOT NULL,
+  `room_id` int(12) NOT NULL,
+  `sender_id` int(6) NOT NULL,
+  `receiver_id` int(6) NOT NULL,
+  `message` varchar(255) NOT NULL,
+  `date` datetime NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -63,6 +76,14 @@ CREATE TABLE `sessions` (
   `create_At` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `sessions`
+--
+
+INSERT INTO `sessions` (`id`, `id_user`, `token`, `create_At`) VALUES
+(20, 5, '54ed57d70f7cb904ae5c8dc0165b1a7d7b54d39eb6676e6ed38bc208b39ea643', '2021-04-29 10:46:00'),
+(21, 5, 'b9d52c1bd006d18c41b1a7e19ab9162ca5033596cf4d43126a42c608c3c05105', '2021-04-29 10:47:54');
+
 -- --------------------------------------------------------
 
 --
@@ -80,6 +101,13 @@ CREATE TABLE `users` (
   `photo` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`id`, `phone_num`, `e_mail`, `first`, `last`, `biography`, `creatAt`, `photo`) VALUES
+(5, '+21699391220', 'turkibaslahassine@gmail.com', 'Hassine', 'Basla', '', '2021-04-29 10:46:00', 'https://platform-lookaside.fbsbx.com/platform/profilepic/?asid=4050682584998133&height=500&ext=1622285122&hash=AeRMPfsLKVnIPW8AYfA');
+
 -- --------------------------------------------------------
 
 --
@@ -93,8 +121,22 @@ CREATE TABLE `verification_sms` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
+-- Dumping data for table `verification_sms`
+--
+
+INSERT INTO `verification_sms` (`id`, `number`, `code`) VALUES
+(33, '+21699391220', '636030'),
+(34, '+21699391220', '410306');
+
+--
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `chat_messages`
+--
+ALTER TABLE `chat_messages`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `pets`
@@ -135,6 +177,12 @@ ALTER TABLE `verification_sms`
 --
 
 --
+-- AUTO_INCREMENT for table `chat_messages`
+--
+ALTER TABLE `chat_messages`
+  MODIFY `id` int(6) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `pets`
 --
 ALTER TABLE `pets`
@@ -150,19 +198,19 @@ ALTER TABLE `pets_pictures`
 -- AUTO_INCREMENT for table `sessions`
 --
 ALTER TABLE `sessions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `verification_sms`
 --
 ALTER TABLE `verification_sms`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
 -- Constraints for dumped tables
