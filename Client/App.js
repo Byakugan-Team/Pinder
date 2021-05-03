@@ -13,6 +13,7 @@ import UserImage from './components/userInformations/UserImage';
 import Chat from './components/Message/Chat_Screen'
 import UserUpdateInfo from './components/userInformations/UserUpdateInfo';
 import UpdatePetInfo from './components/UpdatePetInfo';
+import MessagesList from './components/Message/Messages_List_Screen'
 
 const Stack = createStackNavigator();
 
@@ -23,17 +24,22 @@ export default function App() {
 
       <NavigationContainer   styles={{backgroundColor:'white'}} >
         <Stack.Navigator headerMode='none' >
+        
 
+ <Stack.Screen 
+            name="MessagesList"
+            component={MessagesList}
+          /> 
+        
         <Stack.Screen 
             name="chatScreen"
             component={Chat}
-          />
-        
-       
+          /> 
         <Stack.Screen 
             name="HomeScreen"
             component={HomeScreen}
           />
+         
             <Stack.Screen
             name="UserImage"
             component={UserImage}
