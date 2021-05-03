@@ -1,12 +1,29 @@
 
 import React,{Component} from 'react';
-import { View,ScrollView,Text,StyleSheet,Image,Button,TouchableOpacity,TextInput } from 'react-native';
+import { View,ScrollView,Text,StyleSheet,Image,Button,TouchableOpacity,TextInput,ImageBackground } from 'react-native';
+import AddPet from './AddPet'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import { StatusBar } from 'expo-status-bar';
-
+import { LinearGradient } from 'expo-linear-gradient';
+import server_IP from '../../config/Server_IP'
 export default class PetsDashboard extends Component   {
     state={
-        view:'pets'
+        view:'pets',
+        pets:[]
+    }
+    GetPetsInfo(){
+        var UserId=5
+        fetch('http://'+server_IP+':3000/pets/GetAll/'+UserId,{
+            headers: {
+                'content-type': 'application/json'
+            },
+            method: 'GET'
+        })
+        .then(async (result)=>{
+            result = await result.json();
+            this.setState({pets:result})
+        })
+        .catch((e) => console.log(e));
     }
       PetsDashboardEmpty () {
        return(
@@ -22,22 +39,99 @@ export default class PetsDashboard extends Component   {
                             Any pet yet
                         </Text>
                         <View style={styles.butt}>
-                            <Button title="Add My pet" />
+                            <Button title="Add My pet"  onPress={()=> this.setState({view:'add'})}/>
                         </View>
         </View>
        ) 
     }
+
+    
+
+    PetItem(pet){
+            var sub = Date.now()- new Date(pet.birth)
+            sub = Math.floor((((sub/1000) / 60) / 60)/24)
+            if(sub < 30 ){
+                sub = sub + ' Days'
+            }else{
+                sub = Math.floor(sub / 30) 
+                if(sub < 12){
+                    sub = sub + ' Months'
+                }else{
+                    sub = Math.floor(sub / 12) 
+                    sub = sub + ' Year'
+                }
+            }
+            return(
+
+            
+                        <View style={styles.card}>
+                        <Image style={styles.photoCard} source={{ uri: pet.picture_link }} />
+                            <View style={styles.rowInfoCar}>
+                                <Text style={styles.infocard}>Name : </Text>
+                                <Text style={styles.titleCard}> {pet.nickname}</Text>
+                            </View>
+                            <View style={styles.rowInfoCar}>
+                                <Text style={styles.infocard}>Age : </Text>
+                                <Text style={styles.titleCard}> {sub}</Text>
+                            </View>
+                            <View style={styles.rowInfoCar}>
+                                <Text style={styles.infocard}>Gender : </Text>
+                                <Text style={styles.titleCard}> {pet.gendre}</Text>
+                            </View>
+                            <View style={styles.rowInfoCar}>
+                                <Text style={styles.infocard}>category : </Text>
+                                <Text style={styles.titleCard}> {pet.category}</Text>
+                            </View>
+                        </View>
+                    
+          
+                   
+                    
+
+        )
+         
+    }
     
     changeView(){
+        
         if(this.state.view == 'pets'){
-            return this.PetsDashboardEmpty()
+            var Pets = [];
+                for(let i = 0; i < this.state.pets.length; i=i+2){
+                    if(i+1<this.state.pets.length){
+                        Pets.push(<View style={styles.CardsRow} key={this.state.pets[i].id}>
+                            {this.PetItem(this.state.pets[i])}
+                            {this.PetItem(this.state.pets[i+1])}
+                        </View>)
+                    }else{
+                        Pets.push(<View style={styles.CardsRow} key={this.state.pets[i].id}>
+                            {this.PetItem(this.state.pets[i])}
+                        </View>)
+                    }
+                    
+                    
+                }
+                if(Pets.length == 0 ){
+                    console.log(this.state.pets.length)
+                    return this.PetsDashboardEmpty()
+                }else{
+                    return Pets
+                }
+                
+            
+            
         }else if(this.state.view == 'add'){
-            return this.AddPetScreen()
+            return <AddPet />
         }
     }
+
+    componentDidMount(){
+        this.GetPetsInfo()
+    }
     render() {
+        
         return (
           <View>
+              <StatusBar hidden = {false} style={{backgroundColor:'transparent'}}></StatusBar>
                 <View style={styles.MenuTop}>
                     <Text style={styles.Elementop}>Dashboard</Text>
                     <Text style={styles.Elementoptitle}></Text>
@@ -61,11 +155,12 @@ export default class PetsDashboard extends Component   {
                     <Text style={styles.ElemenBottomText} >Remove</Text>
                 </TouchableOpacity>
                 </View>
-                <View >
+                <ScrollView style={{marginBottom:250}}>
                     {this.changeView()}
                     
-                </View>
-                <StatusBar style="auto" />
+                </ScrollView>
+                
+               
             </View>
         );
     }
@@ -80,6 +175,10 @@ export default class PetsDashboard extends Component   {
 }
 
 var styles = StyleSheet.create({
+    imgBackgroundLayer:{
+        position: 'absolute',height:80,  left: 0, right: 0, bottom: 0, justifyContent: 'center', alignItems: 'center',
+        borderRadius: 20,
+    },
     addPeetHeadImage:{
         height:200
     },
@@ -117,27 +216,31 @@ var styles = StyleSheet.create({
         paddingBottom:10,
         flexDirection:'row',
         paddingLeft:-20,
-        paddingRight:20,
+        paddingRight:10,
     },
     card:{
         fontSize:100,
         flex:1,
         paddingBottom:7,
-        marginLeft:30,
-        borderColor:'#c8d6e5',
-        borderWidth:1,
-        borderRadius:10
+        marginLeft:10,
+        borderColor:'#95a5a6',
+        borderWidth:0.5,
+        borderRadius:20,
+        
+
     },
     photoCard:{
-        height:140
+        height:250,
+        borderTopLeftRadius:20,
+        borderTopRightRadius:20
     },
     infocard:{
-        fontSize:16,
-        fontWeight:"200",
+        fontSize:13,
+        fontWeight:"100",
         flex:1
     },
     titleCard:{
-        fontSize:16,
+        fontSize:12,
         textAlign:'center',
         marginRight:8,
         flex:1
@@ -202,7 +305,7 @@ var styles = StyleSheet.create({
         borderBottomWidth: 1
     },
     ElemenBottomText:{
-        fontSize:18,
+        fontSize:15,
         fontWeight:"100",
         marginBottom:10
     },

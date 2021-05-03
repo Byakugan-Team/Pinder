@@ -2,11 +2,11 @@
 import * as React from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View,Image } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
+
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import photoMatching from '../assets/menu-matching.png'
-
+import PetsDashboard from './petsDashboard/PetsDashboard'
 function HomeScreen() {
   return (
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
@@ -26,7 +26,7 @@ function MyTabs() {
       keyboardHidesTabBar:true,
       labelPosition:'below-icon'
     }}>
-            <Tab.Screen name="Offers" component={HomeScreen} options={{
+            <Tab.Screen name="Offers" component={PetsDashboard} options={{
                 tabBarIcon: ({ color, size }) => (
                   <MaterialCommunityIcons name="offer" color={color} size={size} />
                 )
@@ -51,9 +51,9 @@ function MyTabs() {
 
 export default function Globalmenu() {
   return (
-    <NavigationContainer>
+
     <MyTabs />
-  </NavigationContainer>
+
   );
 }
 
