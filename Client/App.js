@@ -13,19 +13,23 @@ import UserImage from './components/userInformations/UserImage';
 import Chat from './components/Message/Chat_Screen'
 import UserUpdateInfo from './components/userInformations/UserUpdateInfo';
 import UpdatePetInfo from './components/UpdatePetInfo';
-import MessagesList from './components/Message/Messages_List_Screen'
+import MessagesList from './components/Message/Messages_List_Screen';
+import Notification from './components/Notification';
 
 const Stack = createStackNavigator();
 
 export default function App() {
 
   return (
-
-
+    
       <NavigationContainer   styles={{backgroundColor:'white'}} >
         <Stack.Navigator headerMode='none' >
-        
 
+        <Stack.Screen 
+            name="notification"
+            component={Notification}
+          /> 
+        
  <Stack.Screen 
             name="MessagesList"
             component={MessagesList}
