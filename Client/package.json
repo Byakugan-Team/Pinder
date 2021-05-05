@@ -27,6 +27,7 @@
     "expo-status-bar": "~1.0.4",
     "express": "^4.17.1",
     "link": "^0.1.5",
+    "moment": "^2.29.1",
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "react-lifecycles-compat": "^3.0.4",
