@@ -9,7 +9,7 @@ import photoMatching from '../assets/menu-matching.png'
 import PetsDashboard from './petsDashboard/PetsDashboard'
 import MessagesList from './Message/Messages_List_Screen'
 import Matching from './Matching'
-
+import ProfileView from './Profile_View.js/Profile'
 const Tab = createBottomTabNavigator();
 
 function MyTabs() {
@@ -41,7 +41,7 @@ function MyTabs() {
 
      
 
-             <Tab.Screen name="My Account" component={PetsDashboard} options={{
+             <Tab.Screen name="My Account" component={ProfileView} options={{
                 tabBarIcon: ({ color, size }) => (
                   <MaterialCommunityIcons name="account" color={color} size={size} />
                 )

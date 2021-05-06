@@ -26,8 +26,7 @@ module.exports = {
 
     GetMessageList: (userID)=> {
         return new Promise((resolve, reject)=> {
-            console.log(userID)
-            connection.query('select message,sender_id,receiver_id,date , room_id from chat_messages where date IN (SELECT max(date) FROM chat_messages where sender_id=? or receiver_id=? group by room_id) order by date DESC',
+            connection.query('select message, sender_id, receiver_id, date , room_id from chat_messages where date IN (SELECT max(date) FROM chat_messages where sender_id=? or receiver_id=? group by room_id) order by date DESC',
                              [userID, userID], (err, result)=> {
                                  console.log(result)
                                  err ? reject(err) :  resolve(result);
