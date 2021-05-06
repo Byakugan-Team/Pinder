@@ -2,7 +2,6 @@ import React, { useState, useContext } from 'react';
 import { View, StyleSheet, TextInput, Text, Button, Platform } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import axios from 'axios';
-import DatePicker from 'react-native-datepicker';
 import { RadioButton} from 'react-native-paper';
 
 // import { updateUser } from '../../../server/controllers/users'
@@ -70,34 +69,7 @@ const UpdatePetInfo = ({ navigation }) => {
             <RadioButton value="Female" />
           </View>
         </RadioButton.Group>
-               
-        <DatePicker
-          style={styles.datePickerStyle}
-          onDateChange={setBirth} value={birth}
-        //   date={date} //initial date from state
-          mode="date" //The enum of date, datetime and time
-          placeholder="28/04/2021"
-          format="DD-MM-YYYY"
-          minDate="01-01-2020"
-          maxDate="01-01-2080"
-          confirmBtnText="Confirm"
-          cancelBtnText="Cancel"
-          customStyles={{
-            dateIcon: {
-              //display: 'none',
-              position: 'absolute',
-              left: 0,
-              top: 4,
-              marginLeft: 0,
-            },
-            dateInput: {
-              marginLeft: 36,
-            },
-          }}
-          onDateChange={(date) => {
-            setDate(date);
-          }}
-        />
+        
 				<TextInput style={styles.input} onChangeText={setCategory} value={category} placeholder="category" />
 				<View style={styles.texty}>
 					<Text>Here you can update your Pet profile</Text>

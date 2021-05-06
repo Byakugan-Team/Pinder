@@ -6,12 +6,17 @@ import PhoneNumber from './components/Phone_Number_Verification/Chek_Phone_Numbe
 import CheckVerification from './components/Phone_Number_Verification/Chek_Verification_Code'
 import UselessTextInput from './components/userInformations/UserFullname'
 import openImagePickerAsync from './components/userInformations/UserImage'
-import PetsDashboard from './components/PetsDashboard'
+import PetsDashboard from './components/petsDashboard/PetsDashboard'
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import UserImage from './components/userInformations/UserImage';
+import Chat from './components/Message/Chat_Screen'
 import UserUpdateInfo from './components/userInformations/UserUpdateInfo';
 import UpdatePetInfo from './components/UpdatePetInfo';
+import PetsScreen from './components/petsDashboard/PetScreen'
+import Globalmenu from './components/Globalmenu'
+import MessagesList from './components/Message/Messages_List_Screen'
+import ProfileView from './components/Profile_View.js/Profile'
 
 const Stack = createStackNavigator();
 
@@ -22,14 +27,38 @@ export default function App() {
 
       <NavigationContainer   styles={{backgroundColor:'white'}} >
         <Stack.Navigator headerMode='none' >
-
         
-        
-       
         <Stack.Screen 
             name="HomeScreen"
             component={HomeScreen}
           />
+<Stack.Screen 
+            name="Globalmenu"
+            component={Globalmenu}
+            independent={true}
+          /> 
+        <Stack.Screen
+            name="PetsDashboard"
+            component={PetsDashboard}
+          />   
+        
+       
+ <Stack.Screen 
+            name="ProfileView"
+            component={ProfileView}
+          /> 
+        
+        <Stack.Screen 
+            name="chatScreen"
+            component={Chat}
+          /> 
+        
+
+    <Stack.Screen 
+            name="PetScreen"
+            component={PetsScreen}
+          />
+         
             <Stack.Screen
             name="UserImage"
             component={UserImage}
@@ -67,10 +96,7 @@ export default function App() {
             name="openImagePickerAsync"
             component={openImagePickerAsync}
           />
-         <Stack.Screen
-            name="PetsDashboard"
-            component={PetsDashboard}
-          />
+        
         </Stack.Navigator>
       </NavigationContainer>
 
