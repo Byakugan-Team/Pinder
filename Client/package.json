@@ -27,6 +27,7 @@
     "expo-linear-gradient": "^9.1.0",
     "expo-module-scripts": "^2.0.0",
     "expo-notifications": "^0.11.6",
+    "expo-permissions": "^12.0.1",
     "expo-status-bar": "~1.0.4",
     "express": "^4.17.1",
     "link": "^0.1.5",
