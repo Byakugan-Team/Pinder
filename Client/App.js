@@ -14,6 +14,7 @@ import Chat from './components/Message/Chat_Screen'
 import UserUpdateInfo from './components/userInformations/UserUpdateInfo';
 import UpdatePetInfo from './components/UpdatePetInfo';
 import MessagesList from './components/Message/Messages_List_Screen'
+import ProfileView from './components/Profile_View.js/Profile'
 
 const Stack = createStackNavigator();
 
@@ -27,8 +28,8 @@ export default function App() {
         
 
  <Stack.Screen 
-            name="MessagesList"
-            component={MessagesList}
+            name="ProfileView"
+            component={ProfileView}
           /> 
         
         <Stack.Screen 
