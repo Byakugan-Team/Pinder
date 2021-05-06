@@ -1,33 +1,38 @@
 import React, { useState, useContext } from 'react';
-import { View, StyleSheet, TextInput, Text, Button, Platform,Image,ScrollView } from 'react-native';
+import { View, StyleSheet, TextInput, Text, Button, Platform,Image,ScrollView,ImageBackground,TouchableOpacity,Pressable,KeyboardAvoidingView } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
-
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import { RadioButton} from 'react-native-paper';
 import server_IP from '../../config/Server_IP'
-
+import DateTimePicker from '@react-native-community/datetimepicker';
+import { TextInputMask } from 'react-native-masked-text';
 // import { updateUser } from '../../../server/controllers/users'
 
-const AddPet = ({ navigation }) => {
+const AddPet = ({ navigation,User }) => {
 	const [ nickname, setNickname ] = useState('');
 	const [ gendre, setGendre ] = useState('');
-	const [ birth, setBirth ] = useState('');
+	const [ birth, setBirth ] = useState(null);
 	const [ category, setCategory ] = useState('');
     const [radio , setRadio] = useState('');
     const [ localUri, setSelectedImage ] = useState('');
-	const [ data, setPhoto ] = useState('') 
-
+	const [ data, setPhoto ] = useState('x') 
+	const [ data1, setPhoto1 ] = useState('x') 
+	const [ data2, setPhoto2 ] = useState('x') 
+	const [date, setDate] = useState(new Date(1598051730000));
+	const [dateConverted, setdateConverted] = useState();
+	const [mode, setMode] = useState('date');
+	const [show, setShow] = useState(false);
 	
-
 	const petDetails = {
         nickname:  nickname,
         gendre:  gendre,
-		birth: birth,
+		birth: dateConverted,
 		category: category,
-        photo:data
+        photo:[data,data1,data2]
 		// image: data
 	};
 
-	const openImagePickerAsync = async () => {
+	const openImagePickerAsync = async (num) => {
 		let permissionResult = await ImagePicker.requestCameraRollPermissionsAsync();
 		if (permissionResult.granted === false) {
 			alert('Permission to access camera roll is required!');
@@ -68,43 +73,109 @@ const AddPet = ({ navigation }) => {
 			.then(async (r) => {
 				let data = await r.json();
                 console.log(data.url)
-				setPhoto(data.url);
+				if(num == 1){
+					setPhoto(data.url);
+				}else if(num == 2){
+					setPhoto1(data.url);
+				}else{
+					setPhoto2(data.url);
+				}
+				
 			})
 			.catch((err) => console.log(err));
 	};
-	const AddPet = () => {
-		console.log(petDetails, 'hello')
-		var  id =1
+	const AddPetfun = () => {
+		var  id =User
+		
 		 fetch('http://'+server_IP+':3000/pets/'+id, 	{body: JSON.stringify({
             name: nickname,
 			gender:gendre,
-			birth:birth,
+			birth:dateConverted,
 			category:category,
-			photo:data
+			photo:[data,data1,data2]
 		}),
 				headers: {
 				    'content-type': 'application/json'
 				},
 				method: 'POST'}
 			)
-			.then((res) => {
-				console.log(res);
+			.then(async (res) => {
+				res = await res.json()
+				console.log(res,'test');
 			}).catch ((err)=>{
 				console.log(err, 'hiiii')
 			})
 	};
+	const onChange = (event, selectedDate) => {
+		const currentDate = selectedDate || date;
+		console.log(currentDate)
+		setShow(Platform.OS === 'ios');
+		setDate(currentDate);
 
+			var today = selectedDate
+			var dd = today.getDate();
+		
+			var mm = today.getMonth()+1; 
+			var yyyy = today.getFullYear();
+			if(dd<10) 
+			{
+				dd='0'+dd;
+			} 
+		
+			if(mm<10) 
+			{
+				mm='0'+mm;
+			} 
+			setdateConverted(dd+'/'+mm+'/'+yyyy)
+
+	  };
+	
+	  const showMode = (currentMode) => {
+		setShow(true);
+		setMode(currentMode);
+	  };
+	
+	  const showDatepicker = () => {
+		showMode('date');
+	  };
+	
+
+	{birth && console.log(birth.toString() )}
 	return (
-		<ScrollView style={{ textAlign: 'center' }}>
-			<View>
-			<Image style={styles.img} source={{ uri: data }} />
-			<View style={styles.btnImg}>
-				<Button theme={theme} title="Select photo" mode="contained" onPress={() => openImagePickerAsync()} />
-			</View>
+		<KeyboardAvoidingView style={{ flex: 1, flexDirection: 'column',justifyContent: 'center',}} behavior="padding" enabled   keyboardVerticalOffset={100}>
 
-		</View>
+		<ScrollView style={{ textAlign: 'center',height:500 }}>
+			<View style={{flexDirection: "row",backgroundColor:'white'}}>
+			<TouchableOpacity onPress={() => openImagePickerAsync(1)}>
+				<ImageBackground style={styles.img} source={{ uri: data }} imageStyle={{ borderRadius: 10}} >
+					<TouchableOpacity style={{position: 'absolute',bottom: -15,right:-15}} onPress={() => openImagePickerAsync(1)}>
+							<MaterialCommunityIcons name="plus-circle" color={'#e74c3c'} size={35} />
+					</TouchableOpacity>
+				</ImageBackground>
+
+		</TouchableOpacity>
+		<TouchableOpacity onPress={() => openImagePickerAsync(2)}>
+			<ImageBackground style={styles.img} source={{ uri: data1 }} imageStyle={{ borderRadius: 10}} >
+				<TouchableOpacity style={{position: 'absolute',bottom: -15,right:-15}} onPress={() => openImagePickerAsync(2)} >
+                        <MaterialCommunityIcons name="plus-circle" color={'#e74c3c'} size={35} />
+                    </TouchableOpacity>
+				</ImageBackground>
+
+		</TouchableOpacity>
+		<TouchableOpacity onPress={() => openImagePickerAsync(3)}>
+			<ImageBackground style={styles.img} source={{ uri: data2 }} imageStyle={{ borderRadius: 10}} >
+				<TouchableOpacity style={{position: 'absolute',bottom: -15,right:-15}} onPress={() => openImagePickerAsync(3)} >
+                        <MaterialCommunityIcons name="plus-circle" color={'#e74c3c'} size={35} />
+                    </TouchableOpacity>
+				</ImageBackground>
+
+		</TouchableOpacity>
+			</View>
 			<View style={styles.container}>
+				<View style={{flexDirection: "row"}}>
 				<TextInput style={styles.input} onChangeText={setNickname} value={nickname} placeholder="nickname" />
+				<TextInput style={styles.input} onChangeText={setGendre} value={gendre} placeholder="Gendre" />
+				</View>
 				{/* <TextInput style={styles.input} onChangeText={setGendre} value={gendre} placeholder="gendre" /> */}
                 {/* <RadioButton.Group
         //   onValueChange={value1 => this.setState({ value1  })}
@@ -136,15 +207,47 @@ const AddPet = ({ navigation }) => {
             
           </View>
         </RadioButton.Group> */}
-               
-        <TextInput style={styles.input} onChangeText={setBirth} value={birth} placeholder="Birth Date" />
 
-				<TextInput style={styles.input} onChangeText={setCategory} value={category} placeholder="category" />
+        <TextInput style={styles.input} onChangeText={setCategory} value={category} placeholder="category" />
+		<View>
+			<View>
+			<Pressable onPress={showDatepicker}>
+				<View pointerEvents="none">
+				<TextInput
+				style={styles.input}
+				placeholder="DD/MM/YYYY"
+				type={'datetime'}
+				options={{
+					format: 'DD/MM/YYYY',
+				}}
+				value={dateConverted}
+				onFocus={showDatepicker}
+				// add the ref to a local var
+				/>
+				</View>
+			</Pressable>
+				{/* <Button onPress={showDatepicker} title="Show date picker!" /> */}
+			</View>
+			{show && (
+				<DateTimePicker
+				testID="dateTimePicker"
+				value={date}
+				mode={mode}
+				is24Hour={true}
+				display="default"
+				onChange={onChange}
+				/>
+			)}
+    </View>		
+
+				
 			</View>
 			<View style={styles.butt}>
-				<Button title="Add Pet" onPress={(id = 1) => AddPet((id = 1))} />
+				<Button title="Add Pet" onPress={() => AddPetfun()} />
 			</View>
 		</ScrollView>
+				</KeyboardAvoidingView>
+
 	);
 };
 const theme = { colors: { primary: '#CA9D0C' } };
@@ -172,8 +275,10 @@ const styles = StyleSheet.create({
 		height: 40,
 		margin: 12,
 		marginTop: 25,
-		borderBottomWidth: 2
-	},
+		borderBottomColor:"#757E90",
+		borderBottomWidth: 1,
+		flex:1
+		},
 	fullName: {
 		top: -130,
 		paddingLeft: 10,
@@ -188,12 +293,6 @@ const styles = StyleSheet.create({
 		alignContent: 'center',
 		marginTop: 20
 	},
-	btnImg: {
-		marginBottom: 20,
-		padding: 50,
-		bottom: -5,
-		textAlign: 'center'
-	},
       title: {
         textAlign: 'center',
         fontSize: 20,
@@ -205,17 +304,15 @@ const styles = StyleSheet.create({
         marginTop: 20,
       },
       img: {
-		width: 200,
-		height: 300,
+		  marginVertical:20,
+		width: 100,
+		height: 150,
+		marginLeft:10,
 		backgroundColor: '#e4e4ee',
-		resizeMode: 'cover',
-		borderTopLeftRadius: 20,
-		borderTopRightRadius: 20,
-		borderBottomLeftRadius: 20,
-		borderBottomRightRadius: 20,
-		left: 80,
+		borderRadius:20,
+
 		opacity: 10,
-		bottom: -50
+
 	},
 	btnImg: {
 		marginBottom: 20,

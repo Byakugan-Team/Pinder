@@ -5,7 +5,7 @@ module.exports = {
         return new Promise((resolve,reject)=>{
                 connection.query('INSERT INTO verification_sms (number,code) VALUES (?,?)',
                 [phone,code],(err,result)=>{
-                    console.log(result)
+                    
                     if(err){
                         return reject(err)
                     }

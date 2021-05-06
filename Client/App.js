@@ -15,6 +15,8 @@ import UserUpdateInfo from './components/userInformations/UserUpdateInfo';
 import UpdatePetInfo from './components/UpdatePetInfo';
 import PetsScreen from './components/petsDashboard/PetScreen'
 import Globalmenu from './components/Globalmenu'
+import MessagesList from './components/Message/Messages_List_Screen'
+
 const Stack = createStackNavigator();
 
 export default function App() {
@@ -24,30 +26,38 @@ export default function App() {
 
       <NavigationContainer   styles={{backgroundColor:'white'}} >
         <Stack.Navigator headerMode='none' >
-
-           
         <Stack.Screen 
             name="Globalmenu"
             component={Globalmenu}
             independent={true}
-          />
-       
+          /> 
         <Stack.Screen 
             name="HomeScreen"
             component={HomeScreen}
           />
-<Stack.Screen
+
+        <Stack.Screen
             name="PetsDashboard"
             component={PetsDashboard}
-          />     
+          />   
+        
+       
+ <Stack.Screen 
+            name="MessagesList"
+            component={MessagesList}
+          /> 
+        
+        <Stack.Screen 
+            name="chatScreen"
+            component={Chat}
+          /> 
+        
+
     <Stack.Screen 
             name="PetScreen"
             component={PetsScreen}
           />
-          <Stack.Screen 
-            name="chatScreen"
-            component={Chat}
-          />
+         
             <Stack.Screen
             name="UserImage"
             component={UserImage}

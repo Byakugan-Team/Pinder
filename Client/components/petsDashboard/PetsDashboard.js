@@ -1,6 +1,6 @@
 
 import React,{Component} from 'react';
-import { View,ScrollView,Text,StyleSheet,Image,Button,TouchableOpacity,TextInput,ImageBackground } from 'react-native';
+import { AsyncStorage,View,ScrollView,Text,StyleSheet,Image,Button,TouchableOpacity,ImageBackground } from 'react-native';
 import AddPet from './AddPet'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import { StatusBar } from 'expo-status-bar';
@@ -9,10 +9,36 @@ import server_IP from '../../config/Server_IP'
 export default class PetsDashboard extends Component   {
     state={
         view:'pets',
-        pets:[]
+        pets:[],
+        UserId:0
     }
+    getUserInfo = async () => {
+        try {
+          const token = await AsyncStorage.getItem("Pinder_token");
+          console.log(token)
+          if (token !== null) {
+            fetch(`http://${server_IP}:3000/users/logIn`, {
+              body: JSON.stringify({ token }),
+              headers: { "content-type": "application/json" },
+              method: "POST",
+            })
+              .then(async (result) => {
+                result = await result.json();
+                
+                if (result.success) {
+                    console.log(result.user)
+                  this.setState({ UserId: result.user.id });
+                  this.GetPetsInfo()
+                }
+              })
+              .catch((err) => console.log("err", err));
+          }
+        } catch (error) {
+          console.log(error);
+        }
+      };
     GetPetsInfo(){
-        var UserId=5
+        var UserId=this.state.UserId
         fetch('http://'+server_IP+':3000/pets/GetAll/'+UserId,{
             headers: {
                 'content-type': 'application/json'
@@ -44,8 +70,70 @@ export default class PetsDashboard extends Component   {
         </View>
        ) 
     }
+    DeletePet(id){
+        fetch('http://'+server_IP+':3000/pets/'+id,{
+            headers: {
+                'content-type': 'application/json'
+            },
+            method: 'DELETE'
+        })
+        .then(async (result)=>{
+            result = await result.json();
+            if (result.success) {
+                this.GetPetsInfo()
+            }
+        })
+        .catch((e) => console.log(e));
+    }
 
-    
+    PetItemRemove(pet){
+        var sub = Date.now()- new Date(pet.birth)
+        sub = Math.floor((((sub/1000) / 60) / 60)/24)
+        if(sub < 30 ){
+            sub = sub + ' Days'
+        }else{
+            sub = Math.floor(sub / 30) 
+            if(sub < 12){
+                sub = sub + ' Months'
+            }else{
+                sub = Math.floor(sub / 12) 
+                sub = sub + ' Year'
+            }
+        }
+        return(
+
+        
+                    <View style={styles.card}>
+                    <ImageBackground style={styles.photoCard} source={{ uri: 'https://i.ibb.co/bFyw9Lk/20181112-SHANK3monkey-844.jpg' }} >
+                    <TouchableOpacity style={{right:-10,position: 'absolute',marginTop: -15}} onPress={()=> this.DeletePet(pet.pet_id)}>
+                        <MaterialCommunityIcons name="alpha-x-circle" color={'red'} size={35} />
+                    </TouchableOpacity>
+                        </ImageBackground>
+                        <View style={styles.rowInfoCar}>
+                            <Text style={styles.infocard}>Name : </Text>
+                            <Text style={styles.titleCard}> {pet.nickname}</Text>
+                        </View>
+                        <View style={styles.rowInfoCar}>
+                            <Text style={styles.infocard}>Age : </Text>
+                            <Text style={styles.titleCard}> {sub}</Text>
+                        </View>
+                        <View style={styles.rowInfoCar}>
+                            <Text style={styles.infocard}>Gender : </Text>
+                            <Text style={styles.titleCard}> {pet.gendre}</Text>
+                        </View>
+                        <View style={styles.rowInfoCar}>
+                            <Text style={styles.infocard}>category : </Text>
+                            <Text style={styles.titleCard}> {pet.category}</Text>
+                        </View>
+                    </View>
+                
+      
+               
+                
+
+    )
+     
+}
 
     PetItem(pet){
             var sub = Date.now()- new Date(pet.birth)
@@ -65,7 +153,7 @@ export default class PetsDashboard extends Component   {
 
             
                         <View style={styles.card}>
-                        <Image style={styles.photoCard} source={{ uri: pet.picture_link }} />
+                        <Image style={styles.photoCard} source={{ uri: 'https://i.ibb.co/bFyw9Lk/20181112-SHANK3monkey-844.jpg' }} />
                             <View style={styles.rowInfoCar}>
                                 <Text style={styles.infocard}>Name : </Text>
                                 <Text style={styles.titleCard}> {pet.nickname}</Text>
@@ -93,7 +181,7 @@ export default class PetsDashboard extends Component   {
     }
     
     changeView(){
-        
+        console.log(this.state.pets)
         if(this.state.view == 'pets'){
             var Pets = [];
                 for(let i = 0; i < this.state.pets.length; i=i+2){
@@ -120,12 +208,35 @@ export default class PetsDashboard extends Component   {
             
             
         }else if(this.state.view == 'add'){
-            return <AddPet />
+            return <AddPet User={this.state.UserId} />
+        }else if(this.state.view == 'remove'){
+            var Pets = [];
+            for(let i = 0; i < this.state.pets.length; i=i+2){
+                if(i+1<this.state.pets.length){
+                    Pets.push(<View style={styles.CardsRow} key={this.state.pets[i].id}>
+                        {this.PetItemRemove(this.state.pets[i])}
+                        {this.PetItemRemove(this.state.pets[i+1])}
+                    </View>)
+                }else{
+                    Pets.push(<View style={styles.CardsRow} key={this.state.pets[i].id}>
+                        {this.PetItemRemove(this.state.pets[i])}
+                    </View>)
+                }
+                
+                
+            }
+            if(Pets.length == 0 ){
+                console.log(this.state.pets.length)
+                return this.PetsDashboardEmpty()
+            }else{
+                return Pets
+            }
         }
     }
 
     componentDidMount(){
-        this.GetPetsInfo()
+
+       this.getUserInfo()
     }
     render() {
         
@@ -155,7 +266,7 @@ export default class PetsDashboard extends Component   {
                     <Text style={styles.ElemenBottomText} >Remove</Text>
                 </TouchableOpacity>
                 </View>
-                <ScrollView style={{marginBottom:250}}>
+                <ScrollView >
                     {this.changeView()}
                     
                 </ScrollView>
