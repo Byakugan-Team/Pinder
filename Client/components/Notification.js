@@ -6,6 +6,12 @@ import * as Permissions from 'expo-permissions';
 
 
 export default function Notification() {
+    useEffect(()=> {
+        registerForPushNotificationsAsync().then(token=>console.log(token)).catch(err => console.log(err))
+
+    }, [])
+
+
     async function registerForPushNotificationsAsync(){
         const {status} =  await Permissions.getAsync(Permissions.NOTIFICATIONS);
         if(status != 'granted'){
@@ -32,7 +38,9 @@ export default function Notification() {
 
 const styles = StyleSheet.create({
     container : {
-
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center'
     }
 })
 
