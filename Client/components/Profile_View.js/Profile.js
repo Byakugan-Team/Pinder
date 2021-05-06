@@ -12,7 +12,7 @@ export default class ProfileView extends Component {
     super(props);
 
     this.state = {
-      user_id : 5, //=> hardcoded
+      user_id : 0, //=> hardcoded
       user_info: {},
       user_pets: [],
     };
@@ -42,7 +42,7 @@ getUserInfo() {
   render() {
     console.log(this.state)
 
-    const { user_info } = this.state;
+    const { user_info,user_id } = this.state;
 
     return (
       <View style={styles.container}>
@@ -79,7 +79,7 @@ getUserInfo() {
           </View>
        
           <View style={styles.body}>
-            <CarouselCards />
+            <CarouselCards user_id={user_id} />
           </View>
         </ScrollView>
         </ImageBackground>

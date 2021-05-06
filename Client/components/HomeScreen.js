@@ -21,7 +21,7 @@ export default class HomeScreen extends Component {
         .then(async (result)=>{
             result = await result.json();
             if(result.success){
-                this.props.navigation.navigate('PetsDashboard')
+                this.props.navigation.navigate('Globalmenu')
             }
         })
         .catch((e) => console.log(e));

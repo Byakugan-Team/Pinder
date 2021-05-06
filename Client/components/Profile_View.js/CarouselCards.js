@@ -23,11 +23,23 @@ const data = [
     }
   ]
 
-const CarouselCards = () => {
+const CarouselCards = ({user_id}) => {
   const [index, setIndex] = React.useState(0)
   const isCarousel = React.useRef(null)
 
-
+  GetPetsInfo = () =>{
+    fetch('http://'+server_IP+':3000/pets/GetAll/'+UserId,{
+        headers: {
+            'content-type': 'application/json'
+        },
+        method: 'GET'
+    })
+    .then(async (result)=>{
+        result = await result.json();
+        this.setState({pets:result})
+    })
+    .catch((e) => console.log(e));
+}
   return (
       <View>
       <Carousel

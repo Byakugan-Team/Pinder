@@ -9,8 +9,9 @@ import {
   FlatList,
   TextInput,
   TouchableHighlight,
-} from "react-native";
-import moment from "moment";
+  AsyncStorage
+} from 'react-native';
+
 import server_IP from "../../config/Server_IP";
 
 export default class MessagesList extends Component {
@@ -18,11 +19,32 @@ export default class MessagesList extends Component {
     super(props);
     this.state = {
       messages: [],
-      user_ID: 5, //=> Hardcoded
+      user_ID: 0,
       nameSearched: "",
     };
-  }
-
+  };
+  getUserInfo = async () => {
+    try {
+      const token = await AsyncStorage.getItem("Pinder_token");
+      if (token !== null) {
+        fetch(`http://${server_IP}:3000/users/logIn`, {
+          body: JSON.stringify({ token }),
+          headers: { "content-type": "application/json" },
+          method: "POST",
+        })
+          .then(async (result) => {
+            result = await result.json();
+            if (result.success) {
+              this.setState({ user_ID: result.user.id });
+              this.GetMessages()
+            }
+          })
+          .catch((err) => console.log("err", err));
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
   GetMessages() {
     const { user_ID } = this.state;
     fetch(`http://${server_IP}:3000/messages/Message_List`, {
@@ -75,10 +97,9 @@ export default class MessagesList extends Component {
       method: "GET",
     });
   };
-
-
-  componentDidMount() {
-    this.GetMessages();
+  componentDidMount(){
+    this.getUserInfo()
+   
   }
 
 
