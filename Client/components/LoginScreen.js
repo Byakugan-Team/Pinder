@@ -1,29 +1,25 @@
-import React, { useState } from "react";
-import {
-  StyleSheet,
-  Text,
-  View,
-  Button,
-  Image,
-  TouchableHighlight,
-  TouchableOpacity,
-  AsyncStorage,
-} from "react-native";
-import * as Facebook from "expo-facebook";
-import * as Google from "expo-google-app-auth";
-import { FontAwesome5 } from "@expo/vector-icons";
-import { color } from "react-native-reanimated";
-import { MyText } from "./Tag_Modules/MyText";
-import PhoneNumber from "./Phone_Number_Verification/Chek_Phone_Number&Send_Code";
-import server_IP from "../config/Server_IP";
-export default function LoginScreen({ navigation }) {
-  const _storeData = async (token) => {
-    try {
-      await AsyncStorage.setItem("Pinder_token", token);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+import React, { useState } from 'react';
+import { StyleSheet, Text, View, Button, Image, TouchableHighlight, TouchableOpacity ,AsyncStorage} from 'react-native';
+import * as Facebook from 'expo-facebook';
+import * as Google from 'expo-google-app-auth';
+import { FontAwesome5 } from '@expo/vector-icons';
+import { color } from 'react-native-reanimated';
+import { MyText } from './Tag_Modules/MyText'
+import PhoneNumber from './Phone_Number_Verification/Chek_Phone_Number&Send_Code'
+import server_IP from '../config/Server_IP'
+
+
+export default function LoginScreen({navigation}) {
+	const _storeData = async (token) => {
+		try {
+		  await AsyncStorage.setItem(
+			'Pinder_token',
+			token
+		  );
+		} catch (error) {
+		  console.log(error)
+		}
+	  };
 
   // log in with google api :
   const signInAsync = async () => {

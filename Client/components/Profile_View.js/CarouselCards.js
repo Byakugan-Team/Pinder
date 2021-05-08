@@ -1,5 +1,5 @@
 import React from 'react'
-import { View } from "react-native"
+import { View , StyleSheet} from "react-native"
 import Carousel, { Pagination } from 'react-native-snap-carousel'
 import CarouselCardItem, { SLIDER_WIDTH, ITEM_WIDTH } from './CarouselCardItem'
 
@@ -30,8 +30,10 @@ const CarouselCards = ({pets}) => {
   const pets_Info = pets
 
   return (
-      <View>
+      <View >
       <Carousel
+      style={styles.container}
+      
         layout="stack"
         layoutCardOffset={9}
         ref={isCarousel}
@@ -61,7 +63,11 @@ const CarouselCards = ({pets}) => {
 
   )
 }
+const styles = StyleSheet.create({
+container: {
 
+}
+})
 
 
 export default CarouselCards
