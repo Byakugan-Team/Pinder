@@ -12,6 +12,7 @@ export default class ProfileView extends Component {
     super(props);
 
     this.state = {
+      _button: "nothing",
       user_id : 5, //=> hardcoded
       user_info: {},
       user_pets: [],
@@ -55,6 +56,48 @@ getUser_Pets() {
       .catch((err) => console.log(err));
 };
 
+_request () {
+  const { _button } = this.state
+  if(_button == "nothing"){
+    return (
+      <TouchableOpacity
+      blurOnSubmit={false}
+      onPress={()=>{console.log("send invit")}}>
+      <Image style={{width:width/8, height:height/15}} source={require("../../assets/Profile_View/Send_Invit.png")}/>
+      </TouchableOpacity>
+    );
+  };
+  if(_button == "friends"){
+    return (
+      <TouchableOpacity
+      blurOnSubmit={false}
+      onPress={()=>{console.log("start chat")}}>
+      <Image style={{width:width/8, height:height/15}} source={require("../../assets/Profile_View/Start_Chat.png")}/>
+      </TouchableOpacity>
+    );
+  };
+  if(_button == "reciverInvit"){
+    return (
+      <TouchableOpacity
+            blurOnSubmit={false}
+            onPress={()=>{console.log("Accept invit")}}>
+            <Image style={{width:width/8, height:height/15}} source={require("../../assets/Profile_View/Accept.png")}/>
+            </TouchableOpacity>
+    );
+  };
+  if(_button == "senderInvit"){
+    return (
+      <TouchableOpacity
+      blurOnSubmit={false}
+      disabled
+      onPress={()=>{console.log("send invit")}}>
+      <Image style={{width:width/8, height:height/15}} source={require("../../assets/Profile_View/Waiting.png")}/>
+      </TouchableOpacity>
+    );
+  };
+};
+
+
   render() {
     // console.log("pets",this.state.user_pets)
 
@@ -93,7 +136,9 @@ getUser_Pets() {
               />
             </View>
           </View>
-       
+          <View style={{marginStart: width/4.5,}}>
+            {this._request()}
+             </View>
           <View style={styles.body}>
             <CarouselCards pets={user_pets} />
           </View>
