@@ -43,7 +43,6 @@ const AddPet = ({ navigation,User }) => {
 
 		let pickerResult = await ImagePicker.launchImageLibraryAsync({
 			allowsEditing: true,
-			aspect: [ 4, 3 ],
 			base64: true
 		});
 
@@ -88,14 +87,14 @@ const AddPet = ({ navigation,User }) => {
 	};
 	const AddPetfun = () => {
 		var  id =User
-		
+			var photos = [data,data1,data2].filter((url)=> url[0]=='h')
 		 fetch('http://'+server_IP+':3000/pets/'+id, 	{body: JSON.stringify({
             name: nickname,
 			gender:gendre,
 			pet:pet,
 			birth:dateConverted,
 			category:category,
-			photo:[data,data1,data2]
+			photo:photos
 		}),
 				headers: {
 				    'content-type': 'application/json'

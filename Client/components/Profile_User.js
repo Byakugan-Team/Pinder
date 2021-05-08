@@ -26,7 +26,7 @@ export default class User_Profile extends Component {
   }
 
   componentDidMount() {
-    this.getUserInfo()
+      this.getUserInfoId()
   }
 
 
@@ -47,27 +47,36 @@ export default class User_Profile extends Component {
         })
         .catch((err) => console.log(err));
     };
-//   getUserInfo = async () => {
-//     try {
-//       const token = await AsyncStorage.getItem("Pinder_token");
-//       if (token !== null) {
-//         fetch(`http://${server_IP}:3000/users/logIn`, {
-//           body: JSON.stringify({ token }),
-//           headers: { "content-type": "application/json" },
-//           method: "POST",
-//         })
-//           .then(async (result) => {
-//             result = await result.json();
-//             if (result.success) {
-//               this.setState({ userInfo: result.user });
-//             }
-//           })
-//           .catch((err) => console.log("err", err));
-//       }
-//     } catch (error) {
-//       console.log(error);
-//     }
-//   };
+  getUserInfoId = async () => {
+    try {
+      const token = await AsyncStorage.getItem("Pinder_token");
+      if (token !== null) {
+        fetch(`http://${server_IP}:3000/users/logIn`, {
+          body: JSON.stringify({ token }),
+          headers: { "content-type": "application/json" },
+          method: "POST",
+        })
+          .then(async (result) => {
+            result = await result.json();
+            if (result.success) {
+              this.setState({ user_id: result.user.id });
+              this.getUserInfo()
+            }
+          })
+          .catch((err) => console.log("err", err));
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  _logout = async () => {
+    try {
+    await AsyncStorage.removeItem('Pinder_token');
+    this.props.navigation.navigate("HomeScreen")
+    } catch (error) {
+      // Error retrieving data
+    }
+  };
 
   render() {
       console.log(this.state)
@@ -137,7 +146,7 @@ export default class User_Profile extends Component {
             <View style={{ flexDirection: "row", justifyContent: "center" }}>
               <TouchableOpacity
                 blurOnSubmit={false}
-                onPress={() => console.log("Request")}
+                onPress={() => this.props.navigation.navigate("Friends")}
               >
                 <Image
                   style={styles.Icon}
@@ -152,7 +161,7 @@ export default class User_Profile extends Component {
               />
               <TouchableOpacity
                 blurOnSubmit={false}
-                onPress={() => console.log("Logout")}
+                onPress={() => this._logout()}
               >
                 <Image
                   style={styles.Icon}
@@ -174,7 +183,7 @@ export default class User_Profile extends Component {
               <TouchableOpacity
                 style={{marginStart: 15, marginEnd: 15, }}
                 blurOnSubmit={false}
-                onPress={() => console.log("Pets Dashbord")}
+                onPress={() => this.props.navigation.navigate("PetsDashboard")}
               >
                 <View style={styles.button}>
                   <Text style={styles.textButton}>Pets Dashbord</Text>

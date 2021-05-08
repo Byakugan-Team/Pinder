@@ -31,6 +31,7 @@ export default class Matching extends Component {
     super(props);
     this.openReport = this.openReport.bind(this);
     this.PhotosClick = this.PhotosClick.bind(this)
+    this.OwnerClick = this.OwnerClick.bind(this)
   }
     state = {
         fontsLoaded: false,
@@ -262,6 +263,12 @@ export default class Matching extends Component {
         this.setState({petPhoto:ReadyPhotos})
         this.setState({ShowSlide:true})
     }
+    OwnerClick(id_user){
+      console.log(id_user)
+      this.props.navigation.navigate("ProfileView",{
+        id_user :id_user
+      })
+    }
     
     render(){
 
@@ -312,14 +319,17 @@ export default class Matching extends Component {
                       longitude ={item.longitude}
                       Myuser={this.state.User}
                       Likes={item.likes}
+                      ownerId={item.user_id}
                       owner={item.first + ' ' + item.last}
                       status={'online'}
                       pet_id={item.pet_id}
+                      
                       actions
                       onPressLeft={() => this.swipeLeft(item.pet_id)}
                       onPressRight={() => this.swiper.swipeRight()}
                       onpressReport={this.openReport}
                       ShowSlideShow={this.PhotosClick}
+                      clickOwner={this.OwnerClick}
                     />
                     
                   </Card>

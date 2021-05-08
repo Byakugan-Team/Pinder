@@ -97,7 +97,7 @@ export default function Photo({navigation,route}) {
 
 		let pickerResult = await ImagePicker.launchImageLibraryAsync({
 			allowsEditing: true,
-			aspect: [ 4, 3 ],
+
 			base64: true
 		});
 
@@ -188,7 +188,7 @@ export default function Photo({navigation,route}) {
 			<TouchableOpacity onPress={() => openImagePickerAsync()}>
 				<ImageBackground style={styles.img} imageStyle={{ borderRadius: 125 }} source={{ uri: data }} >
 					<TouchableOpacity style={{position: 'absolute',bottom: 10,right:10}} onPress={() => openImagePickerAsync()}>
-							<MaterialCommunityIcons name="plus-circle" color={'#e74c3c'} size={35} />
+							<MaterialCommunityIcons name="plus-circle" color={'#3498db'} size={35} />
 					</TouchableOpacity>
 				</ImageBackground>
 

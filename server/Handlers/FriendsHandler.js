@@ -34,6 +34,17 @@ module.exports = {
                 console.log(err)
                 res.status(500).send({err:true})
             })
+        },
+        checkState:(req,res)=>{
+            controllers.Friends.CheckUserState(req.body.Myuser,req.body.otherUser)
+            .then((result)=>{
+                res.status(200).send(result)
+
+            })
+            .catch((err)=>{
+                console.log(err)
+                res.status(500).send({err:true})
+            })
         }
 
 }

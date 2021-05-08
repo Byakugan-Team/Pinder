@@ -36,7 +36,7 @@ const CardItem = ({
   ];
 console.log(image)
   return (
-    <View style={stylesFriend.containerCardItem}>
+    <View style={stylesFriend.containerCardItem} >
       {/* IMAGE */}
       <Image source={{ uri: image }} style={imageStyle} />
 

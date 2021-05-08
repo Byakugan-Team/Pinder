@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { StyleSheet, Text, View, Image, ScrollView, ImageBackground, Dimensions} from "react-native";
+import { StyleSheet, Text, View, Image, ScrollView, ImageBackground, Dimensions,AsyncStorage} from "react-native";
 import { StatusBar } from "expo-status-bar";
 import CarouselCards from "./CarouselCards";
 import server_IP from "../../config/Server_IP";
@@ -12,31 +12,60 @@ export default class ProfileView extends Component {
     super(props);
 
     this.state = {
-      user_id : 5, //=> hardcoded
+      user_id : (this.props.route.params.id_user) ? this.props.route.params.id_user : 0, //=> hardcoded
+      Myuser_id:0,
       user_info: {},
       user_pets: [],
+      _button:''
     };
+  }
+  getUserInfoxx = async () => {
+    try {
+      const token = await AsyncStorage.getItem("Pinder_token");
+      console.log(token)
+      if (token !== null) {
+        fetch(`http://${server_IP}:3000/users/logIn`, {
+          body: JSON.stringify({ token }),
+          headers: { "content-type": "application/json" },
+          method: "POST",
+        })
+          .then(async (result) => {
+            result = await result.json();
+            
+            if (result.success) {
+                console.log(result.user)
+              this.setState({ Myuser_id: result.user.id });
+              this.CheckState()
+            }
+          })
+          .catch((err) => console.log("err", err));
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  CheckState(){
+    const { user_id,Myuser_id } = this.state
+    fetch(`http://${server_IP}:3000/Friends/CheckState`, {
+      body: JSON.stringify({ Myuser:Myuser_id,otherUser:user_id }),
+        headers: { "content-type": "application/json" },
+        method: "POST",
+      })
+        .then(async (result) => {
+          result = await result.json();
+          console.log(result)
+          this.setState({ _button : result.state });
+          
+        })
+        .catch((err) => console.log(err));
   }
 
 componentDidMount(){
+  this.getUserInfoxx()
   this.getUser_Pets()
   this.getUserInfo()
 }  
 
-getUserInfo() {
-  const { user_id } = this.state
-  fetch(`http://${server_IP}:3000/users/${user_id}`, {
-      headers: { "content-type": "application/json" },
-      method: "GET",
-    })
-      .then(async (result) => {
-        result = await result.json();
-        if (result.success) {
-          this.setState({ user_info: result.user });
-        }
-      })
-      .catch((err) => console.log(err));
-  };
 
 
 getUser_Pets() {
