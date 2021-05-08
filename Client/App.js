@@ -13,6 +13,8 @@ import UserImage from './components/userInformations/UserImage';
 import Chat from './components/Message/Chat_Screen'
 import UserUpdateInfo from './components/userInformations/UserUpdateInfo';
 import UpdatePetInfo from './components/UpdatePetInfo';
+
+import Notification from './components/Notification';
 import PetsScreen from './components/petsDashboard/PetScreen'
 import Globalmenu from './components/Globalmenu'
 import MessagesList from './components/Message/Messages_List_Screen'
@@ -20,14 +22,15 @@ import Matching from './components/Matching'
 
 
 //import ProfileView from './components/Profile_View.js/Profile'
+import ProfileView from './components/Profile_View.js/Profile';
+import Notification2 from './components/Notification2';
 
 const Stack = createStackNavigator();
 
 export default function App() {
 
   return (
-
-
+    
       <NavigationContainer   styles={{backgroundColor:'white'}} >
         <Stack.Navigator headerMode='none' >
         <Stack.Screen 
@@ -46,9 +49,7 @@ export default function App() {
             name="Matching"
             component={Matching}
           />
-       
-        
-        
+
 <Stack.Screen 
             name="Globalmenu"
             component={Globalmenu}
@@ -63,6 +64,8 @@ export default function App() {
           />  */}
         
         <Stack.Screen 
+            name="petUpdate"
+            component={UpdatePetInfo}
             name="chatScreen"
             component={Chat}
           /> 

@@ -7,6 +7,8 @@ import { color } from 'react-native-reanimated';
 import { MyText } from './Tag_Modules/MyText'
 import PhoneNumber from './Phone_Number_Verification/Chek_Phone_Number&Send_Code'
 import server_IP from '../config/Server_IP'
+
+
 export default function LoginScreen({navigation}) {
 	const _storeData = async (token) => {
 		try {

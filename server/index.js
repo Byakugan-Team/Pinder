@@ -28,6 +28,8 @@ app.use(BodyParser.json())
 app.use(CookieParser())
 
 app.use('/',Routers.userRouter)
+
+app.use('/' ,Routers.petRouter)
 app.use('/messages', Routers.chat_messages)
 
 app.use('/users',Routers.userRouter)
