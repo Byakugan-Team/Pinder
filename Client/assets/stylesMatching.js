@@ -1,6 +1,6 @@
 import { StyleSheet, Dimensions } from "react-native";
 
-const PRIMARY_COLOR = "#7444C0";
+const PRIMARY_COLOR = "#00D1F9";
 const SECONDARY_COLOR = "#5636B8";
 const WHITE = "#FFFFFF";
 const GRAY = "#757E90";
@@ -33,13 +33,20 @@ export default StyleSheet.create({
 		shadowOffset: { height: 0, width: 0 }
 	},
 	matchesCardItem: {
+		width:150,
+		flex:1,
+		justifyContent: 'center',
+		alignItems: 'center',
+		marginLeft:80,
 		marginTop: -35,
 		backgroundColor: PRIMARY_COLOR,
-		paddingVertical: 7,
+		paddingVertical: 8,
 		paddingHorizontal: 20,
 		borderRadius: 20
 	},
 	matchesTextCardItem: {
+		alignItems: "center",
+
 		fontFamily: ICON_FONT,
 		color: WHITE
 	},

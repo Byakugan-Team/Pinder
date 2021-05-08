@@ -25,12 +25,12 @@ module.exports = {
                 for(j=0;j<respond.length;j++){
                     if(respond[j].pet_id == result[i].pet_id){
                         found = true
-                        respond[j].Pictures.push(result[i].picture_link)
+                        respond[j].Pictures.push(result[i].picture_name)
                     }
                 }
                 if(!found){
                     respond.push(result[i])
-                    respond[respond.length-1].Pictures= [result[i].picture_link]
+                    respond[respond.length-1].Pictures= [result[i].picture_name]
                 }
             }
             res.status(200).send(respond)
@@ -87,5 +87,14 @@ module.exports = {
             console.log(err)
             res.status(500).send({success:false})
         })
+    },
+    Likepet : (req,res)=>{
+            controller.pets.increaseLike(req.params.id)
+            .then((result)=>{
+                res.status(200).send({success:true})
+            })
+            .catch((err)=>{
+                res.status(200).send({success:false})
+            })
     }
 }

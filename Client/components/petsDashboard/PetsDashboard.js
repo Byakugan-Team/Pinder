@@ -10,7 +10,8 @@ export default class PetsDashboard extends Component   {
     state={
         view:'pets',
         pets:[],
-        UserId:0
+        UserId:0,
+        location:''
     }
     getUserInfo = async () => {
         try {
