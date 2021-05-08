@@ -3,5 +3,6 @@ module.exports = {
     petRouter : require('./PetRouter'),
     verificationSms : require('./VerificationSms'),
     chat_messages:require('./chat_messages'),
-    Friends:require('./FriendsRouter')
+    Friends:require('./FriendsRouter'),
+    Notification:require('./NotificationsRouter')
 };

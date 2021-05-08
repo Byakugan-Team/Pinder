@@ -25,7 +25,7 @@ module.exports = {
         })
     },
     CreateUser:(req,res)=>{
-        
+        console.log(req.body)
         controller.users.CreateUser(req.body)
         .then((result)=>{
             authenication.IsRegistred({body:{email:req.body.email,phone:req.body.number}},res)

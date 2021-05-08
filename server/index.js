@@ -38,6 +38,8 @@ app.use('/pets' ,Routers.petRouter)
 
 app.use('/Friends' ,Routers.Friends)
 
+app.use('/Notification' ,Routers.Notification)
+
 app.use('/verifSms', Routers.verificationSms)
 
 

@@ -1,9 +1,20 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect,useRef } from 'react';
+import Constants from 'expo-constants';
+import * as Notifications from 'expo-notifications';
 import * as ImagePicker from 'expo-image-picker';
 import { StyleSheet, View, Button, Platform , ImageBackground, TouchableOpacity,TextInput,Dimensions} from 'react-native';
 import server_IP from '../../config/Server_IP'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import * as Location from 'expo-location';
+
+
+Notifications.setNotificationHandler({
+	handleNotification: async () => ({
+	  shouldShowAlert: true,
+	  shouldPlaySound: false,
+	  shouldSetBadge: false,
+	}),
+  });
 
 export default function Photo({navigation,route}) {
 
@@ -14,6 +25,10 @@ export default function Photo({navigation,route}) {
 	const [ lastnmae, onChangelastname ] = React.useState((route.params.lastname)?route.params.lastname :'');
 	const [location, setLocation] = useState(null);
 	const [errorMsg, setErrorMsg] = useState(null);
+	const [expoPushToken, setExpoPushToken] = useState('');
+	const [notification, setNotification] = useState(false);
+	const notificationListener = useRef();
+	const responseListener = useRef();
 	const _storeData = async (token) => {
 		try {
 		  await AsyncStorage.setItem(
@@ -25,7 +40,54 @@ export default function Photo({navigation,route}) {
 		}
 	  };
 	  
-
+	  useEffect(() => {
+		registerForPushNotificationsAsync().then(token => setExpoPushToken(token));
+	
+		// This listener is fired whenever a notification is received while the app is foregrounded
+		notificationListener.current = Notifications.addNotificationReceivedListener(notification => {
+		  setNotification(notification);
+		});
+	
+		// This listener is fired whenever a user taps on or interacts with a notification (works when app is foregrounded, backgrounded, or killed)
+		responseListener.current = Notifications.addNotificationResponseReceivedListener(response => {
+		  console.log(response);
+		});
+	
+		return () => {
+		  Notifications.removeNotificationSubscription(notificationListener.current);
+		  Notifications.removeNotificationSubscription(responseListener.current);
+		};
+	  }, []);
+	  async function registerForPushNotificationsAsync() {
+		let token;
+		if (Constants.isDevice) {
+		  const { status: existingStatus } = await Notifications.getPermissionsAsync();
+		  let finalStatus = existingStatus;
+		  if (existingStatus !== 'granted') {
+			const { status } = await Notifications.requestPermissionsAsync();
+			finalStatus = status;
+		  }
+		  if (finalStatus !== 'granted') {
+			alert('Failed to get push token for push notification!');
+			return;
+		  }
+		  token = (await Notifications.getExpoPushTokenAsync()).data;
+		  console.log('expo Token : ',token);
+		} else {
+		  alert('Must use physical device for Push Notifications');
+		}
+	  
+		if (Platform.OS === 'android') {
+		  Notifications.setNotificationChannelAsync('default', {
+			name: 'default',
+			importance: Notifications.AndroidImportance.MAX,
+			vibrationPattern: [0, 250, 250, 250],
+			lightColor: '#FF231F7C',
+		  });
+		}
+	  
+		return token;
+	  }
 	const openImagePickerAsync = async () => {
 		let permissionResult = await ImagePicker.requestCameraRollPermissionsAsync();
 		if (permissionResult.granted === false) {
@@ -93,7 +155,8 @@ export default function Photo({navigation,route}) {
 			number:route.params.number,
 			email:route.params.email,
 			photo:data,
-			location:location
+			location:location,
+			notifications_Token:expoPushToken
 		}
 		fetch('http://'+server_IP+':3000/users', {
 			body: JSON.stringify(user),

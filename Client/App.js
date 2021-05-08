@@ -33,9 +33,14 @@ export default function App() {
     
       <NavigationContainer   styles={{backgroundColor:'white'}} >
         <Stack.Navigator headerMode='none' >
+       
         <Stack.Screen 
             name="HomeScreen"
             component={HomeScreen}
+          />
+           <Stack.Screen 
+            name="Notification"
+            component={Notification}
           />
         <Stack.Screen
             name="UserImage"

@@ -13,6 +13,7 @@ import Matching from './Matching'
 import Friends from './Friends'
 import Icon from '../assets/Icon';
 import * as Font from 'expo-font';
+import Notifications from './Notification'
 const Tab = createBottomTabNavigator();
 
 function MyTabs({newRegistred}) {
@@ -43,7 +44,7 @@ function MyTabs({newRegistred}) {
                 )
               }}
             />
- <Tab.Screen name="Notifications" component={PetsDashboard} options={{
+ <Tab.Screen name="Notifications" component={Notifications} options={{
    
                 tabBarIcon: ({ color, size }) => (
                   <MaterialCommunityIcons name="bell" color={color} size={size} />

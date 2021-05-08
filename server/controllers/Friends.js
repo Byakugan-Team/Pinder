@@ -1,5 +1,6 @@
 const connection = require('../Database')
 const controllers = require('./users')
+const controllersNotifications = require('./Notifications')
 module.exports={
         GetUserFriends : (id)=>{
             return new Promise ((resolve,reject) => {
@@ -22,9 +23,17 @@ module.exports={
                                         reject(err)
                                         return
                                     }
+                                    connection.query('INSERT INTO `Notifications`( `user_id`, `Friend_id`, `content`, `photo`) VALUES (?,?,?,?)', 
+                                    [receiver,sender,'Sent you an Invitation',''], (err, result)=> {
+                                        if(err) {
+                                            reject(err)
+                                            return
+                                        }
+                                        controllersNotifications.sendNotification(result.insertId)
                                        resolve(result)
                                 })
                         })
+                    })
         },
         AcceptInvitation:(sender,receiver)=>{
             return new Promise ((resolve,reject) => {
