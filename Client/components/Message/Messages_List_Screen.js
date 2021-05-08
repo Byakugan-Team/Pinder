@@ -11,7 +11,7 @@ import {
   TouchableHighlight,
   AsyncStorage
 } from 'react-native';
-
+import moment from "moment";
 import server_IP from "../../config/Server_IP";
 
 export default class MessagesList extends Component {

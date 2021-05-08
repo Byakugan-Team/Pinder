@@ -52,6 +52,8 @@ module.exports = {
             })
           });
     },
+
+    
     verifySms:(req,res)=>{
       console.log(req.body)
           controllers.smsverification.verifyCode(req.body.number,req.body.code)

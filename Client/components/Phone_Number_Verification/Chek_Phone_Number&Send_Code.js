@@ -3,7 +3,7 @@ import { StatusBar } from 'expo-status-bar';
 import { ScrollView, Text, TouchableHighlight, StyleSheet } from 'react-native'
 import TextField from 'react-native-md-textinput';
 import server_IP from '../../config/Server_IP'
-import * as axios from 'axios';
+
 
 export default class PhoneNumber extends Component {
   state = {
