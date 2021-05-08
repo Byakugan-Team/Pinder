@@ -23,11 +23,11 @@ const data = [
     }
   ]
 
-const CarouselCards = ({pets}) => {
+const CarouselCards = () => {
   const [index, setIndex] = React.useState(0)
   const isCarousel = React.useRef(null)
   const [pets, setpets] = React.useState([])
-  const pets_Info = pets
+
   GetPetsInfo = () =>{
     fetch('http://'+server_IP+':3000/pets/GetAll/'+user_id,{
         headers: {

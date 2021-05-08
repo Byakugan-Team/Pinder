@@ -14,6 +14,7 @@ import Friends from './Friends'
 import Icon from '../assets/Icon';
 import * as Font from 'expo-font';
 import Notifications from './Notification'
+
 const Tab = createBottomTabNavigator();
 
 function MyTabs({newRegistred}) {
