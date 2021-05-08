@@ -18,6 +18,10 @@ import Notification from './components/Notification';
 import PetsScreen from './components/petsDashboard/PetScreen'
 import Globalmenu from './components/Globalmenu'
 import MessagesList from './components/Message/Messages_List_Screen'
+import Matching from './components/Matching'
+
+
+//import ProfileView from './components/Profile_View.js/Profile'
 import ProfileView from './components/Profile_View.js/Profile';
 import Notification2 from './components/Notification2';
 
@@ -29,33 +33,40 @@ export default function App() {
     
       <NavigationContainer   styles={{backgroundColor:'white'}} >
         <Stack.Navigator headerMode='none' >
-
-        <Stack.Screen 
-            name="notification"
-            component={Notification}
-          /> 
-        
+       
         <Stack.Screen 
             name="HomeScreen"
             component={HomeScreen}
           />
-
+           <Stack.Screen 
+            name="Notification"
+            component={Notification}
+          />
+        <Stack.Screen
+            name="UserImage"
+            component={UserImage}
+          />
+        <Stack.Screen
+            name="PetsDashboard"
+            component={PetsDashboard}
+          />   
+        <Stack.Screen 
+            name="Matching"
+            component={Matching}
+          />
 
 <Stack.Screen 
             name="Globalmenu"
             component={Globalmenu}
             independent={true}
           /> 
-        <Stack.Screen
-            name="PetsDashboard"
-            component={PetsDashboard}
-          />   
+
         
        
- <Stack.Screen 
+ {/* <Stack.Screen 
             name="ProfileView"
             component={ProfileView}
-          /> 
+          />  */}
         
         <Stack.Screen 
             name="petUpdate"
@@ -70,10 +81,7 @@ export default function App() {
             component={PetsScreen}
           />
          
-            <Stack.Screen
-            name="UserImage"
-            component={UserImage}
-          />
+            
            
        
           <Stack.Screen

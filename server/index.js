@@ -5,6 +5,7 @@ const cors = require('cors')
 const app = express()
 const controllers = require('./controllers/index')
 
+
 const http = require('http');
 const server = http.createServer(app);
 const { Server } = require("socket.io")
@@ -35,6 +36,10 @@ app.use('/users',Routers.userRouter)
 
 app.use('/pets' ,Routers.petRouter)
 
+app.use('/Friends' ,Routers.Friends)
+
+app.use('/Notification' ,Routers.Notification)
+
 app.use('/verifSms', Routers.verificationSms)
 
 
@@ -56,6 +61,7 @@ io.on('connection', (socket) => {
         io.to(socket.handshake.query.roomId).emit('chat_new_message',{msg,id})
       });
   });
+
 
 server.listen(3000, '0.0.0.0',()=>{
     console.log('started on 3000')
