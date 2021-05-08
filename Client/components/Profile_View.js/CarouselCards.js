@@ -23,11 +23,11 @@ const data = [
     }
   ]
 
-const CarouselCards = ({user_id}) => {
+const CarouselCards = ({pets}) => {
   const [index, setIndex] = React.useState(0)
   const isCarousel = React.useRef(null)
   const [pets, setpets] = React.useState([])
-  
+  const pets_Info = pets
   GetPetsInfo = () =>{
     fetch('http://'+server_IP+':3000/pets/GetAll/'+user_id,{
         headers: {
@@ -42,6 +42,8 @@ const CarouselCards = ({user_id}) => {
     .catch((e) => console.log(e));
 }
 
+
+
   return (
       <View >
       <Carousel
@@ -50,7 +52,7 @@ const CarouselCards = ({user_id}) => {
         layout="stack"
         layoutCardOffset={9}
         ref={isCarousel}
-        data={data}
+        data={pets_Info}
         renderItem={CarouselCardItem}
         sliderWidth={SLIDER_WIDTH}
         itemWidth={ITEM_WIDTH}
@@ -58,7 +60,7 @@ const CarouselCards = ({user_id}) => {
         useScrollView={true}
       />
       <Pagination
-        dotsLength={data.length}
+        dotsLength={pets_Info.length}
         activeDotIndex={index}
         carouselRef={isCarousel}
         dotStyle={{
