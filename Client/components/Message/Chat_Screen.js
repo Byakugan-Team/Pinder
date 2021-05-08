@@ -52,7 +52,7 @@ export default class Chat extends Component {
       return (
         <View style={styles.eachMsg}>
           <Image source={{ uri: item.image }} style={styles.userPic} />
-          <View style={styles.msgBlock}>
+          <View style={(item.msg.length >=30) ? styles.msgBlockfix  : styles.msgBlock }>
             <Text style={styles.msgTxt}>{item.msg}</Text>
           </View>
         </View>
@@ -60,7 +60,7 @@ export default class Chat extends Component {
     } else {
       return (
         <View style={styles.rightMsg}>
-          <View style={styles.rightBlock}>
+          <View style={(item.msg.length >=30) ? styles.rightBlockfix  : styles.rightBlock }>
             <Text style={styles.rightTxt}>{item.msg}</Text>
           </View>
           <Image source={{ uri: item.image }} style={styles.userPic} />
@@ -263,6 +263,7 @@ const styles = StyleSheet.create({
   keyboard: {
     flex: 1,
     justifyContent: "center",
+    backgroundColor: "#FFFFFF"
   },
   image: {
     width,
@@ -297,8 +298,8 @@ const styles = StyleSheet.create({
   },
   footer: {
     flexDirection: "row",
-    height: 60,
-    backgroundColor: "#FAFAFA",
+    height: 70,
+    backgroundColor: "#F0F0F0",
     paddingHorizontal: 10,
     padding: 5,
   },
@@ -309,6 +310,7 @@ const styles = StyleSheet.create({
     borderRadius: 360,
     alignItems: "center",
     justifyContent: "center",
+    marginTop: 8,
   },
   iconSend: {
     width: 30,
@@ -325,6 +327,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     flex: 1,
     marginRight: 10,
+    marginTop: 8,
   },
   inputs: {
     height: 40,
@@ -369,7 +372,7 @@ const styles = StyleSheet.create({
     color: "#000000",
   },
   msgBlock: {
-    width: 220,
+
     borderRadius: 20,
     backgroundColor: "#F0F0F0",
     padding: 10,
@@ -380,8 +383,32 @@ const styles = StyleSheet.create({
       height: 1,
     },
   },
+  msgBlockfix: {
+    width:220,
+    borderRadius: 20,
+    backgroundColor: "#F0F0F0",
+    padding: 10,
+    shadowColor: "#3d3d3d",
+    shadowRadius: 2,
+    shadowOpacity: 0.5,
+    shadowOffset: {
+      height: 1,
+    },
+  },
+  rightBlockfix: {
+    width:220,
+    borderRadius: 20,
+    backgroundColor: "#00BFFF",
+    padding: 10,
+    shadowColor: "#3d3d3d",
+    shadowRadius: 2,
+    shadowOpacity: 0.5,
+    shadowOffset: {
+      height: 1,
+    },
+  },
   rightBlock: {
-    width: 220,
+
     borderRadius: 20,
     backgroundColor: "#00BFFF",
     padding: 10,

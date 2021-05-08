@@ -19,6 +19,7 @@ export default class ProfileView extends Component {
   }
 
 componentDidMount(){
+  this.getUser_Pets()
   this.getUserInfo()
 }  
 
@@ -38,18 +39,33 @@ getUserInfo() {
   };
 
 
+getUser_Pets() {
+  const { user_id } = this.state
+  fetch(`http://${server_IP}:3000/pets/GetAll/${user_id}`, {
+      headers: { "content-type": "application/json" },
+      method: "GET",
+    })
+      .then(async (result) => {
+        result = await result.json();
+        // console.log(result)
+        if (result) {
+          this.setState({ user_pets: result });
+        }
+      })
+      .catch((err) => console.log(err));
+};
 
   render() {
-    console.log(this.state)
+    // console.log("pets",this.state.user_pets)
 
-    const { user_info } = this.state;
+    const { user_info, user_pets } = this.state;
 
     return (
       <View style={styles.container}>
-        <ImageBackground style={{width: width, height: height}} source={require("../../assets/Profile_View/bg.png")}>
         <View style={{ height: 80, backgroundColor: "#F0F0F0" }}>
           <Text style={styles.name}>{`${user_info.first} ${user_info.last}`}</Text>
         </View>
+        <ImageBackground style={{width: width, height: height}} source={require("../../assets/Profile_View/bg.png")}>
         <ScrollView>
           <View style={styles.header}>
             <View>
@@ -79,9 +95,9 @@ getUserInfo() {
           </View>
        
           <View style={styles.body}>
-            <CarouselCards />
+            <CarouselCards pets={user_pets} />
           </View>
-        </ScrollView>
+        </ScrollView >
         </ImageBackground>
       </View>
     );
@@ -99,8 +115,8 @@ const styles = StyleSheet.create({
     alignSelf: "center",
   },
   avatar: {
-    width: 120,
-    height: 120,
+    width: 110,
+    height: 110,
     borderRadius: 63,
     borderWidth: 2,
     borderColor: "#F0F0F0",

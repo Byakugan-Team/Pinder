@@ -62,7 +62,7 @@ export default class CheckVerification extends Component {
 							if(result.registred){
                 this._storeData(result.token)
 								console.log('loged in')
-                this.props.navigation.navigate('PetsDashboard')
+                this.props.navigation.navigate('Globalmenu')
 							}else{
                 this.props.navigation.navigate('UselessTextInput',{
                   firstname:this.props.route.params.firstname,

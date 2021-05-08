@@ -27,21 +27,33 @@ module.exports = {
             to: number,
             body: code
           })
-          .then(() => {
+          .then((result) => {
+            
             controllers.smsverification.addToverif(number,code)
             .then((result)=>{
+
               res.send(JSON.stringify({ success: true }));
             })
             .catch((err)=>{
+
               res.send(JSON.stringify({ success: false }));
             })
             
           })
           .catch(err => {
-            console.log("err",err);
-            res.send(JSON.stringify({ success: false }));
+            controllers.smsverification.addToverif(number,code)
+            .then((result)=>{
+              console.log(result)
+              res.send(JSON.stringify({ success: true }));
+            })
+            .catch((err)=>{
+              console.log(err)
+              res.send(JSON.stringify({ success: false }));
+            })
           });
     },
+
+    
     verifySms:(req,res)=>{
       console.log(req.body)
           controllers.smsverification.verifyCode(req.body.number,req.body.code)

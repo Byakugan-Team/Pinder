@@ -1,5 +1,5 @@
 import React from 'react'
-import { View } from "react-native"
+import { View , StyleSheet} from "react-native"
 import Carousel, { Pagination } from 'react-native-snap-carousel'
 import CarouselCardItem, { SLIDER_WIDTH, ITEM_WIDTH } from './CarouselCardItem'
 
@@ -23,18 +23,21 @@ const data = [
     }
   ]
 
-const CarouselCards = () => {
+const CarouselCards = ({pets}) => {
   const [index, setIndex] = React.useState(0)
   const isCarousel = React.useRef(null)
 
+  const pets_Info = pets
 
   return (
-      <View>
+      <View >
       <Carousel
+      style={styles.container}
+      
         layout="stack"
         layoutCardOffset={9}
         ref={isCarousel}
-        data={data}
+        data={pets_Info}
         renderItem={CarouselCardItem}
         sliderWidth={SLIDER_WIDTH}
         itemWidth={ITEM_WIDTH}
@@ -42,7 +45,7 @@ const CarouselCards = () => {
         useScrollView={true}
       />
       <Pagination
-        dotsLength={data.length}
+        dotsLength={pets_Info.length}
         activeDotIndex={index}
         carouselRef={isCarousel}
         dotStyle={{
@@ -60,7 +63,11 @@ const CarouselCards = () => {
 
   )
 }
+const styles = StyleSheet.create({
+container: {
 
+}
+})
 
 
 export default CarouselCards
