@@ -1,161 +1,126 @@
-import {StatusBar} from 'expo-status-bar';
-import React, {useEffect} from 'react';
-import { Text, View, StyleSheet} from 'react-native';
-import * as Notifications from 'expo-notifications';
-import * as Permissions from 'expo-permissions';
 
+import React, { Component } from 'react';
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  FlatList
+} from 'react-native';
 
-export default function Notification() {
-    useEffect(()=> {
-        registerForPushNotificationsAsync().then(token=>console.log(token)).catch(err => console.log(err))
+export default class Notifications extends Component {
 
-    }, [])
-
-
-    async function registerForPushNotificationsAsync(){
-        const {status} =  await Permissions.getAsync(Permissions.NOTIFICATIONS);
-        if(status != 'granted'){
-            const {status} = await Permissions.askAsync(Permissions.NOTIFICATIONS)
-        }
-        if(status != 'granted'){
-            alert('Fail to get the push token ');
-            return;
-        }
-        token = (await Notifications.getExpoPushTokenAsync()).data;
-        return token;
+  constructor(props) {
+    super(props);
+    this.state = {
+      data:[
+        {id:3, image: "https://ak.picdn.net/shutterstock/videos/19523383/thumb/3.jpg", name:"Achref Ben Thamer", text:"Achref Ben Thamer Add a new pet", attachment:"https://yt3.ggpht.com/ytc/AAUvwnhFY3d8qOpu-KNOALIzsq4ECnGwTPwWmVVpkdM9Fg=s900-c-k-c0x00ffffff-no-rj"},
+        {id:2, image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQVraRaR8WdWiYt0jvbL-h_z_Z01-UmKE0gFg&usqp=CAU", name:"Gaston",     text:"Gaston add a new pet named Momo", attachment:"https://sentientmedia.org/wp-content/uploads/2020/02/LouiseNuts.jpg"},
+        {id:4, image: "https://bootdey.com/img/Content/avatar/avatar2.png", name:"Nadhem Bacha",  text:"Nadhem Bacha Viste your profile", attachment:""},
+        {id:5, image: "https://www.headshotsprague.com/wp-content/uploads/2019/07/Headshots_Prague-emotional-portrait-of-a-smiling-entrepreneur-1.jpg", name:"Mahdi Tounsi",  text:"Nothing", attachment:""},
+      ]
     }
-    return(
-        <View >
-            <Text style={styles.container}>
-                hello
-            </Text>
-            <StatusBar style='auto' />
-            
+  }
+  
 
-        </View>
+  render() {
+
+    return (
+      <FlatList
+        style={styles.root}
+        data={this.state.data}
+        extraData={this.state}
+        ItemSeparatorComponent={() => {
+          return (
+            <View style={styles.separator}/>
+          )
+        }}
+        keyExtractor={(item)=>{
+          return item.id;
+        }}
+        renderItem={(item) => {
+          const Notification = item.item;
+          let attachment = <View/>;
+
+          let mainContentStyle;
+          if(Notification.attachment) {
+            mainContentStyle = styles.mainContent;
+            attachment = <Image style={styles.attachment} source={{uri:Notification.attachment}}/>
+          }
+          return(
+            <View style={styles.container}>
+              <Image source={{uri:Notification.image}} style={styles.avatar}/>
+              <View style={styles.content}>
+                <View style={mainContentStyle}>
+                    <Text style={styles.name}>{Notification.name}</Text>
+                  <View style={styles.text}>
+                      {Notification.text.length > 30 ? <Text>{`${Notification.text.slice(0, 30)}...`}</Text> : <Text>{Notification.text}</Text>}
+                    
+                  </View>
+                  <Text style={styles.timeAgo}>
+                    2 hours ago
+                  </Text>
+                </View>
+                {attachment}
+              </View>
+            </View>
+          );
+        }}/>
     );
+  }
 }
 
 const styles = StyleSheet.create({
-    container : {
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center'
-    }
-})
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// Notifications.setNotificationHandler({
-//   handleNotification: async () => ({
-//     shouldShowAlert: true,
-//     shouldPlaySound: false,
-//     shouldSetBadge: false,
-//   }),
-// });
-
-// export default function App() {
-//   const [expoPushToken, setExpoPushToken] = useState('');
-//   const [notification, setNotification] = useState(false);
-//   const notificationListener = useRef();
-//   const responseListener = useRef();
-
-//   useEffect(() => {
-//     registerForPushNotificationsAsync().then(token => setExpoPushToken(token));
-
-//     notificationListener.current = Notifications.addNotificationReceivedListener(notification => {
-//       setNotification(notification);
-//     });
-
-//     responseListener.current = Notifications.addNotificationResponseReceivedListener(response => {
-//       console.log(response);
-//     });
-
-//     return () => {
-//       Notifications.removeNotificationSubscription(notificationListener.current);
-//       Notifications.removeNotificationSubscription(responseListener.current);
-//     };
-//   }, []);
-
-//   return (
-//     <View
-//       style={{
-//         flex: 1,
-//         alignItems: 'center',
-//         justifyContent: 'space-around',
-//       }}>
-//       <Text>Your expo push token: {expoPushToken}</Text>
-//       <View style={{ alignItems: 'center', justifyContent: 'center' }}>
-//         <Text>Title: {notification && notification.request.content.title} </Text>
-//         <Text>Body: {notification && notification.request.content.body}</Text>
-//         <Text>Data: {notification && JSON.stringify(notification.request.content.data)}</Text>
-//       </View>
-//       <Button
-//         title="Press to schedule a notification"
-//         onPress={async () => {
-//           await schedulePushNotification();
-//         }}
-//       />
-//     </View>
-//   );
-// }
-
-// async function schedulePushNotification() {
-//   await Notifications.scheduleNotificationAsync({
-//     content: {
-//       title: "You've got mail! 📬",
-//       body: 'Here is the notification body',
-//       data: { data: 'goes here' },
-//     },
-//     trigger: { seconds: 2 },
-//   });
-// }
-
-// async function registerForPushNotificationsAsync() {
-//   let token ;
-//   if (Constants.isDevice) {
-//     const { status: existingStatus } = await Notifications.getPermissionsAsync();
-//     let finalStatus = existingStatus;
-//     if (existingStatus !== 'granted') {
-//       const { status } = await Notifications.requestPermissionsAsync();
-//       finalStatus = status;
-//     }
-//     if (finalStatus !== 'granted') {
-//       alert('Failed to get push token for push notification!');
-//       return;
-//     }
-//     token = (await Notifications.getExpoPushTokenAsync()).data;
-//     console.log(token);
-//   } else {
-//     alert('Must use physical device for Push Notifications');
-//   }
-
-//   if (Platform.OS === 'android') {
-//     Notifications.setNotificationChannelAsync('default', {
-//       name: 'default',
-//       importance: Notifications.AndroidImportance.MAX,
-//       vibrationPattern: [0, 250, 250, 250],
-//       lightColor: '#FF231F7C',
-//     });
-//   }
-
-//   return token;
-// }
+  root: {
+    backgroundColor: "#FFFFFF"
+  },
+  container: {
+    padding: 16,
+    flexDirection: 'row',
+    borderBottomWidth: 1,
+    borderColor: "#FFFFFF",
+    alignItems: 'flex-start'
+  },
+  avatar: {
+    width:50,
+    height:50,
+    borderRadius:25,
+  },
+  text: {
+    marginBottom: 5,
+    flexDirection: 'row',
+    flexWrap:'wrap'
+  },
+  content: {
+    flex: 1,
+    marginLeft: 16,
+    marginRight: 0
+  },
+  mainContent: {
+    marginRight: 60
+  },
+  img: {
+    height: 50,
+    width: 50,
+    margin: 0
+  },
+  attachment: {
+    position: 'absolute',
+    right: 0,
+    height: 50,
+    width: 50
+  },
+  separator: {
+    height: 1,
+    backgroundColor: "#CCCCCC"
+  },
+  timeAgo:{
+    fontSize:12,
+    color:"#696969"
+  },
+  name:{
+    fontSize:16,
+    color:"#1E90FF",
+    
+  }
+}); 

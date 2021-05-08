@@ -82,7 +82,7 @@ export default function Photo({navigation,route}) {
 				console.log(data)
 				if(data.registred){
 					_storeData(data.token)
-				navigation.navigate('PetsDashboard')
+				navigation.navigate('Globalmenu')
 				}
 			})
 			.catch((err) => console.log(err));

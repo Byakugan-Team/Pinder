@@ -2,7 +2,6 @@ import React, { useState, useContext } from 'react';
 import { View, StyleSheet, TextInput, Text, Button, Platform } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import axios from 'axios';
-import DatePicker from 'react-native-datepicker';
 import { RadioButton} from 'react-native-paper';
 import server_IP from '../config/Server_IP'
 

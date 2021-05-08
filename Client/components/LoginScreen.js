@@ -45,7 +45,7 @@ export default function LoginScreen({navigation}) {
 							if(result.registred){
 								_storeData(result.token)
 								console.log('loged in')
-								navigation.navigate('PetsDashboard')
+								navigation.navigate('Globalmenu')
 							}else{
 								navigation.navigate('PhoneNumber',{
 									firstname:user.name.split(' ')[0],
@@ -103,7 +103,7 @@ export default function LoginScreen({navigation}) {
 							if(result.registred){
 								_storeData(result.token)
 								console.log('loged in')
-								navigation.navigate('PetsDashboard')
+								navigation.navigate('Globalmenu')
 							}else{
 								navigation.navigate('PhoneNumber',{
 									firstname:data.first_name,
