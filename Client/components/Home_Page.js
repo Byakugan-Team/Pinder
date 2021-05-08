@@ -22,7 +22,7 @@ export default class Home_Screen extends Component {
     super(props);
 
     this.state = {
-    defaultCode: "+216",
+      defaultCode: "+216",
       phone_Number: "",
       inputLength: 0
     };
