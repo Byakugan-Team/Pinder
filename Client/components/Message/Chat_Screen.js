@@ -1,28 +1,40 @@
-import React, { Component } from 'react';
-import { StatusBar } from 'expo-status-bar';
-import {AsyncStorage, ScrollView, StyleSheet, Text, View, Image, TextInput, FlatList, Dimensions, KeyboardAvoidingView, TouchableOpacity} from 'react-native';
-const { width, height } = Dimensions.get('window');
-import {io} from "socket.io-client"
-import server_IP from '../../config/Server_IP'
+import React, { Component } from "react";
+import { StatusBar } from "expo-status-bar";
+import {
+  AsyncStorage,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  TextInput,
+  FlatList,
+  Dimensions,
+  KeyboardAvoidingView,
+  TouchableOpacity,
+} from "react-native";
+const { width, height } = Dimensions.get("window");
+import { io } from "socket.io-client";
+import server_IP from "../../config/Server_IP";
 
 export default class Chat extends Component {
-
   constructor(props) {
     super(props);
 
     this.state = {
-      msg: '',
+      msg: "",
       messages: [],
       MyUser: {},
       Myfriend: {},
-      scrollViewmessages:{}
+      ListLast : {
+        
+      }
+      // scrollViewmessages:{} => L 131
     };
 
     this.send = this.send.bind(this);
-    this.renderItem   = this._renderItem.bind(this);
-
-  };
-
+    this.renderItem = this._renderItem.bind(this);
+  }
 
   send() {
     if (this.state.msg.length > 0) {
@@ -33,173 +45,188 @@ export default class Chat extends Component {
       });
       this.setState({ msg: "" });
     }
-  };
+  }
 
-
-  _renderItem = ({item}) => {
+  _renderItem = ({ item }) => {
     if (item.sent === false) {
       return (
         <View style={styles.eachMsg}>
-          <Image source={{ uri: item.image}} style={styles.userPic} />
-          <View style={styles.msgBlock}>
+          <Image source={{ uri: item.image }} style={styles.userPic} />
+          <View style={(item.msg.length >=30) ? styles.msgBlockfix  : styles.msgBlock }>
             <Text style={styles.msgTxt}>{item.msg}</Text>
           </View>
         </View>
       );
-    } else{
+    } else {
       return (
-        <View style={styles.rightMsg} >
-          <View style={styles.rightBlock} >
+        <View style={styles.rightMsg}>
+          <View style={(item.msg.length >=30) ? styles.rightBlockfix  : styles.rightBlock }>
             <Text style={styles.rightTxt}>{item.msg}</Text>
           </View>
-          <Image source={{uri: item.image}} style={styles.userPic} />
+          <Image source={{ uri: item.image }} style={styles.userPic} />
         </View>
       );
     }
   };
 
-
-  _logIn = async () => {
+  getUserInfo = async () => {
     try {
-      const token = await AsyncStorage.getItem('Pinder_token');
+      const token = await AsyncStorage.getItem("Pinder_token");
       if (token !== null) {
-        fetch(`http://${server_IP}:3000/users/logIn`,{
-        body: JSON.stringify({token}),
-        headers: {'content-type': 'application/json'},
-        method: 'POST',
-    }).then(async (result)=> {
-        result = await result.json();
-        if(result.success){
-            this.setState({MyUser: result.user});
-            this.Friend_Info()}
-    }).catch((err) => console.log('err',err));
+        fetch(`http://${server_IP}:3000/users/logIn`, {
+          body: JSON.stringify({ token }),
+          headers: { "content-type": "application/json" },
+          method: "POST",
+        })
+          .then(async (result) => {
+            result = await result.json();
+            if (result.success) {
+              this.setState({ MyUser: result.user });
+              this.Friend_Info();
+            }
+          })
+          .catch((err) => console.log("err", err));
       }
-    } catch (error) { console.log(error) }
-  };
-
-
-  Friend_Info(){
-    if(this.state.MyUser.id == 5){
-      var id = 7
-    }else{
-      var id = 5 //=> The id is hardcoded to try the functionality, then it will be the props.id which will come through the Chat_List screen.
+    } catch (error) {
+      console.log(error);
     }
-    fetch(`http://${server_IP}:3000/users/${id}`,{
-      headers: { 'content-type': 'application/json' },
-      method: 'GET',
-  }).then(async (result)=>{
-      result = await result.json();
-      if(result.success){
-          this.setState({Myfriend: result.user})
-          this.GetMessages()};
-  }).catch((e) => console.log(e));
   };
 
+  Friend_Info() {
 
-  GetMessages(){
-    const userId = this.state.MyUser.id;
-    const friendId =this.state.Myfriend.id;
-    fetch(`http://${server_IP}:3000/messages/Getmesssage`,{
-      body:JSON.stringify({myid: userId, friendid: friendId}),
-      headers: { 'content-type': 'application/json' },
-      method: 'POST',
-  }).then(async (result)=>{
-    result = await result.json();
-    console.log(result)
-    var messagesAll = []
-    for(var i =0 ; i<result.length;i++){
-        var element = result[i]
-          if(element.sender_id == this.state.MyUser.id){
-        var message =   {
-              id:this.state.MyUser.id,
-              name:this.state.MyUser.first + ' ' + this.state.MyUser.last,
-              sent: true,
-              msg: element.message,
-              image:this.state.MyUser.photo
-            
-          }
-        }else{
-          var message =   {
-            id:this.state.Myfriend.id,
-            name:this.state.Myfriend.first + ' ' + this.state.Myfriend.last,
-            sent: false,
-            msg: element.message,
-            image:this.state.Myfriend.photo
-          
-        }
-        }
-        messagesAll.push(message)
-    };
-    
-    this.setState({messages:messagesAll})
-    this.socketioConnection()
-    this.state.scrollViewmessages.scrollToEnd({ animated: true }); 
-})
-.catch((e) => console.log(e));
-  }
-  socketioConnection(){
-    var roomId = Math.max(this.state.MyUser.id,this.state.Myfriend.id).toString() + Math.min(this.state.MyUser.id,this.state.Myfriend.id).toString()
-    this.socket = io("http://"+server_IP+":3000",{query: `roomId=${roomId}`});
-
-    this.socket.on("chat_new_message", ({msg,id}) => {
-      if(id == this.state.MyUser.id){
-        var bool = true;
-        var name = this.state.MyUser.first + ' ' + this.state.MyUser.last
-        var img = this.state.MyUser.photo
-      }else{
-        var bool =false
-        var name = this.state.Myfriend.first + ' ' + this.state.Myfriend.last
-        var img = this.state.Myfriend.photo
-      }
-          this.setState({ messages: [...this.state.messages, {
-            id:id,
-            name:name,
-            sent: bool,
-            msg: msg,
-            image:img
-          }]
-          
-     });
-     this.state.scrollViewmessages.scrollToEnd({ animated: true }); 
-  });
-  }
-  componentDidMount(){
-    this._logIn()
-    
+      var id = this.props.route.params.FriendId;
    
+    fetch(`http://${server_IP}:3000/users/${id}`, {
+      headers: { "content-type": "application/json" },
+      method: "GET",
+    })
+      .then(async (result) => {
+        result = await result.json();
+        if (result.success) {
+          this.setState({ Myfriend: result.user });
+          this.GetMessages();
+        }
+      })
+      .catch((err) => console.log(err));
+  };
 
+  GetMessages() {
+    const { MyUser, Myfriend } = this.state;
+    fetch(`http://${server_IP}:3000/messages/Getmesssage`, {
+      body: JSON.stringify({ myid: MyUser.id, friendid: Myfriend.id }),
+      headers: { "content-type": "application/json" },
+      method: "POST",
+    })
+      .then(async (result) => {
+        result = await result.json();
+        var AllMessages = [];
+        for (var i = 0; i < result.length; i++) {
+          var msg = result[i];
+          if (msg.sender_id == MyUser.id) {
+            var message = {
+              id: MyUser.id,
+              name: `${MyUser.first} ${MyUser.last}`,
+              sent: true,
+              msg: msg.message,
+              image: MyUser.photo,
+            };
+          } else {
+            var message = {
+              id: Myfriend.id,
+              name: `${Myfriend.first} ${Myfriend.last}`,
+              sent: false,
+              msg: msg.message,
+              image: Myfriend.photo,
+            };
+          }
+          AllMessages.push(message);
+        }
+        this.setState({ messages: AllMessages });
+        this.socketioConnection();
+        // this.state.scrollViewmessages.scrollToEnd({ animated: true });
+      })
+      .catch((err) => console.log(err));
+  }
+
+  socketioConnection() {
+    const { MyUser, Myfriend } = this.state;
+    var roomId =
+      Math.max(MyUser.id, Myfriend.id).toString() +
+      Math.min(MyUser.id, Myfriend.id).toString();
+    this.socket = io("http://" + server_IP + ":3000", {
+      query: `roomId=${roomId}`,
+    });
+
+    this.socket.on("chat_new_message", ({ msg, id }) => {
+      if (id == MyUser.id) {
+        this.setState({
+          messages: [
+            ...this.state.messages,
+            {
+              id: id,
+              name: `${MyUser.first} ${MyUser.last}`,
+              sent: true,
+              msg: msg,
+              image: MyUser.photo,
+            },
+          ],
+        });
+      } else {
+        this.setState({
+          messages: [
+            ...this.state.messages,
+            {
+              id: id,
+              name: `${Myfriend.first} ${Myfriend.last}`,
+              sent: false,
+              msg: msg,
+              image: Myfriend.photo,
+            },
+          ],
+        });
+      }
+      //  this.state.scrollViewmessages.scrollToEnd({ animated: true });
+    });
+  }
+
+  componentDidMount() {
+    this.getUserInfo();
   }
 
   render() {
-
     return (
       <View style={{ flex: 1 }}>
         <View style={styles.header}>
+          <TouchableOpacity  onPress={()=>this.props.navigation.navigate('MessagesList',{
+            LastMessage : this.state.ListLast
+          })} >
           <Image
             source={{ uri: "https://img.icons8.com/ios/30/000000/left.png" }}
             style={styles.backIcon}
+           
           />
+          </TouchableOpacity>
           <Image
             source={{ uri: this.state.Myfriend.photo }}
             style={styles.headerPic}
           />
-          <Text style={styles.headerName}>{this.state.Myfriend.first + ' ' + this.state.Myfriend.last}</Text>
+          <Text style={styles.headerName}>
+            {this.state.Myfriend.first + " " + this.state.Myfriend.last}
+          </Text>
         </View>
         <KeyboardAvoidingView style={styles.keyboard}>
-        <ScrollView
-  ref={(view) => {
-    this.setState({scrollViewmessages:view})
-  }}
->
-          <FlatList
-            style={styles.list}
-            extraData={this.state}
-            data={this.state.messages}
-            keyExtractor={(item) => {
-              return Math.random().toString();
+          <ScrollView
+            ref={(view) => {
+              this.setState({ scrollViewmessages: view });
             }}
-            renderItem={this.renderItem}
-          />
+          >
+            <FlatList
+              style={styles.list}
+              extraData={this.state}
+              data={this.state.messages}
+              keyExtractor={()=>Math.random().toString()}
+              renderItem={this.renderItem}
+            />
           </ScrollView>
           <View style={styles.footer}>
             <View style={styles.inputContainer}>
@@ -232,11 +259,10 @@ export default class Chat extends Component {
   }
 }
 
-
 const styles = StyleSheet.create({
   keyboard: {
     flex: 1,
-    justifyContent: 'center',
+    justifyContent: "center",
   },
   image: {
     width,
@@ -244,22 +270,22 @@ const styles = StyleSheet.create({
   },
   header: {
     height: 65,
-    flexDirection: 'row',
+    flexDirection: "row",
 
-    alignItems: 'center',
-    backgroundColor: '#FAFAFA',
+    alignItems: "center",
+    backgroundColor: "#FAFAFA",
     marginTop: 25,
   },
   left: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
   },
   right: {
-    flexDirection: 'row',
+    flexDirection: "row",
   },
   chatTitle: {
-    color: '#fff',
-    fontWeight: '600',
+    color: "#fff",
+    fontWeight: "600",
     margin: 10,
     fontSize: 15,
   },
@@ -269,85 +295,109 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     margin: 5,
   },
-  footer:{
-    flexDirection: 'row',
-    height:60,
-    backgroundColor: '#FAFAFA',
-    paddingHorizontal:10,
-    padding:5,
+  footer: {
+    flexDirection: "row",
+    height: 60,
+    backgroundColor: "#FAFAFA",
+    paddingHorizontal: 10,
+    padding: 5,
   },
-  btnSend:{
-    backgroundColor:"#00BFFF",
-    width:40,
-    height:40,
-    borderRadius:360,
-    alignItems:'center',
-    justifyContent:'center',
+  btnSend: {
+    backgroundColor: "#00BFFF",
+    width: 40,
+    height: 40,
+    borderRadius: 360,
+    alignItems: "center",
+    justifyContent: "center",
   },
-  iconSend:{
-    width:30,
-    height:30,
-    alignSelf:'center',
+  iconSend: {
+    width: 30,
+    height: 30,
+    alignSelf: "center",
   },
   inputContainer: {
-    borderBottomColor: '#F5FCFF',
-    backgroundColor: '#FFFFFF',
-    borderRadius:30,
+    borderBottomColor: "#F5FCFF",
+    backgroundColor: "#FFFFFF",
+    borderRadius: 30,
     borderBottomWidth: 1,
-    height:40,
-    flexDirection: 'row',
-    alignItems:'center',
-    flex:1,
-    marginRight:10,
+    height: 40,
+    flexDirection: "row",
+    alignItems: "center",
+    flex: 1,
+    marginRight: 10,
   },
-  inputs:{
-    height:40,
-    marginLeft:16,
-    borderBottomColor: '#FFFFFF',
-    flex:1,
+  inputs: {
+    height: 40,
+    marginLeft: 16,
+    borderBottomColor: "#FFFFFF",
+    flex: 1,
   },
   eachMsg: {
-    flexDirection: 'row',
-    alignItems: 'flex-end',
+    flexDirection: "row",
+    alignItems: "flex-end",
     margin: 5,
   },
   rightMsg: {
-    flexDirection: 'row',
-    alignItems: 'flex-end',
+    flexDirection: "row",
+    alignItems: "flex-end",
     margin: 5,
-    alignSelf: 'flex-end',
+    alignSelf: "flex-end",
   },
   userPic: {
     height: 40,
     width: 40,
     margin: 5,
     borderRadius: 20,
-    backgroundColor: '#f8f8f8',
+    backgroundColor: "#f8f8f8",
   },
   backIcon: {
     height: 25,
     width: 20,
     margin: 5,
     borderRadius: 20,
-    backgroundColor: '#f8f8f8',
+    backgroundColor: "#f8f8f8",
   },
-  headerPic :{
+  headerPic: {
     height: 42,
     width: 42,
     margin: 15,
     borderRadius: 20,
-    backgroundColor: '#f8f8f8',
+    backgroundColor: "#f8f8f8",
   },
-  headerName :{
-    fontWeight: 'bold',
-    color: '#000000',
+  headerName: {
+    fontWeight: "bold",
+    color: "#000000",
   },
   msgBlock: {
-    width: 220,
+
     borderRadius: 20,
-    backgroundColor: '#F0F0F0',
+    backgroundColor: "#F0F0F0",
     padding: 10,
-    shadowColor: '#3d3d3d',
+    shadowColor: "#3d3d3d",
+    shadowRadius: 2,
+    shadowOpacity: 0.5,
+    shadowOffset: {
+      height: 1,
+    },
+  },
+  msgBlockfix: {
+    width:220,
+    borderRadius: 20,
+    backgroundColor: "#F0F0F0",
+    padding: 10,
+    shadowColor: "#3d3d3d",
+    shadowRadius: 2,
+    shadowOpacity: 0.5,
+    shadowOffset: {
+      height: 1,
+    },
+  },
+  rightBlockfix: {
+    width:220,
+    borderRadius: 20,
+    backgroundColor: "#00BFFF",
+    padding: 10,
+    shadowColor: "#3d3d3d",
     shadowRadius: 2,
     shadowOpacity: 0.5,
     shadowOffset: {
@@ -355,11 +405,11 @@ const styles = StyleSheet.create({
     },
   },
   rightBlock: {
-    width: 220,
+
     borderRadius: 20,
-    backgroundColor: '#00BFFF',
+    backgroundColor: "#00BFFF",
     padding: 10,
-    shadowColor: '#3d3d3d',
+    shadowColor: "#3d3d3d",
     shadowRadius: 2,
     shadowOpacity: 0.5,
     shadowOffset: {
@@ -368,12 +418,12 @@ const styles = StyleSheet.create({
   },
   msgTxt: {
     fontSize: 15,
-    color: '#000000',
-    fontWeight: '600',
+    color: "#000000",
+    fontWeight: "600",
   },
   rightTxt: {
     fontSize: 15,
-    color: 'white',
-    fontWeight: '600',
+    color: "white",
+    fontWeight: "600",
   },
-}); 
+});
