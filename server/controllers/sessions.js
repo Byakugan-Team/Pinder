@@ -7,8 +7,12 @@ module.exports = {
 
             connection.query(`INSERT INTO sessions (id_user,token) VALUES (?,?) `, 
                 [id,token], (err, result)=> {
-                    err ? reject(err) : resolve(result)
-                    return
+                    if(err) {
+                        reject(err)
+                        return
+                    }
+                       resolve(result)
+                
                 })
         })
     },
@@ -17,8 +21,11 @@ module.exports = {
 
             connection.query(`Select *  FROM sessions where token=?`, 
                 [token], (err, result)=> {
-                    (err || result.length == 0 ) ? reject(err || 'wrong token' ) : resolve(result)
-                    return
+                    if(err || result.length == 0) {
+                        reject(err || 'wrong token' )
+                        return
+                    }
+                       resolve(result)
                 })
         })
     }
