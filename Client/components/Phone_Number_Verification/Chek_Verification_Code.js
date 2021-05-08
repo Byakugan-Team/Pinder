@@ -64,7 +64,7 @@ export default class CheckVerification extends Component {
 								console.log('loged in')
                 this.props.navigation.navigate('Globalmenu')
 							}else{
-                this.props.navigation.navigate('UselessTextInput',{
+                this.props.navigation.navigate('UserImage',{
                   firstname:this.props.route.params.firstname,
                   lastname:this.props.route.params.lastname,
                   photo:this.props.route.params.photo,

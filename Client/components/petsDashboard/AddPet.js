@@ -1,16 +1,18 @@
 import React, { useState, useContext } from 'react';
-import { View, StyleSheet, TextInput, Text, Button, Platform,Image,ScrollView,ImageBackground,TouchableOpacity,Pressable,KeyboardAvoidingView } from 'react-native';
+import { View, StyleSheet, TextInput, Text, Button, Platform,Image,ScrollView,ImageBackground,TouchableOpacity,Pressable,KeyboardAvoidingView,Picker } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import { RadioButton} from 'react-native-paper';
 import server_IP from '../../config/Server_IP'
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { TextInputMask } from 'react-native-masked-text';
+import { set } from 'react-native-reanimated';
 // import { updateUser } from '../../../server/controllers/users'
 
 const AddPet = ({ navigation,User }) => {
 	const [ nickname, setNickname ] = useState('');
 	const [ gendre, setGendre ] = useState('');
+	const [ pet, setPet ] = useState('');
 	const [ birth, setBirth ] = useState(null);
 	const [ category, setCategory ] = useState('');
     const [radio , setRadio] = useState('');
@@ -18,7 +20,7 @@ const AddPet = ({ navigation,User }) => {
 	const [ data, setPhoto ] = useState('x') 
 	const [ data1, setPhoto1 ] = useState('x') 
 	const [ data2, setPhoto2 ] = useState('x') 
-	const [date, setDate] = useState(new Date(1598051730000));
+	const [date, setDate] = useState(new Date(Date.now()));
 	const [dateConverted, setdateConverted] = useState();
 	const [mode, setMode] = useState('date');
 	const [show, setShow] = useState(false);
@@ -90,6 +92,7 @@ const AddPet = ({ navigation,User }) => {
 		 fetch('http://'+server_IP+':3000/pets/'+id, 	{body: JSON.stringify({
             name: nickname,
 			gender:gendre,
+			pet:pet,
 			birth:dateConverted,
 			category:category,
 			photo:[data,data1,data2]
@@ -101,7 +104,19 @@ const AddPet = ({ navigation,User }) => {
 			)
 			.then(async (res) => {
 				res = await res.json()
-				console.log(res,'test');
+				console.log(res)
+				if(res.success){
+					setBirth(null)
+					setCategory('')
+					setDate('')
+					setNickname('')
+					setGendre('')
+					setPhoto('x')
+					setPhoto1('x')
+					setPhoto2('x')
+					setdateConverted('')
+					setPet('')
+				}
 			}).catch ((err)=>{
 				console.log(err, 'hiiii')
 			})
@@ -141,6 +156,15 @@ const AddPet = ({ navigation,User }) => {
 	
 
 	{birth && console.log(birth.toString() )}
+	const listCat = ()=>{
+		var dogs = ["affenpinscher","Afghan hound","Airedale terrier","Akita","Alaskan Malamute","American Staffordshire terrier","American water spaniel","Australian cattle dog","Australian shepherd","Australian terrier","basenji","basset hound","beagle","bearded collie","Bedlington terrier","Bernese mountain dog","bichon frise","black and tan coonhound","bloodhound","border collie","border terrier","borzoi","Boston terrier","bouvier des Flandres","boxer","briard","Brittany","Brussels griffon","bull terrier","bulldog","bullmastiff","cairn terrier","Canaan dog","Chesapeake Bay retriever","Chihuahua","Chinese crested","Chinese shar-pei","chow chow","Clumber spaniel","cocker spaniel","collie","curly-coated retriever","dachshund","Dalmatian","Doberman pinscher","English cocker spaniel","English setter","English springer spaniel","English toy spaniel","Eskimo dog","Finnish spitz","flat-coated retriever","fox terrier","foxhound","French bulldog","German shepherd","German shorthaired pointer","German wirehaired pointer","golden retriever","Gordon setter","Great Dane","greyhound","Irish setter","Irish water spaniel","Irish wolfhound","Jack Russell terrier","Japanese spaniel","keeshond","Kerry blue terrier","komondor","kuvasz","Labrador retriever","Lakeland terrier","Lhasa apso","Maltese","Manchester terrier","mastiff","Mexican hairless","Newfoundland","Norwegian elkhound","Norwich terrier","otterhound","papillon","Pekingese","pointer","Pomeranian","poodle","pug","puli","Rhodesian ridgeback","Rottweiler","Saint Bernard","saluki","Samoyed","schipperke","schnauzer","Scottish deerhound","Scottish terrier","Sealyham terrier","Shetland sheepdog","shih tzu","Siberian husky","silky terrier","Skye terrier","Staffordshire bull terrier","soft-coated wheaten terrier","Sussex spaniel","spitz","Tibetan terrier","vizsla","Weimaraner","Welsh terrier","West Highland white terrier","whippet","Yorkshire terrier"]
+		var cats = ["Abyssinian","Abyssinian","Aegean","Aegean","American","American","American","American","American","American","American","American","American","Aphrodite","Aphrodite","Arabian","Arabian","Asian","foundation","Asian","Asian","Asian","Australian","Australian","Balinese","foundation","Balinese","Bambino","Bengal","but","Bengal","Birman","foundation","Birman","Bombay","Bombay","Brazilian","Brazilian","British","British","British","British","Burmese","Burmese","Burmilla","Burmilla","California","California","Chantilly-Tiffany","Chantilly-Tiffany","Chartreux","Chartreux","Chausie","Chausie","Colorpoint","Colorpoint","Cornish","Mutation","Cornish","Cymric,","Cymric","Cyprus","Cyprus","Devon","Devon","Donskoy","Don","Donskoy","Dragon","Chinese","Dragon","Dwelf","Egyptian","Egyptian","European","European","Exotic","Exotic","Foldex[9]","Foldex","German","German","Havana","foundation","Havana","Highlander","Highlander","Himalayan","Colorpoint","Himalayan","Japanese","Japanese","Javanese","Colorpoint","foundation","Javanese","Kanaani","Khao","Khao","Kinkalow","Kinkalow","Korat","Korat","Korean","Japanese","Korn","Kurilian","Kuril","Kurilian","Lambkin","LaPerm","LaPerm","Lykoi","Lykoi","Maine","Maine","Manx","Manx","Mekong","Mekong","Minskin","Minskin","Napoleon","Napoleon","Munchkin","Munchkin","Nebelung","Nebelung","Norwegian","Norwegian","Ocicat","Ocicat","Ojos","Ojos","Oregon","(extinct)","Oriental","foundation","Oriental","Oriental","foundation","Oriental","Oriental","foundation","Oriental","Persian","foundation","Persian,","Persian","Traditional","Peterbald","before","Peterbald","Pixie-bob","Pixie-bob","Ragamuffin","Liebling","Ragamuffin","Ragdoll","Ragdoll","Raas","Russian","Russian","Russian","foundation","Sam","Savannah","Savannah","Scottish","Lilac-coated","Selkirk","Selkirk","Serengeti","Serengeti","Serrade","Serrade","Siamese","(for","foundation","Siamese","Siberian","Siberian","Neva","Siberian","Singapura","foundation","Singapura","Snowshoe","Snowshoe","Sokoke","Sokoke","Somali","Somali","Sphynx","Sphynx","Suphalak","Suphalak","Thai","Traditional,","Wichien","Thai","Thai","Thai","Tonkinese","Tonkinese","Toyger","Toyger","Turkish","Turkish","Turkish","foundation","Turkish","Turkish","Van","Ukrainian","Ukrainian","York","York"]
+		if(pet == 'Dog'){
+			return dogs.map((element)=> <Picker.Item label={element} value={element} />)
+		}else if(pet == 'Cat'){
+			return cats.map((element)=> <Picker.Item label={element} value={element} />)
+		}
+	}
 	return (
 		<KeyboardAvoidingView style={{ flex: 1, flexDirection: 'column',justifyContent: 'center',}} behavior="padding" enabled   keyboardVerticalOffset={100}>
 
@@ -174,41 +198,60 @@ const AddPet = ({ navigation,User }) => {
 			<View style={styles.container}>
 				<View style={{flexDirection: "row"}}>
 				<TextInput style={styles.input} onChangeText={setNickname} value={nickname} placeholder="nickname" />
-				<TextInput style={styles.input} onChangeText={setGendre} value={gendre} placeholder="Gendre" />
-				</View>
-				{/* <TextInput style={styles.input} onChangeText={setGendre} value={gendre} placeholder="gendre" /> */}
-                {/* <RadioButton.Group
-        //   onValueChange={value1 => this.setState({ value1  })}
-        //   value={this.state.value1}
-        >
-           <View style={{flexDirection:"row",alignItems:'left'}}>
-           <View style={{width:"1"}}>
-                <RadioButton value="Male"  
-                color={'#02D1E0'}
-                status={ radio === 'Male' ? 'checked' : 'unchecked' }
-                 onPress={() => setRadio('Male')} />
-            </View>
-           <View style={{marginTop:8}}>
-               <Text onPress={() => setRadio('Male')}  >Male</Text>
-            </View>
-            
-          </View>
-          <View style={{flexDirection:"row",alignItems:'left'}}>
-           <View style={{width:"1"}}>
-                <RadioButton
-                color={'#02D1E0'}
-                value="Female" 
-                status={ radio === 'Female' ? 'checked' : 'unchecked' }
-                onPress={() => setRadio('Female')}/>
-            </View>
-           <View style={{marginTop:8}}>
-               <Text onPress={() => setRadio('Female')} >Female</Text>
-            </View>
-            
-          </View>
-        </RadioButton.Group> */}
+					<View style={{ height: 40,
+		margin: 12,
+		marginTop: 25,
+		borderBottomColor:"#757E90",
+		borderBottomWidth: 1,
+		flex:1  }}>
+					<Picker
+                          selectedValue={pet}
+                          style={{height: 50, width: 150,bborderBottomColor:'black',borderBottomWidth:2,fontSize:10}}
 
-        <TextInput style={styles.input} onChangeText={setCategory} value={category} placeholder="category" />
+                          onValueChange={(itemValue, itemIndex) => setPet(itemValue)}
+                        >
+						<Picker.Item label="Pet Type" value=""  />
+                          <Picker.Item label="Dog" value="Dog" />
+                          <Picker.Item label="Cat" value="Cat" />
+                        </Picker>
+					</View>
+				</View>
+				<View style={{flexDirection: "row"}}>
+				<View style={{ height: 40,
+		margin: 12,
+		marginTop: 25,
+		borderBottomColor:"#757E90",
+		borderBottomWidth: 1,
+		flex:1  }}>
+					<Picker
+                          selectedValue={gendre}
+                          style={{height: 50, width: 150,bborderBottomColor:'black',borderBottomWidth:2,fontSize:10}}
+
+                          onValueChange={(itemValue, itemIndex) => setGendre(itemValue)}
+                        >
+						<Picker.Item label="Gender" value=""  />
+                          <Picker.Item label="Male" value="Male" />
+                          <Picker.Item label="Female" value="Female" />
+                        </Picker>
+					</View>
+					<View style={{ height: 40,
+		margin: 12,
+		marginTop: 25,
+		borderBottomColor:"#757E90",
+		borderBottomWidth: 1,
+		flex:1  }}>
+					<Picker
+                          selectedValue={category}
+                          style={{height: 50, width: 150,bborderBottomColor:'black',borderBottomWidth:2,fontSize:10}}
+
+                          onValueChange={(itemValue, itemIndex) => setCategory(itemValue)}
+                        >
+						<Picker.Item label="Category" value=""  />
+                         {listCat()}
+                        </Picker>
+					</View>
+				</View>
+
 		<View>
 			<View>
 			<Pressable onPress={showDatepicker}>

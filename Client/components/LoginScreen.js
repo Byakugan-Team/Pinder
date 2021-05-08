@@ -45,7 +45,7 @@ export default function LoginScreen({navigation}) {
 								console.log('loged in')
 								navigation.navigate('Globalmenu')
 							}else{
-								navigation.navigate('PhoneNumber',{
+								navigation.navigate('UserImage',{
 									firstname:user.name.split(' ')[0],
 									lastname:user.name.split(' ')[1],
 									email:user.email,
@@ -103,7 +103,7 @@ export default function LoginScreen({navigation}) {
 								console.log('loged in')
 								navigation.navigate('Globalmenu')
 							}else{
-								navigation.navigate('PhoneNumber',{
+								navigation.navigate('UserImage',{
 									firstname:data.first_name,
 									lastname:data.last_name,
 									email:data.email,

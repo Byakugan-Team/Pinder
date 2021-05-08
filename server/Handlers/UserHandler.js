@@ -25,12 +25,12 @@ module.exports = {
         })
     },
     CreateUser:(req,res)=>{
+        
         controller.users.CreateUser(req.body)
         .then((result)=>{
-            authenication.IsRegistred({body:{email:'',phone:req.body.number}},res)
+            authenication.IsRegistred({body:{email:req.body.email,phone:req.body.number}},res)
         })
         .catch((err)=>{
-            console.log(err)
             res.status(500).send({success:false})
         })
     }
