@@ -263,6 +263,7 @@ const styles = StyleSheet.create({
   keyboard: {
     flex: 1,
     justifyContent: "center",
+    backgroundColor: "#FFFFFF"
   },
   image: {
     width,
@@ -297,8 +298,8 @@ const styles = StyleSheet.create({
   },
   footer: {
     flexDirection: "row",
-    height: 60,
-    backgroundColor: "#FAFAFA",
+    height: 70,
+    backgroundColor: "#F0F0F0",
     paddingHorizontal: 10,
     padding: 5,
   },
@@ -309,6 +310,7 @@ const styles = StyleSheet.create({
     borderRadius: 360,
     alignItems: "center",
     justifyContent: "center",
+    marginTop: 8,
   },
   iconSend: {
     width: 30,
@@ -325,6 +327,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     flex: 1,
     marginRight: 10,
+    marginTop: 8,
   },
   inputs: {
     height: 40,

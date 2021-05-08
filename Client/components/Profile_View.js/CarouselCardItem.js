@@ -1,5 +1,6 @@
 import React from "react";
 import { View, Text, StyleSheet, Dimensions, Image, } from "react-native";
+import moment from "moment";
 
 
 export const SLIDER_WIDTH = Dimensions.get("window").width;
@@ -7,27 +8,28 @@ export const ITEM_WIDTH = Math.round(SLIDER_WIDTH * 0.7);
 
 const CarouselCardItem = ({ item, index }) => {
   
-
+    const L = item.Pictures.length;
+  
   return (
     <View style={{ alignSelf: "center", alignItems: "center" }}>
       <View style={styles.container} key={index}>
         
-          <Image source={{ uri: item.imgUrl }} style={styles.image} />
+          <Image source={{ uri: item.Pictures[L-1] }} style={styles.image} />
 
           <View style={{ flexDirection: "row", alignItems: "center" }}>
-            <Text style={styles.header}>{item.title}</Text>
+            <Text style={styles.header}>{item.nickname}</Text>
             <Image
               style={{ width: 30, height: 30 }}
               source={require("../../assets/Profile_View/icons8-unsplash-50.png")}
             />
             <Text style={{ fontSize: 20, color: "#757E90", fontWeight: "bold", marginLeft: 5 }}>
-              (1/3)
+              {`(1/${L})`}
             </Text>
           </View>
-          <Text style={styles.body}>Gneder : {item.body}</Text>
-          <Text style={styles.body}>Race     : {item.body}</Text>
-          <Text style={styles.body}>Age       : {item.body}</Text>
-          <Text style={styles.body}>About it: {item.body}</Text>
+          <Text style={styles.body}>Interest {item.body}</Text>
+          <Text style={styles.body}>{item.gendre}</Text>
+          <Text style={styles.body}>{item.category}</Text>
+          <Text style={styles.body}>{moment(item.birth).fromNow(true)}</Text>
 
        
      
