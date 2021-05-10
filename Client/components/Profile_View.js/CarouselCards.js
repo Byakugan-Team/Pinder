@@ -1,34 +1,16 @@
 import React from 'react'
-import { View } from "react-native"
+import { View , StyleSheet} from "react-native"
 import Carousel, { Pagination } from 'react-native-snap-carousel'
 import CarouselCardItem, { SLIDER_WIDTH, ITEM_WIDTH } from './CarouselCardItem'
 
 
 
-const data = [
-    {
-      title: "Aenean leo",
-      body: "Ut tincidunt",
-      imgUrl: "https://picsum.photos/id/11/200/300"
-    },
-    {
-      title: "In turpis",
-      body: "Aenean ut ",
-      imgUrl: "https://picsum.photos/id/10/200/300"
-    },
-    {
-      title: "Lorem Ipsum",
-      body: "Phasellus ull",
-      imgUrl: "https://picsum.photos/id/12/200/300"
-    }
-  ]
-
-const CarouselCards = ({user_id}) => {
+const CarouselCards = ({pets}) => {
   const [index, setIndex] = React.useState(0)
   const isCarousel = React.useRef(null)
 
   GetPetsInfo = () =>{
-    fetch('http://'+server_IP+':3000/pets/GetAll/'+UserId,{
+    fetch('http://'+server_IP+':3000/pets/GetAll/'+user_id,{
         headers: {
             'content-type': 'application/json'
         },
@@ -36,17 +18,22 @@ const CarouselCards = ({user_id}) => {
     })
     .then(async (result)=>{
         result = await result.json();
-        this.setState({pets:result})
+        setpets(result)
     })
     .catch((e) => console.log(e));
 }
+
+
+
   return (
-      <View>
+      <View >
       <Carousel
+      style={styles.container}
+      
         layout="stack"
         layoutCardOffset={9}
         ref={isCarousel}
-        data={data}
+        data={pets}
         renderItem={CarouselCardItem}
         sliderWidth={SLIDER_WIDTH}
         itemWidth={ITEM_WIDTH}
@@ -54,7 +41,7 @@ const CarouselCards = ({user_id}) => {
         useScrollView={true}
       />
       <Pagination
-        dotsLength={data.length}
+        dotsLength={pets.length}
         activeDotIndex={index}
         carouselRef={isCarousel}
         dotStyle={{
@@ -72,7 +59,11 @@ const CarouselCards = ({user_id}) => {
 
   )
 }
+const styles = StyleSheet.create({
+container: {
 
+}
+})
 
 
 export default CarouselCards

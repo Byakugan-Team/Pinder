@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, Button, Image, TouchableHighlight, TouchableOpacity ,AsyncStorage} from 'react-native';
+import { StyleSheet, Text, View, Button, Image, TouchableHighlight, TouchableOpacity ,AsyncStorage , Dimensions,ImageBackground} from 'react-native';
 import * as Facebook from 'expo-facebook';
 import * as Google from 'expo-google-app-auth';
 import { FontAwesome5 } from '@expo/vector-icons';
@@ -7,7 +7,33 @@ import { color } from 'react-native-reanimated';
 import { MyText } from './Tag_Modules/MyText'
 import PhoneNumber from './Phone_Number_Verification/Chek_Phone_Number&Send_Code'
 import server_IP from '../config/Server_IP'
+import TextField from 'react-native-md-textinput';
+import { StatusBar } from "expo-status-bar";
+
+const { width, height } = Dimensions.get("window");
 export default function LoginScreen({navigation}) {
+
+	const [ defaultCode, setdefaultCode ] = useState("+216");
+	const [ phone_Number, setphone_Number ] = useState("");
+	const [ inputLength, setinputLength ] = useState(inputLength);
+
+	const handlePhoneNum = (text) => {
+		setphone_Number(text)
+		setinputLength(text.length)
+	  };
+	  var sendSms = ()=> {
+		const number = defaultCode + phone_Number;
+		fetch("http://"+server_IP+":3000/verifSms/send",{
+		  body: JSON.stringify({number}),
+				headers: {
+					'content-type': 'application/json'
+				},
+				method: 'POST'
+			})
+		.then(result =>{
+		  console.log('res',result);
+		}).catch(err =>{console.log(err)})
+	  }
 	const _storeData = async (token) => {
 		try {
 		  await AsyncStorage.setItem(
@@ -45,7 +71,7 @@ export default function LoginScreen({navigation}) {
 								console.log('loged in')
 								navigation.navigate('Globalmenu')
 							}else{
-								navigation.navigate('PhoneNumber',{
+								navigation.navigate('UserImage',{
 									firstname:user.name.split(' ')[0],
 									lastname:user.name.split(' ')[1],
 									email:user.email,
@@ -103,7 +129,8 @@ export default function LoginScreen({navigation}) {
 								console.log('loged in')
 								navigation.navigate('Globalmenu')
 							}else{
-								navigation.navigate('PhoneNumber',{
+                console.log('hy')
+								navigation.navigate('UserImage',{
 									firstname:data.first_name,
 									lastname:data.last_name,
 									email:data.email,
@@ -130,112 +157,162 @@ export default function LoginScreen({navigation}) {
 	};
 	
 	return (
-		<View >
-			<Image style={styles.Catpeek} source={{ uri: 'https://i.ibb.co/Hx2QBLc/output-onlinepngtools-2.png' }} />
-			<Image style={styles.logoForm} source={{ uri: 'https://i.ibb.co/Ttb6xwD/output-onlinepngtools-1.png' }} />
-			<View style={styles.text}>
-				<Text style={styles.body}>
-					By clicking log In, you agree with our terms. learn how we process your data in our privacy policy
-					and Cookies Policy
-				</Text>
-			</View>
-			<View style={styles.Buttons}>
-				<TouchableHighlight style={styles.loginBtn} onPress={signInAsync}>
-					<View style={styles.cont}>
-						<Image style={styles.img} source={{ uri: 'https://img-authors.flaticon.com/google.jpg  ' }} />
-						<MyText> Login with Google</MyText>
-					</View>
-				</TouchableHighlight>
-				<TouchableOpacity style={styles.loginBtn} onPress={() => facebookLogIn()}>
-					<View>
-						<Image
-							style={styles.img}
-							source={{
-								uri:
-									'https://thumbs.dreamstime.com/b/vinnytsia-ukraine-january-facebook-vector-flat-icon-letter-f-image-209179420.jpg '
-							}}
-						/>
-						<Text>Login with facebook</Text>
-					</View>
+			<View style={styles.container}>
+			  <ImageBackground
+				style={{ width: width, height: height+30 }}
+				source={require("../assets/Home_Page/Background.png")}
+			  >
+				<TouchableOpacity
+				  blurOnSubmit={false}
+				  onPress={() => console.log("maw")}
+				>
+				  <Image
+					style={styles.Img_CatPeek}
+					source={require("../assets/Home_Page/CatPeek.png")}
+				  />
 				</TouchableOpacity>
-				<TouchableOpacity style={styles.loginBtn} onPress={()=> navigation.navigate('PhoneNumber')} >
-					<View>
-						<Image
-							style={styles.imge}
-							source={{
-								uri:
-									'https://thumbs.dreamstime.com/b/phone-icon-silhouette-telephone-symbol-vector-illustration-isolated-white-background-156327796.jpg'
-							}}
-						/>
-						<Text>Login With Phone Number</Text>
-					</View>
-				</TouchableOpacity>
+				<View style={{ flexDirection: "row", justifyContent: "center" }}>
+	  
+				  <Image
+					style={styles.Logo_TEXT}
+					source={require("../assets/Home_Page/Logo_Text.png")}
+				  />
+				  <View style={{ marginTop: height / 2.7 }}>
+				  <Text style={{ fontWeight: "bold", color: "white", fontSize: 11, }}>
+					Have a Pets, Have a Pinder
+				  </Text>
+				  </View>
+				</View>
+	  
+				<View style={styles.Body}>
+				  <Text style={{ color: "white", fontSize: 20, }}>Login With</Text>
+					  <View>
+	  
+					  <TextField
+					label={"Phone Number"}
+					highlightColor={"white"}
+					labelColor={"white"}
+					textColor={"white"}
+					keyboardType={"numeric"}
+					numeric
+					value={phone_Number}
+					onChangeText={handlePhoneNum}
+				  />
+				  {inputLength == 8 ? (  
+				  <TouchableHighlight
+					style={styles.buttonClick}
+					onPress={() => {
+					  sendSms();
+					  navigation.navigate('CheckVerification',{
+					    number:phone_Number
+					  })
+					}}
+				  >
+					<Text style={styles.textButton}>Continue</Text>
+				  </TouchableHighlight>        
+			  ) : (        
+				  <TouchableHighlight
+					style={styles.disabledButton}
+					disable
+				  >
+					<Text style={styles.textButton}>Continue</Text>
+				  </TouchableHighlight>
+			  )}
+	  
+					  </View>
+					  <View style={{flexDirection: "row", marginTop:20}}>
+	  
+	  
+		 <Image style={{width:width/4.5, height: 30}} source={require("../assets/Home_Page/Line.png")}/>
+		 <Text style={{ color: "white", fontSize: 20, marginLeft:10, marginRight: 10}}>Or</Text>
+		 <Image style={{width:width/4.5, height: 30}} source={require("../assets/Home_Page/Line.png")}/>
+		  
+					  </View>
+				  <View style={{ flexDirection: "row", marginTop: height / 50 }}>
+					<TouchableOpacity
+					  blurOnSubmit={false}
+					  onPress={signInAsync}
+					>
+					  <Image
+						style={{
+						  width: width / 6,
+						  height: height / 12,
+						  marginRight: width / 15,
+						}}
+						source={require("../assets/Home_Page/Google_Logo.png")}
+					  />
+					</TouchableOpacity>
+					<TouchableOpacity
+					  blurOnSubmit={false}
+					  onPress={() => facebookLogIn()}
+					>
+					  <Image
+						style={{
+						  width: width / 6,
+						  height: height / 12,
+						  marginLeft: width / 15,
+						}}
+						source={require("../assets/Home_Page/Facebook_Logo.png")}
+					  />
+					</TouchableOpacity>
+	  
+				   
+				  </View>
+				</View>
+			  </ImageBackground>
 			</View>
-		</View>
+		  
 	);
 }
 
 const styles = StyleSheet.create({
-	Catpeek: {
-		position: 'absolute',
-		left:-73,
-		top:5,
-		width: 125,
-		height: 110,
-
-		//css login with facebook button:
+	container: {
+	  flex: 1,
+	  marginTop: StatusBar.currentHeight || 0,
+	  alignItems: "center",
+	  alignSelf: "center",
 	},
-	// css Text :
-	body: {
-		color: 'white',
-		justifyContent: 'center',
-		// fontFamily: 'Cochin',
-		fontStyle: 'normal',
-		textAlign: 'center',
-		marginRight: 50
+	Img_CatPeek: {
+	  width: width / 3,
+	  height: height / 6.5,
+	  marginTop: height / 5,
+	  marginStart: -width / 5.8,
+	  position: "absolute",
 	},
-	//css of the text :
-	text: {
-		color: 'white',
-		width: 355,
-		top: 120,
-		right: -20,
-		marginBottom: 100
+	Logo_TEXT: {
+	  width: width / 2.8,
+	  height: height / 6.2,
+	  marginTop: height / 5,
+	  position: "absolute",
 	},
-	//css of facebook and email img :
-	img: {
-		position: 'absolute',
-		width: 30,
-		height: 30,
-		left: -100,
-		top: -5
+	Body: {
+	  top: height / 14,
+	  alignItems: "center",
+	  justifyContent: "center",
 	},
-	//css of phone number img :
-	imge: {
-		position: 'absolute',
-		width: 30,
-		height: 30,
-		left: -75,
-		top: -5
-	},
-	//css logo form pinder:
-	logoForm: {
-		position: 'relative',
-		width: 125,
-		height: 110,
-		left: 120
-
-		//css login with facebook button:
-	},
-	loginBtn: {
-		paddingVertical: 10,
-		paddingHorizontal: 50,
-		borderRadius: 20,
-		alignItems: 'center',
-		backgroundColor: 'white',
-		padding: 100,
-		position: 'relative',
-		marginTop: 15,
-		top: 30,
-	}
-});
+	buttonClick: {
+	  alignItems: "center",
+	  // backgroundColor: "#EEEEEE",
+	  padding: 5,
+	  borderRadius: 30,
+	  width: width / 1.8,
+	  marginLeft: 13,
+	  borderWidth: 2,
+	  borderColor: "white",
+	  marginTop:15
+   },
+   disabledButton: {
+	  alignItems: "center",
+	  // backgroundColor: "#EEEEEE",
+	  padding: 5,
+	  borderRadius: 30,
+	  width: width / 1.8,
+	  marginLeft: 13,
+	  marginTop:15
+   },
+   textButton: {
+	  color: "#FFFFFF",
+	  fontSize: 25
+   },
+  });
+  
