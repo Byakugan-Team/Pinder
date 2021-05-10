@@ -159,7 +159,7 @@ export default function LoginScreen({navigation}) {
 	return (
 			<View style={styles.container}>
 			  <ImageBackground
-				style={{ width: width, height: height }}
+				style={{ width: width, height: height+30 }}
 				source={require("../assets/Home_Page/Background.png")}
 			  >
 				<TouchableOpacity
@@ -235,9 +235,9 @@ export default function LoginScreen({navigation}) {
 					>
 					  <Image
 						style={{
-						  width: width / 5,
-						  height: height / 10,
-						  marginRight: width / 17,
+						  width: width / 6,
+						  height: height / 12,
+						  marginRight: width / 15,
 						}}
 						source={require("../assets/Home_Page/Google_Logo.png")}
 					  />
@@ -248,9 +248,9 @@ export default function LoginScreen({navigation}) {
 					>
 					  <Image
 						style={{
-						  width: width / 5,
-						  height: height / 10,
-						  marginLeft: width / 17,
+						  width: width / 6,
+						  height: height / 12,
+						  marginLeft: width / 15,
 						}}
 						source={require("../assets/Home_Page/Facebook_Logo.png")}
 					  />
@@ -299,6 +299,7 @@ const styles = StyleSheet.create({
 	  marginLeft: 13,
 	  borderWidth: 2,
 	  borderColor: "white",
+	  marginTop:15
    },
    disabledButton: {
 	  alignItems: "center",
@@ -307,10 +308,11 @@ const styles = StyleSheet.create({
 	  borderRadius: 30,
 	  width: width / 1.8,
 	  marginLeft: 13,
+	  marginTop:15
    },
    textButton: {
 	  color: "#FFFFFF",
-	  fontSize: 25,
+	  fontSize: 25
    },
   });
   

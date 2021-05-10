@@ -2,7 +2,7 @@ import React, { useState, useEffect,useRef } from 'react';
 import Constants from 'expo-constants';
 import * as Notifications from 'expo-notifications';
 import * as ImagePicker from 'expo-image-picker';
-import { StyleSheet, View, Button, Platform , ImageBackground, TouchableOpacity,TextInput,Dimensions} from 'react-native';
+import { StyleSheet, View, Button, Platform , ImageBackground, TouchableOpacity,TextInput,Dimensions,AsyncStorage} from 'react-native';
 import server_IP from '../../config/Server_IP'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import * as Location from 'expo-location';

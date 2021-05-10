@@ -105,7 +105,7 @@ export default class PetsDashboard extends Component   {
 
         
                     <View style={styles.card}>
-                    <ImageBackground style={styles.photoCard} source={{ uri: 'https://i.ibb.co/bFyw9Lk/20181112-SHANK3monkey-844.jpg' }} >
+                    <ImageBackground style={styles.photoCard} source={{ uri: pet.picture_name  }} >
                     <TouchableOpacity style={{right:-10,position: 'absolute',marginTop: -15}} onPress={()=> this.DeletePet(pet.pet_id)}>
                         <MaterialCommunityIcons name="alpha-x-circle" color={'red'} size={35} />
                     </TouchableOpacity>

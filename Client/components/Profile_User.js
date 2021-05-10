@@ -92,7 +92,7 @@ export default class User_Profile extends Component {
             flexDirection: "row",
           }}
         >
-          {!_Private ? (
+          {/* {!_Private ? (
             <Image
               style={styles.Padlock_Icon}
               source={require("../assets/Profile_View/Padlock-open.png")}
@@ -102,7 +102,7 @@ export default class User_Profile extends Component {
               style={styles.Padlock_Icon}
               source={require("../assets/Profile_View/Padlock-close.png")}
             />
-          )}
+          )} */}
 
           <Text style={styles.name}>{`${userInfo.first} ${userInfo.last}`}</Text>
         </View>
