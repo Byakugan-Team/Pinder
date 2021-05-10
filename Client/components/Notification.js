@@ -10,6 +10,7 @@ import {
   ImageBackground,
   Dimensions
 } from 'react-native';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 import server_IP from '../config/Server_IP'
 const DIMENSION_WIDTH = Dimensions.get("window").width;
 const DIMENSION_HEIGHT = Dimensions.get("window").height;
@@ -115,7 +116,7 @@ export default class Notifications extends Component {
               </View>
       <FlatList
         style={styles.root}
-        data={this.state.notifications}
+        data={this.state.notifications.reverse()}
         extraData={this.state}
         ItemSeparatorComponent={() => {
           return (
@@ -136,7 +137,9 @@ export default class Notifications extends Component {
             attachment = <Image style={styles.attachment} source={{uri:Notification.attachment}}/>
           }
           return(
-            <View style={(item.index % 2 == 0) ? styles.container:styles.containerimp}>
+            <TouchableOpacity style={(item.index % 2 == 0) ? styles.container:styles.containerimp} onPress={()=>this.props.navigation.navigate("ProfileView",{
+              id_user :Notification.Friend_id
+            })}>
               <Image source={{uri:Notification.photo}} style={styles.avatar}/>
               <View style={styles.content}>
                 <View style={mainContentStyle}>
@@ -151,7 +154,7 @@ export default class Notifications extends Component {
                 </View>
                 {attachment}
               </View>
-            </View>
+            </TouchableOpacity>
           );
         }}/>
         </View>

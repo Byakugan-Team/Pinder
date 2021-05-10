@@ -25,7 +25,9 @@ module.exports = {
                 for(j=0;j<respond.length;j++){
                     if(respond[j].pet_id == result[i].pet_id){
                         found = true
-                        respond[j].Pictures.push(result[i].picture_name)
+                        if(result[i].picture_name != null && result[i].picture_name[0] == 'h'){
+                            respond[j].Pictures.push(result[i].picture_name)
+                        }
                     }
                 }
                 if(!found){
@@ -49,7 +51,11 @@ module.exports = {
                     for(j=0;j<respond.length;j++){
                         if(respond[j].pet_id == result[i].pet_id){
                             found = true
-                            respond[j].Pictures.push(result[i].picture_name)
+
+                            if(result[i].picture_name != null && result[i].picture_name[0] == 'h'){
+                                respond[j].Pictures.push(result[i].picture_name)
+                            }
+                            
                         }
                     }
                     if(!found){

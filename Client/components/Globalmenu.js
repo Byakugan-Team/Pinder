@@ -14,7 +14,7 @@ import Friends from './Friends'
 import Icon from '../assets/Icon';
 import * as Font from 'expo-font';
 import Notifications from './Notification'
-
+import User_Profile from './Profile_User'
 const Tab = createBottomTabNavigator();
 
 function MyTabs({newRegistred}) {
@@ -55,7 +55,7 @@ function MyTabs({newRegistred}) {
 
      
 
-             <Tab.Screen name="My Account" component={PetsDashboard} options={{
+             <Tab.Screen name="My Account" component={User_Profile} options={{
                 tabBarIcon: ({ color, size }) => (
                   <MaterialCommunityIcons name="account" color={color} size={size} />
                 )

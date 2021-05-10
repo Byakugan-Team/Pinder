@@ -5,28 +5,9 @@ import CarouselCardItem, { SLIDER_WIDTH, ITEM_WIDTH } from './CarouselCardItem'
 
 
 
-const data = [
-    {
-      title: "Aenean leo",
-      body: "Ut tincidunt",
-      imgUrl: "https://picsum.photos/id/11/200/300"
-    },
-    {
-      title: "In turpis",
-      body: "Aenean ut ",
-      imgUrl: "https://picsum.photos/id/10/200/300"
-    },
-    {
-      title: "Lorem Ipsum",
-      body: "Phasellus ull",
-      imgUrl: "https://picsum.photos/id/12/200/300"
-    }
-  ]
-
-const CarouselCards = () => {
+const CarouselCards = ({pets}) => {
   const [index, setIndex] = React.useState(0)
   const isCarousel = React.useRef(null)
-  const [pets, setpets] = React.useState([])
 
   GetPetsInfo = () =>{
     fetch('http://'+server_IP+':3000/pets/GetAll/'+user_id,{
@@ -52,7 +33,7 @@ const CarouselCards = () => {
         layout="stack"
         layoutCardOffset={9}
         ref={isCarousel}
-        data={pets_Info}
+        data={pets}
         renderItem={CarouselCardItem}
         sliderWidth={SLIDER_WIDTH}
         itemWidth={ITEM_WIDTH}
@@ -60,7 +41,7 @@ const CarouselCards = () => {
         useScrollView={true}
       />
       <Pagination
-        dotsLength={pets_Info.length}
+        dotsLength={pets.length}
         activeDotIndex={index}
         carouselRef={isCarousel}
         dotStyle={{

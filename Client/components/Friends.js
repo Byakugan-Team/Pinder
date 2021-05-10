@@ -81,8 +81,11 @@ export default class Friends extends Component{
                 data={this.state.Friends}
                 keyExtractor={(item, index) => index.toString()}
                 renderItem={({ item }) => (
-                  <TouchableOpacity>
+                  <TouchableOpacity onPress={()=>this.props.navigation.navigate("ProfileView",{
+                    id_user :(item.userOne != this.state.user_id) ? item.userOne : item.userTwo
+                  })}>
                     <CardItem
+                    
                       image={item.photo}
                       name={item.first+ ' ' + item.last} 
                       status={item.status}

@@ -20,7 +20,7 @@ import Globalmenu from './components/Globalmenu'
 import MessagesList from './components/Message/Messages_List_Screen'
 import Matching from './components/Matching'
 
-
+import Friends from './components/Friends'
 //import ProfileView from './components/Profile_View.js/Profile'
 import ProfileView from './components/Profile_View.js/Profile';
 import Notification2 from './components/Notification2';
@@ -37,6 +37,14 @@ export default function App() {
         <Stack.Screen 
             name="HomeScreen"
             component={HomeScreen}
+          />
+          <Stack.Screen 
+            name="Friends"
+            component={Friends}
+          />
+          <Stack.Screen 
+            name="ProfileView"
+            component={ProfileView}
           />
            <Stack.Screen 
             name="Notification"

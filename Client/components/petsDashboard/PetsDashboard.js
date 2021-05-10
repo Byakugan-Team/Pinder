@@ -105,7 +105,7 @@ export default class PetsDashboard extends Component   {
 
         
                     <View style={styles.card}>
-                    <ImageBackground style={styles.photoCard} source={{ uri: 'https://i.ibb.co/bFyw9Lk/20181112-SHANK3monkey-844.jpg' }} >
+                    <ImageBackground style={styles.photoCard} source={{ uri: pet.picture_name  }} >
                     <TouchableOpacity style={{right:-10,position: 'absolute',marginTop: -15}} onPress={()=> this.DeletePet(pet.pet_id)}>
                         <MaterialCommunityIcons name="alpha-x-circle" color={'red'} size={35} />
                     </TouchableOpacity>
@@ -154,7 +154,7 @@ export default class PetsDashboard extends Component   {
 
             
                         <View style={styles.card}>
-                        <Image style={styles.photoCard} source={{ uri: 'https://i.ibb.co/bFyw9Lk/20181112-SHANK3monkey-844.jpg' }} />
+                        <Image style={styles.photoCard} source={{ uri: pet.picture_name }} />
                             <View style={styles.rowInfoCar}>
                                 <Text style={styles.infocard}>Name : </Text>
                                 <Text style={styles.titleCard}> {pet.nickname}</Text>
@@ -244,7 +244,9 @@ export default class PetsDashboard extends Component   {
         return (
           <View>
               <StatusBar hidden = {false} style={{backgroundColor:'transparent'}}></StatusBar>
+
                 <View style={styles.MenuTop}>
+                    
                     <Text style={styles.Elementop}>Dashboard</Text>
                     <Text style={styles.Elementoptitle}></Text>
                     <Text style={styles.ElementopSearch}>
@@ -435,7 +437,14 @@ var styles = StyleSheet.create({
         width:35,
         borderRadius:50,
         marginBottom:7
-    }
+    },
+    backIcon: {
+        height: 25,
+        width: 20,
+        margin: 5,
+        borderRadius: 20,
+        backgroundColor: "#f8f8f8",
+      },
 });
 
 

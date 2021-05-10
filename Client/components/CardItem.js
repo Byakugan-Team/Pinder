@@ -83,12 +83,14 @@ export default class CardItem extends Component {
       onPressRight,
       onpressReport,
       ShowSlideShow,
+      clickOwner,
       pet_id,
       status,
       variant,
       latitude,
       longitude,
-      Myuser
+      Myuser,
+      ownerId
     } = this.props
 const imageStyle = [
   {
@@ -155,7 +157,7 @@ const imageStyle = [
                   textAlign: "left",
                   marginLeft:15,
                   marginTop:3,
-                  fontSize:15,marginBottom:5,paddingTop:5}}>Owner : <Text style={{color:'#00D1F9',fontWeight:'bold'}} >{owner} </Text> 
+                  fontSize:15,marginBottom:5,paddingTop:5}}>Owner : <Text style={{color:'#00D1F9',fontWeight:'bold'}} onPress={()=> clickOwner(ownerId)}>{owner} </Text> 
 </Text>
 
                
