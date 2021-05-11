@@ -6,3 +6,4 @@ server/package-lock.json
 .DS_Store
 pythonapp/weights/VG19.h5
 pythonapp/weights/resnet50.h5
+pythonapp/images
