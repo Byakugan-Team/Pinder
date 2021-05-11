@@ -32,4 +32,14 @@ services:
             - .env
         depends_on:
             - db
+    pythonapp:
+        build:
+            context: ./pythonapp
+            dockerfile: Dockerfile
+        volumes:
+            - ./pythonapp:/app
+        ports:
+            - "5000:5000"
+        env_file: 
+            - .env
     
