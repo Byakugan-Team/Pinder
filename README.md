@@ -70,7 +70,7 @@
     <li><a href="#usage">Usage</a></li>
     <li><a href="#roadmap">Roadmap</a></li>
     <li><a href="#contributing">Contributing</a></li>
-    <li><a href="#REST-API">Contributing</a></li>
+    <li><a href="#REST-API">REST API</a></li>
     <li><a href="#contact">Contact</a></li>
     <li><a href="#license">License</a></li>
   </ol>
