@@ -23,6 +23,77 @@ export default class MessagesList extends Component {
       nameSearched: "",
     };
   };
+  EmptyMessages =() =>{
+    return(
+     <View style={{textAlign:'center',alignItems:'center',backgroundColor:'white',height:1000}}>
+                 <Image style={{height:200,width:200,marginTop:20}} source={{ uri: 'https://i.ibb.co/6Jn4zBJ/output-onlinepngtools-1.png' }} />
+                     <Text style={styles.emptytop}>
+                     No Messages , yet!
+                     </Text>
+                     <Text style={styles.emptydown}>
+                         No messages in your inbox, yet! Start
+                     </Text>
+                     <Text style={styles.emptydown}>
+                          Exploring Matching Screen
+                     </Text>
+                     <View style={styles.butt}>
+                         <TouchableOpacity  onPress={()=>this.props.navigation.navigate("Matching")}>
+                            <Text style={{color:'white',fontSize:19}}>View Matching</Text>
+                         </TouchableOpacity>
+                     </View>
+     </View>
+    ) 
+ }
+ changeView = ()=>{
+  const { nameSearched, messages } = this.state;
+  const Search = messages.filter((message) =>
+    message.name
+      .toLocaleLowerCase()
+      .includes(nameSearched.toLocaleLowerCase())
+  );
+  if(this.state.messages.length == 0){
+      return this.EmptyMessages()
+  }else{
+    return <FlatList
+    style={styles.root}
+    data={Search}
+    // extraData={this.state}
+    ItemSeparatorComponent={() => {
+      return <View style={styles.separator} />;
+    }}
+    keyExtractor={() => Math.random().toString()}
+    renderItem={(item) => {
+      const Message = item.item;
+      return (
+        <TouchableOpacity
+          onPress={() =>
+            this.props.navigation.navigate("chatScreen", {
+              FriendId: Message.Friend_id,
+            })
+          }
+        >
+          <View style={styles.container}>
+            <Image style={styles.image} source={{ uri: Message.image }} />
+            <View style={styles.content}>
+              <View style={styles.contentHeader}>
+                <Text style={styles.name}>{Message.name}</Text>
+                <Text style={styles.time}>
+                  {moment(Message.date).calendar()}
+                </Text>
+              </View>
+              {Message.message.length <= 30 ? (
+                <Text>{Message.message}</Text>
+              ) : (
+                <Text>{`${Message.message.slice(0, 30)}...`}</Text>
+              )}
+            </View>
+          </View>
+        </TouchableOpacity>
+      );
+    }}
+  />
+  }
+}
   getUserInfo = async () => {
     try {
       const token = await AsyncStorage.getItem("Pinder_token");
@@ -145,44 +216,7 @@ export default class MessagesList extends Component {
             />
           </TouchableHighlight>
         </View>
-        <FlatList
-          style={styles.root}
-          data={Search}
-          // extraData={this.state}
-          ItemSeparatorComponent={() => {
-            return <View style={styles.separator} />;
-          }}
-          keyExtractor={() => Math.random().toString()}
-          renderItem={(item) => {
-            const Message = item.item;
-            return (
-              <TouchableOpacity
-                onPress={() =>
-                  this.props.navigation.navigate("chatScreen", {
-                    FriendId: Message.Friend_id,
-                  })
-                }
-              >
-                <View style={styles.container}>
-                  <Image style={styles.image} source={{ uri: Message.image }} />
-                  <View style={styles.content}>
-                    <View style={styles.contentHeader}>
-                      <Text style={styles.name}>{Message.name}</Text>
-                      <Text style={styles.time}>
-                        {moment(Message.date).calendar()}
-                      </Text>
-                    </View>
-                    {Message.message.length <= 30 ? (
-                      <Text>{Message.message}</Text>
-                    ) : (
-                      <Text>{`${Message.message.slice(0, 30)}...`}</Text>
-                    )}
-                  </View>
-                </View>
-              </TouchableOpacity>
-            );
-          }}
-        />
+        {this.changeView()}
       </View>
     );
   }
@@ -285,4 +319,23 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: "bold",
   },
+  emptytop:{
+    marginTop:20,
+    fontSize:25,
+    fontWeight:'400',
+    marginBottom:25,
+},
+emptydown:{
+    
+    fontSize:15,
+    color:'#95a5a6'
+},
+butt: {
+marginTop:60,
+borderRadius: 5,
+
+backgroundColor: '#3498db',
+paddingHorizontal:70,
+paddingVertical:20
+},
 });

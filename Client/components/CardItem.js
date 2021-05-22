@@ -113,8 +113,7 @@ const imageStyle = [
     
   return (
     <View style={styles.containerCardItem}>
-
-      {images[0][0] == 'h' && (
+      {images && images[0] && images[0][0] == 'h' && (
         <TouchableOpacity onPress={() => ShowSlideShow(images)}>
              <Image  source={{ uri: images[0] }} style={imageStyle}   />
       </TouchableOpacity>
@@ -193,8 +192,7 @@ const imageStyle = [
             </Text>
           </TouchableOpacity>
         </View>
-      )}
-    </View>
+      )}</View>
   );
   }
 };

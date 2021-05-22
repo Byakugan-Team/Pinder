@@ -1,6 +1,7 @@
 import 'react-native-gesture-handler';
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import './global';
 import HomeScreen from './components/HomeScreen'
 import PhoneNumber from './components/Phone_Number_Verification/Chek_Phone_Number&Send_Code'
 import CheckVerification from './components/Phone_Number_Verification/Chek_Verification_Code'

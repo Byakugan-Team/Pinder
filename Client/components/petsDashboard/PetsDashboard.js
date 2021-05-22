@@ -7,6 +7,11 @@ import { StatusBar } from 'expo-status-bar';
 import { LinearGradient } from 'expo-linear-gradient';
 import server_IP from '../../config/Server_IP'
 export default class PetsDashboard extends Component   {
+    constructor(props){
+        super(props)
+
+        this.GetPetsInfo = this.GetPetsInfo.bind(this)
+    }
     state={
         view:'pets',
         pets:[],
@@ -54,7 +59,7 @@ export default class PetsDashboard extends Component   {
     }
       PetsDashboardEmpty () {
        return(
-        <View style={{height:1000,textAlign:'center',alignItems:'center'}}>
+        <View style={{textAlign:'center',alignItems:'center'}}>
                     <Image style={{height:200,width:200,marginTop:50}} source={{ uri: 'https://i.ibb.co/jygxTds/output-onlinepngtools-2.png' }} />
                         <Text style={styles.emptytop}>
                             Pets Dashboard Empty
@@ -184,6 +189,7 @@ export default class PetsDashboard extends Component   {
     changeView(){
         console.log(this.state.pets)
         if(this.state.view == 'pets'){
+            
             var Pets = [];
                 for(let i = 0; i < this.state.pets.length; i=i+2){
                     if(i+1<this.state.pets.length){
@@ -209,7 +215,7 @@ export default class PetsDashboard extends Component   {
             
             
         }else if(this.state.view == 'add'){
-            return <AddPet User={this.state.UserId} />
+            return <AddPet User={this.state.UserId} GetPetsInfo={this.GetPetsInfo} />
         }else if(this.state.view == 'remove'){
             var Pets = [];
             for(let i = 0; i < this.state.pets.length; i=i+2){
@@ -269,7 +275,7 @@ export default class PetsDashboard extends Component   {
                     <Text style={styles.ElemenBottomText} >Remove</Text>
                 </TouchableOpacity>
                 </View>
-                <ScrollView >
+                <ScrollView style={{marginBottom:200}}>
                     {this.changeView()}
                     
                 </ScrollView>

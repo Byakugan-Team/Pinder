@@ -10,6 +10,8 @@ import server_IP from '../config/Server_IP'
 import TextField from 'react-native-md-textinput';
 import { StatusBar } from "expo-status-bar";
 
+
+
 const { width, height } = Dimensions.get("window");
 export default function LoginScreen({navigation}) {
 
@@ -155,6 +157,7 @@ export default function LoginScreen({navigation}) {
 		setUserData(null);
 		setImageLoadStatus(false);
 	};
+
 	
 	return (
 			<View style={styles.container}>
