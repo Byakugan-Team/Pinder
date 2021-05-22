@@ -8,7 +8,8 @@ import {
   FlatList,
   AsyncStorage,
   ImageBackground,
-  Dimensions
+  Dimensions,
+  Button
 } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import server_IP from '../config/Server_IP'
@@ -29,6 +30,76 @@ export default class Notifications extends Component {
       ]
     }
   }
+  Emptotifications =() =>{
+    return(
+     <View style={{height:1000,textAlign:'center',alignItems:'center',backgroundColor:'white'}}>
+                 <Image style={{height:200,width:200,marginTop:20}} source={{ uri: 'https://i.ibb.co/dKr5vmx/output-onlinepngtools-4.png' }} />
+                     <Text style={styles.emptytop}>
+                     No Notifications yet!
+                     </Text>
+                     <Text style={styles.emptydown}>
+                         Stay tuned! Notifications about your activity
+                     </Text>
+                     <Text style={styles.emptydown}>
+                         will show up here
+                     </Text>
+                     <View style={styles.butt}>
+                         <TouchableOpacity  onPress={()=>this.props.navigation.navigate("Matching")}>
+                            <Text style={{color:'white',fontSize:19}}>View Matching</Text>
+                         </TouchableOpacity>
+                     </View>
+     </View>
+    ) 
+ }
+ changeView = ()=>{
+    if(this.state.notifications.length == 0){
+        return this.Emptotifications()
+    }else{
+    return  <FlatList
+      style={styles.root}
+      data={this.state.notifications.reverse()}
+      extraData={this.state}
+      ItemSeparatorComponent={() => {
+        return (
+          <View style={styles.separator}/>
+        )
+      }}
+      keyExtractor={(item)=>{
+        return item.id;
+      }}
+      renderItem={(item) => {
+
+        const Notification = item.item;
+        let attachment = <View/>;
+
+        let mainContentStyle;
+        if(Notification.attachment) {
+          mainContentStyle = styles.mainContent;
+          attachment = <Image style={styles.attachment} source={{uri:Notification.attachment}}/>
+        }
+        return(
+          <TouchableOpacity style={(item.index % 2 == 0) ? styles.container:styles.containerimp} onPress={()=>this.props.navigation.navigate("ProfileView",{
+            id_user :Notification.Friend_id
+          })}>
+            <Image source={{uri:Notification.photo}} style={styles.avatar}/>
+            <View style={styles.content}>
+              <View style={mainContentStyle}>
+                  <Text style={styles.name}>{Notification.first + ' '+Notification.last}</Text>
+                <View style={styles.text}>
+                    {Notification.content.length > 30 ? <Text>{`${Notification.content.slice(0, 30)}...`}</Text> : <Text>{Notification.content}</Text>}
+                  
+                </View>
+                <Text style={styles.timeAgo}>
+                  {this.timeCalcul(Notification.date)}
+                </Text>
+              </View>
+              {attachment}
+            </View>
+          </TouchableOpacity>
+        );
+      }}/>
+    }
+ }
   getUserInfo = async () => {
     try {
       const token = await AsyncStorage.getItem("Pinder_token");
@@ -114,49 +185,8 @@ export default class Notifications extends Component {
       <View style={styles.top}>
                 <Text style={styles.title}>Notifications</Text>
               </View>
-      <FlatList
-        style={styles.root}
-        data={this.state.notifications.reverse()}
-        extraData={this.state}
-        ItemSeparatorComponent={() => {
-          return (
-            <View style={styles.separator}/>
-          )
-        }}
-        keyExtractor={(item)=>{
-          return item.id;
-        }}
-        renderItem={(item) => {
-
-          const Notification = item.item;
-          let attachment = <View/>;
-
-          let mainContentStyle;
-          if(Notification.attachment) {
-            mainContentStyle = styles.mainContent;
-            attachment = <Image style={styles.attachment} source={{uri:Notification.attachment}}/>
-          }
-          return(
-            <TouchableOpacity style={(item.index % 2 == 0) ? styles.container:styles.containerimp} onPress={()=>this.props.navigation.navigate("ProfileView",{
-              id_user :Notification.Friend_id
-            })}>
-              <Image source={{uri:Notification.photo}} style={styles.avatar}/>
-              <View style={styles.content}>
-                <View style={mainContentStyle}>
-                    <Text style={styles.name}>{Notification.first + ' '+Notification.last}</Text>
-                  <View style={styles.text}>
-                      {Notification.content.length > 30 ? <Text>{`${Notification.content.slice(0, 30)}...`}</Text> : <Text>{Notification.content}</Text>}
-                    
-                  </View>
-                  <Text style={styles.timeAgo}>
-                    {this.timeCalcul(Notification.date)}
-                  </Text>
-                </View>
-                {attachment}
-              </View>
-            </TouchableOpacity>
-          );
-        }}/>
+              {this.changeView()}
+     
         </View>
         </ImageBackground>
     );
@@ -242,5 +272,24 @@ const styles = StyleSheet.create({
     fontSize:16,
     color:"#1E90FF",
     
-  }
+  },
+  emptytop:{
+    marginTop:20,
+    fontSize:25,
+    fontWeight:'400',
+    marginBottom:25,
+},
+emptydown:{
+    
+    fontSize:15,
+    color:'#95a5a6'
+},
+butt: {
+marginTop:60,
+borderRadius: 5,
+
+backgroundColor: '#3498db',
+paddingHorizontal:70,
+paddingVertical:20
+},
 }); 

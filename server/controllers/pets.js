@@ -5,10 +5,27 @@ module.exports={
         return new Promise((resolve,reject)=>{
             connection.query('SELECT * from pets INNER JOIN pets_pictures INNER JOIN users where pets.user_id != ? and pets_pictures.pet_id=pets.id and users.id=pets.user_id',
             [id_user],
-            (err,result)=>{
-                console.log(result)
+            (err,resultpets)=>{
                 if(err) return reject(err)
-                return resolve(result)
+                connection.query('select * from reports where id_reporter=?',
+                [id_user],
+                 (err,resultreports)=>{
+                    if(err) return reject(err)
+                    var Myreturn = []
+                        for(var i=0;i<resultpets.length;i++){
+                            var addit=true
+                            for(var j=0;j<resultreports.length;j++){
+                                if(resultpets[i].user_id == resultreports[j].id_reported){
+                                    addit=false
+                                }
+                            }
+                            if(addit){
+                                Myreturn.push(resultpets[i])
+                            }
+                        }
+                    return resolve(Myreturn)
+                })
+                
             })
         })
     },

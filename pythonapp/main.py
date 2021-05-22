@@ -1,6 +1,5 @@
 from flask import Flask, render_template, request
 from flask_uploads import UploadSet, configure_uploads, IMAGES
-from keras.preprocessing.image import load_img
 
 # Import Predection function
 from model import Pet_Detector
@@ -23,7 +22,6 @@ def upload():
         
         prediction['photoUrl'] = request.host_url+'images/'+filename
         return prediction
-    # web page to show before the POST request containing the image
     return {'success':'false','error':'Upload a Photo Please'}
 
 

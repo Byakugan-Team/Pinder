@@ -156,7 +156,7 @@ export default class Chat extends Component {
     this.socket = io("http://" + server_IP + ":3000", {
       query: `roomId=${roomId}`,
     });
-
+    
     this.socket.on("chat_new_message", ({ msg, id }) => {
       if (id == MyUser.id) {
         this.setState({
@@ -197,9 +197,7 @@ export default class Chat extends Component {
     return (
       <View style={{ flex: 1 }}>
         <View style={styles.header}>
-          <TouchableOpacity  onPress={()=>this.props.navigation.navigate('MessagesList',{
-            LastMessage : this.state.ListLast
-          })} >
+          <TouchableOpacity  onPress={()=>this.props.navigation.goBack()} >
           <Image
             source={{ uri: "https://img.icons8.com/ios/30/000000/left.png" }}
             style={styles.backIcon}

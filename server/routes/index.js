@@ -4,5 +4,6 @@ module.exports = {
     verificationSms : require('./VerificationSms'),
     chat_messages:require('./chat_messages'),
     Friends:require('./FriendsRouter'),
-    Notification:require('./NotificationsRouter')
+    Notification:require('./NotificationsRouter'),
+    Report:require('./report')
 };

@@ -9,12 +9,13 @@ import { TextInputMask } from 'react-native-masked-text';
 import { set } from 'react-native-reanimated';
 // import { updateUser } from '../../../server/controllers/users'
 
-const AddPet = ({ navigation,User }) => {
+const AddPet = ({ navigation,User,GetPetsInfo }) => {
 	const [ nickname, setNickname ] = useState('');
 	const [ gendre, setGendre ] = useState('');
 	const [ pet, setPet ] = useState('');
 	const [ birth, setBirth ] = useState(null);
 	const [ category, setCategory ] = useState('');
+	const [ firstcategory, setfirstcategory ] = useState('Category');
     const [radio , setRadio] = useState('');
     const [ localUri, setSelectedImage ] = useState('');
 	const [ data, setPhoto ] = useState('x') 
@@ -55,16 +56,16 @@ const AddPet = ({ navigation,User }) => {
 		if(Platform.OS== 'android'){
 			var data = {
 				file: 'data:image/jpeg;base64,' + pickerResult.base64,
-				upload_preset: 'kgiezron'
+				upload_preset: 'mlzrk4pd'
 			};
 		}else{
 			var data = {
 				file: pickerResult.uri,
-				upload_preset: 'kgiezron'
+				upload_preset: 'mlzrk4pd'
 			};
 		}
 
-		fetch('https://api.cloudinary.com/v1_1/dm1xlu8ce/image/upload', {
+		fetch('https://api.cloudinary.com/v1_1/dmgudpjq8/image/upload', {
 			body: JSON.stringify(data),
 			headers: {
 				'content-type': 'application/json'
@@ -72,6 +73,7 @@ const AddPet = ({ navigation,User }) => {
 			method: 'POST'
 		})
 			.then(async (r) => {
+				console.log(r)
 				let data = await r.json();
                 console.log(data.url)
 				if(num == 1){
@@ -80,6 +82,30 @@ const AddPet = ({ navigation,User }) => {
 					setPhoto1(data.url);
 				}else{
 					setPhoto2(data.url);
+				}
+				
+			})
+			.catch((err) => console.log(err));
+			var filename = pickerResult.uri.split('/').pop();
+			var match = /\.(\w+)$/.exec(filename);
+			var type = match ? `image/${match[1]}` : `image`;
+			let formData = new FormData();
+			formData.append('photo', { uri: pickerResult.uri, name: filename, type });
+
+			fetch('http://'+server_IP+':5000/Pinder_Pet_Prediction', {
+				body: formData,
+				headers: {
+				  'content-type': 'multipart/form-data',
+				},
+				method: 'POST'
+		})
+			.then(async (r) => {
+				let data = await r.json();
+                console.log(data)
+				if(data.Pet != 'unknown'){
+					setPet(data.Pet)
+					setfirstcategory(data.label)
+					setCategory(data.label)
 				}
 				
 			})
@@ -115,6 +141,7 @@ const AddPet = ({ navigation,User }) => {
 					setPhoto2('x')
 					setdateConverted('')
 					setPet('')
+					GetPetsInfo()
 				}
 			}).catch ((err)=>{
 				console.log(err, 'hiiii')
@@ -140,7 +167,7 @@ const AddPet = ({ navigation,User }) => {
 			{
 				mm='0'+mm;
 			} 
-			setdateConverted(dd+'/'+mm+'/'+yyyy)
+			setdateConverted(yyyy+'/' + mm+'/'+dd)
 
 	  };
 	
@@ -212,6 +239,13 @@ const AddPet = ({ navigation,User }) => {
 						<Picker.Item label="Pet Type" value=""  />
                           <Picker.Item label="Dog" value="Dog" />
                           <Picker.Item label="Cat" value="Cat" />
+						  <Picker.Item label="Frog" value="Frog" />
+                          <Picker.Item label="Turtle" value="Turtle" />
+						  <Picker.Item label="Bird" value="Bird" />
+                          <Picker.Item label="Monkey" value="Monkey" />
+						  <Picker.Item label="Fish" value="Fish" />
+						  <Picker.Item label="Crab" value="Crab" />
+                          <Picker.Item label="Insect" value="Insect" />
                         </Picker>
 					</View>
 				</View>
@@ -233,22 +267,17 @@ const AddPet = ({ navigation,User }) => {
                           <Picker.Item label="Female" value="Female" />
                         </Picker>
 					</View>
-					<View style={{ height: 40,
-		margin: 12,
-		marginTop: 25,
-		borderBottomColor:"#757E90",
-		borderBottomWidth: 1,
-		flex:1  }}>
-					<Picker
-                          selectedValue={category}
-                          style={{height: 50, width: 150,bborderBottomColor:'black',borderBottomWidth:2,fontSize:10}}
+					
+			{pet == 'Dog' || pet=='Cat' ?<View style={{ height: 40,margin: 12,marginTop: 25,borderBottomColor:"#757E90",borderBottomWidth: 1,flex:1  }}><Picker selectedValue={category} style={{height: 50, width: 150,bborderBottomColor:'black',borderBottomWidth:2,fontSize:10}}
 
                           onValueChange={(itemValue, itemIndex) => setCategory(itemValue)}
                         >
-						<Picker.Item label="Category" value=""  />
+						<Picker.Item label={firstcategory} value={firstcategory}  />
                          {listCat()}
-                        </Picker>
-					</View>
+                        </Picker></View>:<TextInput style={styles.input} onChangeText={setCategory} value={category} placeholder="category" />}
+			
+					
+					
 				</View>
 
 		<View>

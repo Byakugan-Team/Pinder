@@ -10,6 +10,9 @@ import * as Font from 'expo-font';
 import Modal from 'react-native-modal';
 import ImageView from "react-native-image-viewing";
 
+
+
+
 const deviceheight = Dimensions.get('window').height;
 const ImageFooter = ({ imageIndex, imagesCount }) => (
   <View style={stylesSlide.root}>
@@ -44,7 +47,7 @@ export default class Matching extends Component {
         modal:false,
         modalwelcome:true,
         reportModal:false,
-        pettoReportId:0,
+        ReportId:0,
         petPhoto:[],
         ShowSlide:false
     }
@@ -106,6 +109,22 @@ export default class Matching extends Component {
           </View>
         );
       }
+      reportAction = ()=>{
+        console.log(this.state.ReportId , ' ' ,this.state.User.id )
+        fetch(`http://${server_IP}:3000/reportUser`, {
+          body: JSON.stringify({ "reporter":this.state.User.id ,"reported":this.state.ReportId }),
+          headers: { "content-type": "application/json" },
+          method: "POST",
+        })
+          .then(async (result) => {
+            result = await result.json();
+            
+            if (result.success) {
+              this.GetPetsInfo()
+            }
+          })
+          .catch((err) => console.log("err", err));
+      }
       Reportpop = ()=> {
 
         return (
@@ -120,7 +139,7 @@ export default class Matching extends Component {
 
                  </View>
                  <View style={{position:'absolute',bottom:0,flexDirection:'row',backgroundColor:'rgba(236, 240, 241,0.4)',borderBottomRightRadius:10,borderBottomLeftRadius:10}}>
-                    <TouchableOpacity style={{padding:20,flex:1,borderTopColor:'#ecf0f1',borderTopWidth:0.5}} onPress={() => this.setState({reportModal:false})}>
+                    <TouchableOpacity style={{padding:20,flex:1,borderTopColor:'#ecf0f1',borderTopWidth:0.5}} onPress={() => {this.reportAction(); this.setState({reportModal:false})}}>
                         <Text style={{textAlign:'center',color:'#005CB0',fontWeight:'bold',fontSize:17}}>Report</Text>
                     </TouchableOpacity>
                   </View>
@@ -255,8 +274,8 @@ export default class Matching extends Component {
         })
         .catch((e) => console.log(e));
     }
-    openReport(pet_id){
-      this.setState({reportModal:true,pettoReportId:pet_id})
+    openReport(id_reported){
+      this.setState({reportModal:true,ReportId:id_reported})
     }
     PhotosClick(photos){
         var ReadyPhotos = photos.map((photo)=> photo = {uri:photo})

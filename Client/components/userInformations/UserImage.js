@@ -110,16 +110,16 @@ export default function Photo({navigation,route}) {
 		if(Platform.OS== 'android'){
 			var data = {
 				file: 'data:image/jpeg;base64,' + pickerResult.base64,
-				upload_preset: 'kgiezron'
+				upload_preset: 'mlzrk4pd'
 			};
 		}else{
 			var data = {
 				file: pickerResult.uri,
-				upload_preset: 'kgiezron'
+				upload_preset: 'mlzrk4pd'
 			};
 		}
 
-		fetch('https://api.cloudinary.com/v1_1/dm1xlu8ce/image/upload', {
+		fetch('https://api.cloudinary.com/v1_1/dmgudpjq8/image/upload', {
 			body: JSON.stringify(data),
 			headers: {
 				'content-type': 'application/json'

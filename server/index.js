@@ -27,9 +27,9 @@ app.use(BodyParser.json())
 
 app.use(CookieParser())
 
-app.use('/',Routers.userRouter)
+// app.use('/',Routers.userRouter)
 
-app.use('/' ,Routers.petRouter)
+// app.use('/' ,Routers.petRouter)
 app.use('/messages', Routers.chat_messages)
 
 app.use('/users',Routers.userRouter)
@@ -41,6 +41,7 @@ app.use('/Friends' ,Routers.Friends)
 app.use('/Notification' ,Routers.Notification)
 
 app.use('/verifSms', Routers.verificationSms)
+app.use('/reportUser', Routers.Report)
 
 
 process.on('uncaughtException', (err) =>console.log('err',err)
@@ -50,16 +51,20 @@ app.on('error',(err)=>{
 })
 
 io.on('connection', (socket) => {
-    console.log('user conected', socket.handshake.query.roomId)
+
+    console.log('user conected', socket.handshake.query.roomId, ' id :',socket.id)
     socket.join(socket.handshake.query.roomId);
     socket.on('chat_message.send', ({msg,senderid,receiverID}) => {
-        
-        
-        controllers.chat_messages.AddMessage(senderid,receiverID,msg)
+
+        var room = io.sockets.adapter.rooms.get(socket.handshake.query.roomId);
+        (room ? room = room.size : room=0)
+        console.log('qsdqsd',room)
+        controllers.chat_messages.AddMessage(senderid,receiverID,true)
         console.log('message: ' + msg);
         var id = senderid
         io.to(socket.handshake.query.roomId).emit('chat_new_message',{msg,id})
       });
+      
   });
 
 

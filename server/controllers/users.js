@@ -37,7 +37,7 @@ module.exports={
         return new Promise((resolve,reject)=>{
             if(email == "" && phone == ""){
                 console.log(id)
-                connection.query('select * from users where id=?',
+                connection.query('select users.*,COUNT(pet) as countpets,SUM(likes) as total_like,count(DISTINCT Friends.id) as total_friends from users INNER JOIN pets on pets.user_id = users.id INNER JOIN Friends on  (Friends.userOne=users.id or Friends.userTwo= users.id)  where users.id=?  ',
                 [id],
                 (err,result)=>{
                     console.log(result)

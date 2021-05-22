@@ -195,7 +195,7 @@ _request () {
             </View>
 
             <View style={{ marginEnd: 50 }}>
-              <Text style={styles.count}>(4)</Text>
+              <Text style={styles.count}>( {user_info.countpets} )</Text>
               <Image
                 style={styles.Icon}
                 source={require("../../assets/Profile_View/icons8-pets-30.png")}
@@ -203,7 +203,7 @@ _request () {
             </View>
 
             <View style={{ marginEnd: 50 }}>
-              <Text style={styles.count}>(200)</Text>
+              <Text style={styles.count}>( {user_info.total_friends} )</Text>
               <Image
                 style={styles.Icon}
                 source={require("../../assets/Profile_View/icons8-puzzle-matching-50.png")}
@@ -263,5 +263,6 @@ const styles = StyleSheet.create({
   body: {
     alignSelf: "center",
     alignItems: "center",
+    marginBottom:150
   },
 });

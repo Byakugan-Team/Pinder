@@ -82,13 +82,14 @@
 ## About The Project
 Pinder is Mobile Application for Pets Community , Users can sell , buy and share their pets In Pinder 
 <br>
-Home Screen Here
-
+<p align="center">
+<img src="./screenshots/home.jpeg" alt="home" width="150" height="300">
+</p>
 
 ### Features
  A few of the things you can do with Pinder:
  
-  * Chat with other Users on realtime Using Pinder Chat or Pinder Video Call
+  * Chat with other Users on realtime Using Pinder Chat 
   * Share your Pets To Pinder Community with Automatic Pet detection using ML 
   * Explore Other Users Pets For purpose to Buy , looking for a match or Just for Fun 😄
 
@@ -141,14 +142,19 @@ Pinder Uses Npm For Client Side Application and Docker For Server Side .
 
 
 ## Usage
-Pictures For Applications Here
-
-
-
-
+<img src="./screenshots/matching.jpeg" alt="matching" width="150" height="300"> <img src="./screenshots/profile.jpeg" alt="profile" width="150" height="300">
+<img src="./screenshots/user.jpeg" alt="user" width="150" height="300">
+<img src="./screenshots/dashboard.jpeg" alt="dashboard" width="150" height="300">
+<img src="./screenshots/notifications.jpeg" alt="notifications" width="150" height="300">
+<img src="./screenshots/chats.jpeg" alt="chats" width="150" height="300">
+<img src="./screenshots/Friends.jpeg" alt="Friends" width="150" height="300">
 
 ## Roadmap
-Future Features Here
+ A few of the things we plan to add in Pinder:
+ 
+  * Chat with other Users on video call
+  * Pinder Coins on blockchain with ability to deposit and withdraw 
+  * Buy pets using Pinder coins In-app
 
 
 

@@ -23,6 +23,7 @@ export default class User_Profile extends Component {
       userInfo: {},
       user_id: 5
     };
+    this.getUserInfo = this.getUserInfo.bind(this)
   }
 
   componentDidMount() {
@@ -42,6 +43,7 @@ export default class User_Profile extends Component {
 
           result = await result.json();
           if (result.success) {
+            console.log(result.user )
             this.setState({ userInfo: result.user });
           }
         })
@@ -119,7 +121,7 @@ export default class User_Profile extends Component {
                   padding: 30,
                 }}
               >
-                <Text style={styles.LMP}>107</Text>
+                <Text style={styles.LMP}>{!userInfo.total_like ? 0 : userInfo.total_like}</Text>
                 <Text style={styles.LMP}>Likes</Text>
               </View>
               <View
@@ -129,7 +131,7 @@ export default class User_Profile extends Component {
                   padding: 30,
                 }}
               >
-                <Text style={styles.LMP}>35</Text>
+                <Text style={styles.LMP}>{userInfo.total_friends}</Text>
                 <Text style={styles.LMP}>Friends</Text>
               </View>
               <View
@@ -139,7 +141,7 @@ export default class User_Profile extends Component {
                   padding: 30,
                 }}
               >
-                <Text style={styles.LMP}>2</Text>
+                <Text style={styles.LMP}>{userInfo.countpets}</Text>
                 <Text style={styles.LMP}>Pets</Text>
               </View>
             </View>
