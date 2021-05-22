@@ -1,6 +1,7 @@
 ## Weights
 
 This Is Collection of Weights (pre-trained models) used in python application
+
 you will need to download them separately .
 
 | Weight Name | Link |
